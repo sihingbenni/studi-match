@@ -30,7 +30,7 @@ linter:
     - non_constant_identifier_names
     - constant_identifier_names
     - directives_ordering
-    - lines_longer_than_80_chars
+#    - lines_longer_than_80_chars
     - curly_braces_in_flow_control_structures
     - slash_for_doc_comments
     # Usage rules
