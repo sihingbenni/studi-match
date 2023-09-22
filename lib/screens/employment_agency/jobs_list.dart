@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:studi_match/providers/employment_agency/api.dart';
 
@@ -13,11 +12,10 @@ class EAJobsListScreen extends StatefulWidget {
 }
 
 class _EAJobsListState extends State<EAJobsListScreen> {
-
   int page = 1;
 
   Map<String, String> queryParameters = {
-    'was': 'Studentische Aushilfe, Werkstudent',
+    // 'was': 'Studentische Aushilfe, Werkstudent',
     // 'wo': '24114',
     //berufsfeld:Informatik,
     'page': '1',
@@ -32,8 +30,6 @@ class _EAJobsListState extends State<EAJobsListScreen> {
     //corona:true,
     'umkreis': '25'
   };
-
-
 
   @override
   void initState() {
@@ -56,7 +52,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
           child: const Icon(Icons.add),
         ),
         body: ListView.builder(
-          itemCount: maxNrOfResults,
+          itemCount: jobs.length,
           itemBuilder: (context, index) {
             // set the job at the index
             final job = jobs[index];
@@ -69,6 +65,12 @@ class _EAJobsListState extends State<EAJobsListScreen> {
               fetchJobs();
             }
 
+            if (index == jobs.length - 1) {
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: Colors.green,
+              ));
+            }
             return ListTile(
               title: Text(job.title ?? 'no-title'),
               subtitle: Text(job.employer ?? 'no-employer'),
@@ -79,7 +81,6 @@ class _EAJobsListState extends State<EAJobsListScreen> {
       );
 
   void fetchJobs() async {
-
     queryParameters['page'] = page.toString();
 
     final response = await EmploymentAgencyApi.callJobsApi(queryParameters);
