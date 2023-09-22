@@ -61,8 +61,8 @@ class _EAJobsListState extends State<EAJobsListScreen> {
             // set the job at the index
             final job = jobs[index];
 
-            logger.i(index);
-            print(index % 25);
+            // logger.i(index);
+            // fetch more jobs if the index is a multiple of 25
             if (index != lastFetchedAt && index % 25 == 0) {
               lastFetchedAt = index;
               page = (index / 25 + 1).floor();
