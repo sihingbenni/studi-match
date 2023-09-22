@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studi_match/utilities/logger.dart';
 
 class MyDemoApp extends StatelessWidget {
   const MyDemoApp({super.key});
@@ -6,6 +7,14 @@ class MyDemoApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    logger.v('You don\'t always want to see all of these');
+    logger.d('Logs a debug message');
+    logger.i('Public Function called');
+    logger.w('This might become a problem');
+    logger.e('Something has happened');
+    logger.wtf('This is bad, I\'m outta here');
+
     return MaterialApp(
       title: 'studi-match',
       theme: ThemeData(
