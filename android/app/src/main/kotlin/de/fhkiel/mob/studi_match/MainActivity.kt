@@ -1,4 +1,4 @@
-package com.example.studi_match
+package de.fhkiel.mob.studi_match
 
 import io.flutter.embedding.android.FlutterActivity
 
