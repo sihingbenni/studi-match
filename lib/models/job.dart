@@ -11,7 +11,7 @@ class Job {
   late final DateTime? modificationTimestamp;
   late final DateTime? entryDate;
   late final String? logoHashId;
-  late final String? hashId;
+  late final String hashId;
 
   Job.fromEAJson(Map<String, dynamic> json) {
     profession = json['beruf'];
