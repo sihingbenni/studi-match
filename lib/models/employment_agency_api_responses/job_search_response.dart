@@ -18,7 +18,12 @@ class JobSearchResponse {
     size = json['size'];
 
     // check if there are any results
-    jobListings = json['stellenangebote']?.map((e) => Job.fromEAJson(e.cast<String, dynamic>())).cast<Job>().toList();
+    jobListings = json['stellenangebote'] != null
+        ? json['stellenangebote']
+            ?.map((e) => Job.fromEAJson(e.cast<String, dynamic>()))
+            .cast<Job>()
+            .toList()
+        : [];
     whereOutput = json['woOutput'] != null ? WhereOutput.fromEAJson(json['woOutput']) : null;
     facets = Facets.fromEAJson(json['facetten']);
   }

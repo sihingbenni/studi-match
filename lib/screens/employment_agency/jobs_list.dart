@@ -17,7 +17,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
   int page = 1;
 
   Map<String, String> queryParameters = {
-    // 'was': 'Studentische Aushilfe, Werkstudent',
+    'was': 'Studentische Aushilfe, Werkstudent',
     // 'wo': '24114',
     //berufsfeld:Informatik,
     'page': '1',
