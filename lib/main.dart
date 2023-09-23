@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list.dart';
 import 'package:studi_match/screens/home/home.dart';
 
 void main() => runApp(const StudiMatchApp());
