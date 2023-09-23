@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list.dart';
+import 'package:studi_match/screens/home/home.dart';
 
-void main() {
-  // runApp(const MyDemoApp());
-  runApp(const StudiMatchApp());
-}
+void main() => runApp(const StudiMatchApp());
 
 
 class StudiMatchApp extends StatelessWidget {
@@ -16,6 +14,9 @@ class StudiMatchApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const EAJobsListScreen(),
+
+        home: const Home() // which widget will be displayed on the home screen
       );
 }
+
+
