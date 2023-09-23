@@ -47,7 +47,7 @@ class EmploymentAgencyApi {
       // execute request
       response = await request.send();
     } catch (e) {
-      logger.e('Failed to fetch the Employment Agency Jobs List');
+      logger.e('Failed to fetch the Employment Agency Jobs List!');
       //TODO handle the error
       throw Exception();
     }
@@ -61,7 +61,7 @@ class EmploymentAgencyApi {
     } else {
       logger.e(response.reasonPhrase);
       //TODO handle the error
-      throw Exception('Failed to fetch the Employment Agency Api Token');
+      throw Exception('Failed to fetch the Employment Agency Jobs List! used QueryParameters: $queryParametersMap');
     }
   }
 
