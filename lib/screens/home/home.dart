@@ -67,7 +67,7 @@ class Home extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 40, vertical: 10)),
                         child: const Text(
-                          'Jetzt finden!',
+                          'Jetzt starten!',
                           style: TextStyle(fontSize: 24, color: Colors.white),
                         )),
                     const Text(

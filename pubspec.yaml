@@ -38,6 +38,7 @@ dependencies:
   logger: ^2.0.2
   http: ^1.1.0
   shared_preferences: ^2.2.1
+  appinio_swiper: ^2.0.3
 
 dev_dependencies:
   flutter_test:
