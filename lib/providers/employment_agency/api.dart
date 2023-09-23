@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:studi_match/models/employment_agency_api_responses/job_search_response.dart';
-import 'package:studi_match/models/employment_agency_api_responses/oauth_response.dart';
+import 'package:studi_match/models/employment_agency/job_search_response.dart';
+import 'package:studi_match/models/employment_agency/oauth_response.dart';
+import 'package:studi_match/models/employment_agency/query_parameters.dart';
 import 'package:studi_match/utilities/global_constants.dart' as global_constants;
 import 'package:studi_match/utilities/logger.dart';
 
@@ -16,8 +17,11 @@ class EmploymentAgencyApi {
   static const String grantType = 'client_credentials';
 
   /// Calls the Employment Agency Jobs Api and returns the response.
-  static Future<JobSearchResponse> callJobsApi(Map<String, String> queryParameters) async {
+  static Future<JobSearchResponse> callJobsApi(QueryParameters queryParameters) async {
     logger.d('fetching List of Jobs from the Employment Agency Api');
+
+    // transform the query parameters to a map
+    final queryParametersMap = queryParameters.toMap();
 
     // get a valid Oauth token
     String oauthToken = await _getApiToken();
@@ -28,8 +32,8 @@ class EmploymentAgencyApi {
     };
 
     // create uri, check if there are any query parameters, if yes use them, else not
-    final uri = queryParameters.isNotEmpty
-        ? Uri.https(baseUrl, jobSearchEndpoint, queryParameters)
+    final uri = queryParametersMap.isNotEmpty
+        ? Uri.https(baseUrl, jobSearchEndpoint, queryParametersMap)
         : Uri.https(baseUrl, jobSearchEndpoint);
     // create request
     var request = http.Request('GET', uri);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studi_match/models/employment_agency/query_parameters.dart';
 import 'package:studi_match/providers/employment_agency/api.dart';
 
 import '../../models/job.dart';
@@ -14,22 +15,7 @@ class EAJobsListScreen extends StatefulWidget {
 class _EAJobsListState extends State<EAJobsListScreen> {
   int page = 1;
 
-  Map<String, String> queryParameters = {
-    // 'was': 'Studentische Aushilfe, Werkstudent',
-    // 'wo': '24114',
-    //berufsfeld:Informatik,
-    'page': '1',
-    'size': '50',
-    //arbeitgeber:Deutsche%2520Bahn%2520AG,
-    //veroeffentlichtseit:30,
-    //zeitarbeit:true,
-    //angebotsart:1,
-    //befristung:1,
-    //arbeitszeit:vz,
-    //behinderung:true,
-    //corona:true,
-    'umkreis': '25'
-  };
+  final queryParameters = QueryParameters();
 
   @override
   void initState() {
@@ -59,6 +45,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
 
             // logger.i(index);
             // fetch more jobs if the index is a multiple of 25
+            // do not fetch for the same index again
             if (index != lastFetchedAt && index % 25 == 0) {
               lastFetchedAt = index;
               page = (index / 25 + 1).floor();
@@ -81,7 +68,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
       );
 
   void fetchJobs() async {
-    queryParameters['page'] = page.toString();
+    queryParameters.page = page;
 
     final response = await EmploymentAgencyApi.callJobsApi(queryParameters);
     setState(() {
