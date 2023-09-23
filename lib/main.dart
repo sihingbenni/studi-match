@@ -11,7 +11,8 @@ class StudiMatchApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         title: 'StudiMatch',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.green,
+          useMaterial3: true,
         ),
 
         home: const Home() // which widget will be displayed on the home screen
