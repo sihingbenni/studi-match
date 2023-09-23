@@ -46,6 +46,8 @@ class _EAJobsListState extends State<EAJobsListScreen> {
             // logger.i(index);
             // fetch more jobs if the index is a multiple of 25
             // do not fetch for the same index again
+            // currently bugged, because the index is not the same as the length of the list
+            // for every 25 jobs 50 new are fetched => quadratic growth.
             if (index != lastFetchedAt && index % 25 == 0) {
               lastFetchedAt = index;
               page = (index / 25 + 1).floor();
