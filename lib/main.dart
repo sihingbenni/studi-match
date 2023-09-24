@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studi_match/providers/config_provider.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list.dart';
+import 'package:studi_match/screens/home/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +12,6 @@ void main() async {
   runApp(const StudiMatchApp());
 }
 
-
 class StudiMatchApp extends StatelessWidget {
   const StudiMatchApp({Key? key}) : super(key: key);
 
@@ -20,8 +19,10 @@ class StudiMatchApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         title: 'StudiMatch',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.green,
+          useMaterial3: true,
         ),
-        home: const EAJobsListScreen(),
+
+        home: const Home() // which widget will be displayed on the home screen
       );
 }
