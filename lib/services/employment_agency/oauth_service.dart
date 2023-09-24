@@ -2,77 +2,26 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:studi_match/models/employment_agency/job_search_response.dart';
 import 'package:studi_match/models/employment_agency/oauth_response.dart';
-import 'package:studi_match/models/employment_agency/query_parameters.dart';
-import 'package:studi_match/utilities/global_constants.dart' as global_constants;
+import 'package:studi_match/providers/config_provider.dart';
+import 'package:studi_match/services/employment_agency/base_service.dart';
 import 'package:studi_match/utilities/logger.dart';
 
-class EmploymentAgencyApi {
-  static const String baseUrl = 'rest.arbeitsagentur.de';
-  static const String odataEndpoint = '/oauth/gettoken_cc';
-  static const String jobSearchEndpoint = '/jobboerse/jobsuche-service/pc/v4/jobs';
-  static const String clientId = 'c003a37f-024f-462a-b36d-b001be4cd24a';
-  static const String clientSecret = '32a39620-32b3-4307-9aa1-511e3d7f48a8';
-  static const String grantType = 'client_credentials';
 
-  /// Calls the Employment Agency Jobs Api and returns the response.
-  static Future<JobSearchResponse> callJobsApi(QueryParameters queryParameters) async {
-    logger.d('fetching List of Jobs from the Employment Agency Api');
+class EAOAuthService extends EABaseService {
 
-    // transform the query parameters to a map
-    final queryParametersMap = queryParameters.toMap();
-
-    // get a valid Oauth token
-    String oauthToken = await _getApiToken();
-
-    // create header
-    var headers = {
-      'Authorization': 'Bearer $oauthToken',
-    };
-
-    // create uri, check if there are any query parameters, if yes use them, else not
-    final uri = queryParametersMap.isNotEmpty
-        ? Uri.https(baseUrl, jobSearchEndpoint, queryParametersMap)
-        : Uri.https(baseUrl, jobSearchEndpoint);
-    // create request
-    var request = http.Request('GET', uri);
-    // add header to request
-    request.headers.addAll(headers);
-
-    // declare response Object
-    http.StreamedResponse response;
-
-    try {
-      // execute request
-      response = await request.send();
-    } catch (e) {
-      logger.e('Failed to fetch the Employment Agency Jobs List!');
-      //TODO handle the error
-      throw Exception();
-    }
-
-    if (response.statusCode == 200) {
-      logger.d('Employment Agency Jobs List fetched successfully!');
-      final responseString = await response.stream.bytesToString();
-
-      // decode the response json and return it
-      return JobSearchResponse.fromEAJson(jsonDecode(responseString));
-    } else {
-      logger.e(response.reasonPhrase);
-      //TODO handle the error
-      throw Exception('Failed to fetch the Employment Agency Jobs List! used QueryParameters: $queryParametersMap');
-    }
-  }
+  final bearerToken = ConfigProvider().get('sharedPreferences')['eABearerToken'];
+  final bearerTokenValidUntil = ConfigProvider().get('sharedPreferences')['eATokenValidUntil'];
+  final apiConfig = ConfigProvider().get('employmentAgencyService');
 
   /// checks if there is a valid Oauth token, if yes return it.
   /// if not fetch a new one and return it.
-  static Future<String> _getApiToken() async {
+  Future<String> getApiToken() async {
     logger.d('checking if there is a valid Employment Agency Oauth Token');
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String? token = prefs.getString(global_constants.prefsEABearerToken);
-    String? tokenValidUntil = prefs.getString(global_constants.prefsEATokenValidUntil);
+    String? token = prefs.getString(bearerToken);
+    String? tokenValidUntil = prefs.getString(bearerTokenValidUntil);
 
     if (token == null || tokenValidUntil == null) {
       // no token in the shared preferences
@@ -99,18 +48,18 @@ class EmploymentAgencyApi {
 
   /// Refreshes the Oauth Token by calling the Employment Agency Oauth Api
   /// and returns the new token.
-  static Future<String> _refreshApiToken() async => await callOauthApi().then((value) async {
+  Future<String> _refreshApiToken() async => await callOauthApi().then((value) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
         // save the token to the shared preferences
-        prefs.setString(global_constants.prefsEABearerToken, value.accessToken);
+        prefs.setString(bearerToken, value.accessToken);
         // save when the token expires to the preferences
-        prefs.setString(global_constants.prefsEATokenValidUntil, value.expiresAt.toString());
+        prefs.setString(bearerTokenValidUntil, value.expiresAt.toString());
         return value.accessToken;
       });
 
   /// Calls the Employment Agency Oauth Api and returns the response.
-  static Future<OauthResponse> callOauthApi() async {
+  Future<OauthResponse> callOauthApi() async {
     logger.d('fetching a new Employment Agency Oauth Token');
 
     var headers = {

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/employment_agency/query_parameters.dart';
-import 'package:studi_match/providers/employment_agency/api.dart';
+import 'package:studi_match/providers/employment_agency/job_provider.dart';
 
 import '../../models/job.dart';
-import '../../utilities/logger.dart';
 
 class EAJobsListScreen extends StatefulWidget {
   const EAJobsListScreen({Key? key}) : super(key: key);
@@ -71,12 +70,10 @@ class _EAJobsListState extends State<EAJobsListScreen> {
 
   void fetchJobs() async {
     queryParameters.page = page;
-
-    final response = await EmploymentAgencyApi.callJobsApi(queryParameters);
+    final jobProvider = EAJobProvider();
+    await jobProvider.getJobs(queryParameters);
     setState(() {
-      jobs.addAll(response.jobListings);
-      maxNrOfResults = response.maxNrOfResults;
+      jobs.addAll(jobProvider.jobs);
     });
-    logger.d('fetching Jobs finished');
   }
 }
