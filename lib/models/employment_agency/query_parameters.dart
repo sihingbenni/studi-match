@@ -2,8 +2,8 @@ class QueryParameters {
   String? jobDescription;
   String? where;
   String? profession;
-  int? page = 1;
-  int? size = 10;
+  int page = 1;
+  int size = 20;
   String? employer;
   int? publishedSince;
   bool? temporaryWork;
@@ -18,8 +18,8 @@ class QueryParameters {
         'was': jobDescription ?? '',
         'wo': where ?? '',
         'berufsfeld': profession ?? '',
-        'page': page != null ? page.toString() : '',
-        'size': size != null ? size.toString() : '',
+        'page': page.toString(),
+        'size': size.toString(),
         'arbeitgeber': employer ?? '',
         'veroeffentlichtseit': publishedSince != null ? publishedSince.toString() : '',
         'zeitarbeit': temporaryWork != null ? temporaryWork.toString() : '',

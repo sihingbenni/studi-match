@@ -18,10 +18,10 @@ class EAJobProvider extends ChangeNotifier {
   final List<Job> _jobs = [];
   List<Job> get jobs => _jobs;
 
-  int page = 0;
-
   /// constructor
   EAJobProvider(this._queryParameters) {
+    _queryParameters.jobDescription = 'Werkstudent';
+    _queryParameters.where = 'Kiel';
     getJobs();
   }
 
@@ -43,11 +43,11 @@ class EAJobProvider extends ChangeNotifier {
   }
 
   void notify(int index) {
-    logger.t('index: $index Nr of Jobs: ${_jobs.length} Percentage: ${100 - (index / _jobs.length * 100).floor()}');
-    int percentageOfRemainingJobs = 100 - (index / _jobs.length * 100).floor();
-    if (percentageOfRemainingJobs < 40 && _jobs.length < _jobSearchResponse.maxNrOfResults) {
+    logger.t('Nr of Jobs in List: ${_jobs.length} - Index: $index');
+    int nrOfRemainingJobs = jobs.length - index;
+    if (!isLoading && nrOfRemainingJobs < 10 && jobs.length < _jobSearchResponse.maxNrOfResults) {
       // get the next page
-      page++;
+      _queryParameters.page++;
       getJobs();
     }
   }
