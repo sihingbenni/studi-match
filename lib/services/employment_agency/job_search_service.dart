@@ -36,7 +36,7 @@ class EAJobSearchService extends EABaseService {
 
     // declare response Object
     http.StreamedResponse response;
-
+    logger.d('Starting the Request now!');
     try {
       // execute request
       response = await request.send();

@@ -3,7 +3,7 @@ class QueryParameters {
   String? where;
   String? profession;
   int? page = 1;
-  int? size = 50;
+  int? size = 10;
   String? employer;
   int? publishedSince;
   bool? temporaryWork;
