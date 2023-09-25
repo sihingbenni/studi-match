@@ -4,6 +4,7 @@ employmentAgencyService:
 
   # job search
   jobSearchEndpoint: '/jobboerse/jobsuche-service/pc/v4/jobs'
+  jobLogoEndpoint: 'jobboerse/jobsuche-service/ed/v1/arbeitgeberlogo'
 
   # oAuth
   oAuthEndpoint: '/oauth/gettoken_cc'

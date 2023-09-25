@@ -91,6 +91,24 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            FutureBuilder(
+                                future: job.logo,
+                                builder: (context, logoSnapshot) {
+                                  if (logoSnapshot.hasData) {
+                                    return Wrap(
+                                      children: [
+                                        Image(
+                                          image: logoSnapshot.data as ImageProvider,
+                                          gaplessPlayback: true,
+                                          width: 100,
+                                          height: 100,
+                                        )
+                                      ],
+                                    );
+                                  } else {
+                                    return const CircularProgressIndicator();
+                                  }
+                                }),
                             Text(job.title ?? 'no title',
                                 style: const TextStyle(
                                     color: Colors.white,
