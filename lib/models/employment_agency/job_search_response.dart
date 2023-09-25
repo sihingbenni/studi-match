@@ -17,10 +17,10 @@ class JobSearchResponse {
     page = json['page'];
     size = json['size'];
 
-    // check if there are any results
+    // check if there are any results, if not return empty List
     jobListings = json['stellenangebote'] != null
         ? json['stellenangebote']
-            ?.map((e) => Job.fromEAJson(e.cast<String, dynamic>()))
+            .map((e) => Job.fromEAJson(e.cast<String, dynamic>()))
             .cast<Job>()
             .toList()
         : [];
