@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:studi_match/models/employment_agency/oauth_response.dart';
+import 'package:studi_match/models/oauth_response.dart';
 import 'package:studi_match/services/employment_agency/base_service.dart';
 import 'package:studi_match/utilities/logger.dart';
 
