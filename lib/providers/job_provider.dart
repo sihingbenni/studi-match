@@ -11,7 +11,6 @@ import 'package:studi_match/providers/query_parameter_provider.dart';
 import 'package:studi_match/utilities/logger.dart';
 
 class JobProvider extends ChangeNotifier {
-
   bool isLoading = false;
 
   final List<JobListItem> _jobList = [];
@@ -28,15 +27,17 @@ class JobProvider extends ChangeNotifier {
     final listOfKeywords = ConfigProvider.resultPackages['workingStudent']!['listOfKeywords'];
 
     _receivePort.listen((message) {
-      if (message is IsolatedStreamResponse<RegisteredIsolate>) {
-        logger.d('<JobProvider> IsolatedJobProvider with id: "${message.fromIsolateId}" registered!');
-        _isolates[message.fromIsolateId] = message.data.sendPort;
-      } else if (message is IsolatedStreamResponse<JobSearchResponse>) {
-        logger.i(message.data.maxNrOfResults);
-        jobList.addAll(message.data.jobListings);
-        notifyListeners();
-      } else {
-        logger.e('Unknown Message received: $message');
+      switch (message) {
+        case IsolatedStreamResponse<RegisteredIsolate>():
+          logger.d('Isolated JobProvider with keyword: "${message.fromIsolateId}" registered!');
+          // save the sendPort of the isolate, so that we can later send messages to the isolate
+          _isolates[message.fromIsolateId] = message.data.sendPort;
+        case IsolatedStreamResponse<JobSearchResponse>():
+          logger.i(message.data.maxNrOfResults);
+          jobList.addAll(message.data.jobListings);
+          notifyListeners();
+        default:
+          logger.e('Unknown Message received: $message');
       }
     });
 
@@ -53,5 +54,6 @@ class JobProvider extends ChangeNotifier {
   void notify({required int nowAt, required JobListItem removedJobListItem}) {
     logger.t('Nr of Jobs in List: ${jobList.length} - Index: $nowAt');
     logger.t('JobListItem: ${removedJobListItem.keyword}');
+    // TODO notify the right isolate that the index has changed
   }
 }
