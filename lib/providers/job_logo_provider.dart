@@ -7,8 +7,8 @@ class EAJobLogoProvider {
     if (logoHashId != null) {
       return NetworkImage(
           'https://'
-              '${ConfigProvider().get('employmentAgencyService')['baseUrl']}/'
-              '${ConfigProvider().get('employmentAgencyService')['jobLogoEndpoint']}/'
+              '${ConfigProvider.baseUrl}/'
+              '${ConfigProvider.jobLogoEndpoint}/'
               '$logoHashId',
           headers: {
             'Authorization': 'Bearer ${await EAOAuthService().getApiToken()}',
