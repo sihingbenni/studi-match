@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:studi_match/providers/config_provider.dart';
 import 'package:studi_match/services/employment_agency/oauth_service.dart';
 
-class EAJobLogoProvider {
+class JobLogoProvider {
   static Future<ImageProvider> getLogo(String? logoHashId) async {
-    if (logoHashId != null) {
+    if (logoHashId != null && logoHashId.isNotEmpty) {
       return NetworkImage(
           'https://'
               '${ConfigProvider.baseUrl}/'
