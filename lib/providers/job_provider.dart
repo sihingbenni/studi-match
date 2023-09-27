@@ -1,10 +1,10 @@
 import 'dart:isolate';
 
 import 'package:flutter/material.dart';
-import 'package:studi_match/models/job_search_response.dart';
 import 'package:studi_match/models/isolate_communication/isolated_stream_response.dart';
 import 'package:studi_match/models/isolate_communication/register_isolate.dart';
 import 'package:studi_match/models/job_list_item.dart';
+import 'package:studi_match/models/job_search_response.dart';
 import 'package:studi_match/providers/config_provider.dart';
 import 'package:studi_match/providers/isolated_job_provider.dart';
 import 'package:studi_match/providers/query_parameter_provider.dart';

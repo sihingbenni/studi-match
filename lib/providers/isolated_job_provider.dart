@@ -1,11 +1,11 @@
 import 'dart:isolate';
 
 import 'package:flutter/services.dart';
-import 'package:studi_match/models/job_search_response.dart';
-import 'package:studi_match/models/query_parameters.dart';
 import 'package:studi_match/models/isolate_communication/isolated_stream_response.dart';
 import 'package:studi_match/models/isolate_communication/register_isolate.dart';
 import 'package:studi_match/models/job_list_item.dart';
+import 'package:studi_match/models/job_search_response.dart';
+import 'package:studi_match/models/query_parameters.dart';
 import 'package:studi_match/services/employment_agency/job_search_service.dart';
 import 'package:studi_match/utilities/logger.dart';
 

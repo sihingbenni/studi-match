@@ -1,7 +1,7 @@
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/models/query_parameters.dart';
 import 'package:studi_match/models/job_list_item.dart';
+import 'package:studi_match/models/query_parameters.dart';
 import 'package:studi_match/providers/job_provider.dart';
 
 import '../../models/job.dart';
