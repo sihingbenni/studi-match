@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:studi_match/models/employment_agency/job_search_response.dart';
-import 'package:studi_match/models/employment_agency/query_parameters.dart';
+import 'package:studi_match/models/job_search_response.dart';
+import 'package:studi_match/models/query_parameters.dart';
 import 'package:studi_match/services/employment_agency/base_service.dart';
 import 'package:studi_match/services/employment_agency/oauth_service.dart';
 import 'package:studi_match/utilities/logger.dart';
