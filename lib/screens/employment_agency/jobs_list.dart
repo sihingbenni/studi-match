@@ -72,7 +72,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                         image: const DecorationImage(
-                          image: NetworkImage('https://placekitten.com/500/1000'),
+                          image: NetworkImage('https://images.unsplash.com/photo-1535957998253-26ae1ef29506?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1936&q=80'),
                           fit: BoxFit.cover,
                         ),
                       ),

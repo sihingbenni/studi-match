@@ -94,27 +94,27 @@ class JobPreferencesDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               const Text(
-                'Select your preferences here:',
+                'Wonach suchst du?',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Your field of profession',
+                    hintText: 'Worin möchtest du arbeiten? (Berufsfeld)',
                     icon: Icon(Icons.work_rounded),
                   ),
                   maxLines: 1),
               const TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Where do you want to work?',
+                    hintText: 'Wo suchst du? Bitte gib hier eine Postleitzahl ein.',
                     icon: Icon(Icons.home_rounded),
                   ),
                   maxLines: 1),
               const TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'How do you want to work?',
+                    hintText: 'Wie möchstest du arbeiten?',
                     icon: Icon(Icons.add_home_work_sharp),
                   ),
                   maxLines: 1),
