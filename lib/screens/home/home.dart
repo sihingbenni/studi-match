@@ -45,7 +45,7 @@ class Home extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text(
+                     const Text(
                       'Match dein nächstes Abenteuer.',
                       style: TextStyle(
                         fontSize: 24,
@@ -70,6 +70,7 @@ class Home extends StatelessWidget {
                           'Jetzt starten!',
                           style: TextStyle(fontSize: 24, color: Colors.white),
                         )),
+                    ElevatedButton(onPressed: () {},style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent[100]), child: const Text('Log-in', style: TextStyle(fontSize: 20),)),
                     const Text(
                       'und finde dein neues Team hier!',
                       style: TextStyle(
