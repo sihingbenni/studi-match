@@ -1,7 +1,8 @@
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/models/employment_agency/query_parameters.dart';
-import 'package:studi_match/providers/employment_agency/job_provider.dart';
+import 'package:studi_match/models/job_list_item.dart';
+import 'package:studi_match/models/query_parameters.dart';
+import 'package:studi_match/providers/job_provider.dart';
 
 import '../../models/job.dart';
 
@@ -13,25 +14,25 @@ class EAJobsListScreen extends StatefulWidget {
 }
 
 class _EAJobsListState extends State<EAJobsListScreen> {
-  late final EAJobProvider jobProvider;
+  late final JobProvider jobProvider;
   final queryParameters = QueryParameters();
 
   final controller = AppinioSwiperController();
 
   int page = 1;
-  List<Job> jobs = [];
+  List<JobListItem> jobList = [];
   int maxNrOfResults = 0;
   int lastFetchedAt = 0;
 
   @override
   void initState() {
     super.initState();
-    jobProvider = EAJobProvider(queryParameters);
+    jobProvider = JobProvider();
 
     jobProvider.addListener(() {
       // on change update the list of jobs
       setState(() {
-        jobs = jobProvider.jobs;
+        jobList = jobProvider.jobList;
       });
     });
   }
@@ -57,14 +58,14 @@ class _EAJobsListState extends State<EAJobsListScreen> {
           child: AppinioSwiper(
               controller: controller,
               backgroundCardsCount: 3,
-              cardsCount: jobs.length,
+              cardsCount: jobList.length,
               cardsSpacing: 10,
               onSwipe: (index, direction) {
-                jobProvider.notify(index);
+                jobProvider.notify(nowAt: index, removedJobListItem: jobList[index - 1]);
               },
               cardsBuilder: (context, index) {
                 // set the job at the index
-                final job = jobs[index];
+                final Job job = jobList[index].job;
 
                 return Stack(
                   children: [
@@ -91,6 +92,25 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            FutureBuilder(
+                                future: null,
+                                // future: EAJobLogoProvider.getLogo(job.logoHashId),
+                                builder: (context, logoSnapshot) {
+                                  if (logoSnapshot.hasData) {
+                                    return Wrap(
+                                      children: [
+                                        Image(
+                                          image: logoSnapshot.data as ImageProvider,
+                                          gaplessPlayback: true,
+                                          width: 100,
+                                          height: 100,
+                                        )
+                                      ],
+                                    );
+                                  } else {
+                                    return const CircularProgressIndicator();
+                                  }
+                                }),
                             Text(job.title ?? 'no title',
                                 style: const TextStyle(
                                     color: Colors.white,

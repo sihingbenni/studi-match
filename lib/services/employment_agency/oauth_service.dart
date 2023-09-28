@@ -2,17 +2,13 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:studi_match/models/employment_agency/oauth_response.dart';
-import 'package:studi_match/providers/config_provider.dart';
+import 'package:studi_match/models/oauth_response.dart';
 import 'package:studi_match/services/employment_agency/base_service.dart';
 import 'package:studi_match/utilities/logger.dart';
 
 
 class EAOAuthService extends EABaseService {
 
-  final bearerToken = ConfigProvider().get('sharedPreferences')['eABearerToken'];
-  final bearerTokenValidUntil = ConfigProvider().get('sharedPreferences')['eATokenValidUntil'];
-  final apiConfig = ConfigProvider().get('employmentAgencyService');
 
   /// checks if there is a valid Oauth token, if yes return it.
   /// if not fetch a new one and return it.
@@ -68,7 +64,7 @@ class EAOAuthService extends EABaseService {
     };
 
     // create uri
-    final uri = Uri.https(baseUrl, odataEndpoint);
+    final uri = Uri.https(baseUrl, oAuthEndpoint);
     // create request
     var request = http.Request('POST', uri);
     request.bodyFields = {
