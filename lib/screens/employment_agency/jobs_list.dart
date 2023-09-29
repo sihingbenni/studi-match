@@ -1,5 +1,4 @@
 import 'package:appinio_swiper/appinio_swiper.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/query_parameters.dart';
 import 'package:studi_match/providers/job_provider.dart';
@@ -96,18 +95,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            FutureBuilder(
-                                future: null,
-                                // future: JobLogoProvider.getLogo(job.logoHashId),
-                                builder: (context, logoSnapshot) {
-                                  if (logoSnapshot.hasData) {
-                                    return Wrap(
-                                      children: [logoSnapshot.data as CachedNetworkImage],
-                                    );
-                                  } else {
-                                    return const CircularProgressIndicator();
-                                  }
-                                }),
+                            job.logo,
                             Text(job.title ?? 'no title',
                                 style: const TextStyle(
                                     color: Colors.white,
