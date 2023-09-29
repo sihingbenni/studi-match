@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/job_list_item.dart';
 import 'package:studi_match/models/query_parameters.dart';
+import 'package:studi_match/providers/job_logo_provider.dart';
 import 'package:studi_match/providers/job_provider.dart';
 
 import '../../models/job.dart';
