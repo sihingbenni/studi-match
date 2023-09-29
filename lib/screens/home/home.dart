@@ -141,7 +141,7 @@ class JobPreferencesDialog extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const EAJobsListScreen()),
+                            builder: (context) => const EAJobsListScreen(key: Key('EAJobsListScreen'))),
                       );
                     },
                     style: ElevatedButton.styleFrom(
