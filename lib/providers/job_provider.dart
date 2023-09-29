@@ -41,16 +41,12 @@ class JobProvider extends ChangeNotifier {
     }
   }
 
-  void refresh() {
-    JobProvider();
-  }
-
   void notify({required int newIndex, required Job removedJob, required List<String> keywords}) {
     logger.t('Nr of Jobs in List: ${jobList.length} - Index: $newIndex - Remaining: ${jobList.length - newIndex}');
     logger.t('Swiped Job was had the keywords: $keywords');
     logger.d('notifying $keywords that the index has changed');
 
-    // TODO notify the right isolate that the index has changed
+    // notify each matching asyncJobProvider that the index has changed
     for (var asyncJobProviderKeyword in keywords) {
       _asyncJobProviders[asyncJobProviderKeyword]?.notifyScrolled();
     }}

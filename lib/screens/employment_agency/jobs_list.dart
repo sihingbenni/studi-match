@@ -2,6 +2,7 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/query_parameters.dart';
 import 'package:studi_match/providers/job_provider.dart';
+import 'package:studi_match/utilities/logger.dart';
 
 import '../../models/job.dart';
 
@@ -49,8 +50,12 @@ class _EAJobsListState extends State<EAJobsListScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            jobProvider.refresh();
-            widget.createState();
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EAJobsListScreen(),
+              ));
           },
           child: const Icon(Icons.refresh),
         ),
@@ -65,6 +70,10 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                     newIndex: index,
                     removedJob: jobList[index - 1],
                     keywords: jobList[index - 1].foundByKeyword.toList());
+              },
+              onEnd: () {
+                logger.w('End reached');
+                //TODO make sure that no more are loading
               },
               cardsBuilder: (context, index) {
                 // set the job at the index
