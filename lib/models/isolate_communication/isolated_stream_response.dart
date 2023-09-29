@@ -4,5 +4,5 @@ class IsolatedStreamResponse<T> {
   final String fromIsolateId;
   final T data;
 
-  IsolatedStreamResponse(this.fromIsolateId, this.data);
+  IsolatedStreamResponse({required this.fromIsolateId, required this.data});
 }
