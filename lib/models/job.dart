@@ -2,6 +2,9 @@ import 'package:studi_match/models/workplace.dart';
 
 /// Model of the Arbeitsagentur Job
 class Job {
+  /// List of keywords that were used to find this job
+  Set<String> foundByKeyword = {};
+
   String? profession;
   String? title;
   String? referenceNr;

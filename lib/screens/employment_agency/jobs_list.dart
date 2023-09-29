@@ -1,7 +1,6 @@
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/models/job_list_item.dart';
 import 'package:studi_match/models/query_parameters.dart';
 import 'package:studi_match/providers/job_provider.dart';
 
@@ -21,7 +20,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
   final controller = AppinioSwiperController();
 
   int page = 1;
-  List<JobListItem> jobList = [];
+  List<Job> jobList = [];
   int maxNrOfResults = 0;
   int lastFetchedAt = 0;
 
@@ -33,7 +32,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
     jobProvider.addListener(() {
       // on change update the list of jobs
       setState(() {
-        jobList = jobProvider.jobList;
+        jobList = jobProvider.jobList.values.toList();
       });
     });
   }
@@ -52,6 +51,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             jobProvider.refresh();
+            widget.createState();
           },
           child: const Icon(Icons.refresh),
         ),
@@ -62,11 +62,14 @@ class _EAJobsListState extends State<EAJobsListScreen> {
               cardsCount: jobList.length,
               cardsSpacing: 10,
               onSwipe: (index, direction) {
-                jobProvider.notify(nowAt: index, removedJobListItem: jobList[index - 1]);
+                jobProvider.notify(
+                    newIndex: index,
+                    removedJob: jobList[index - 1],
+                    keywords: jobList[index - 1].foundByKeyword.toList());
               },
               cardsBuilder: (context, index) {
                 // set the job at the index
-                final Job job = jobList[index].job;
+                final Job job = jobList[index];
 
                 return Stack(
                   children: [
@@ -99,9 +102,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                                 builder: (context, logoSnapshot) {
                                   if (logoSnapshot.hasData) {
                                     return Wrap(
-                                      children: [
-                                        logoSnapshot.data as CachedNetworkImage
-                                      ],
+                                      children: [logoSnapshot.data as CachedNetworkImage],
                                     );
                                   } else {
                                     return const CircularProgressIndicator();

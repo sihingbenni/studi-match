@@ -1,11 +1,10 @@
 import 'package:studi_match/models/facets.dart';
-import 'package:studi_match/models/job_list_item.dart';
 import 'package:studi_match/models/where_output.dart';
 
 import 'job.dart';
 
 class JobSearchResponse {
-  late final List<JobListItem> jobListings;
+  late final List<Job> jobListings;
   late final int maxNrOfResults;
   late final int page;
   late final int size;
@@ -24,8 +23,8 @@ class JobSearchResponse {
     // check if there are any results, if not return empty List
     jobListings = json['stellenangebote'] != null
         ? json['stellenangebote']
-            .map((e) => JobListItem(job: Job.fromEAJson(e.cast<String, dynamic>())))
-            .cast<JobListItem>()
+            .map((e) => Job.fromEAJson(e.cast<String, dynamic>()))
+            .cast<Job>()
             .toList()
         : [];
     whereOutput = json['woOutput'] != null ? WhereOutput.fromEAJson(json['woOutput']) : null;
