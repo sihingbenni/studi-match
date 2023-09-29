@@ -2,6 +2,7 @@ import 'dart:isolate';
 
 import 'package:flutter/services.dart';
 import 'package:studi_match/models/isolate_communication/isolated_stream_response.dart';
+import 'package:studi_match/models/isolate_communication/notify_isolate_scroll.dart';
 import 'package:studi_match/models/isolate_communication/register_isolate.dart';
 import 'package:studi_match/models/job_list_item.dart';
 import 'package:studi_match/models/job_search_response.dart';
@@ -13,6 +14,7 @@ class IsolatedJobProvider {
   final QueryParameters _queryParameters;
   final String _id;
   final _service = EAJobSearchService();
+  int _index = 0;
 
   IsolatedJobProvider(this._id, this._queryParameters, SendPort sendPort) {
     // generate a token for the root isolate
@@ -35,12 +37,22 @@ class IsolatedJobProvider {
     final receivePort = ReceivePort();
 
     // register the isolate by sending the id and the sendPort to the main isolate
-    isolateData.sendPort.send(
-        IsolatedStreamResponse<RegisteredIsolate>(_id, RegisteredIsolate(receivePort.sendPort)));
+    isolateData.sendPort.send(IsolatedStreamResponse<RegisteredIsolate>(
+        fromIsolateId: _id, data: RegisteredIsolate(receivePort.sendPort))
+    );
 
     // listen for messages from the main isolate
     receivePort.listen((message) {
-      logger.w(_queryParameters);
+      switch (message) {
+        case IsolatedStreamResponse<NotifyIsolateScroll>():
+          {
+            logger.w(_index++);
+          }
+        default:
+          {
+            logger.e('Unknown Message received: $message');
+          }
+      }
     });
 
     // fetch the jobs and send them to the main isolate
@@ -49,11 +61,14 @@ class IsolatedJobProvider {
           .map((item) => JobListItem.fromJobListItem(item, _id))
           .cast<JobListItem>()
           .toList();
-      isolateData.sendPort.send(IsolatedStreamResponse<JobSearchResponse>(_id, jobSearchResponse));
+      isolateData.sendPort.send(IsolatedStreamResponse<JobSearchResponse>(
+          fromIsolateId: _id, data: jobSearchResponse)
+      );
     });
   }
 
-  Future<JobSearchResponse> getJobs() async => await _service.callJobsApi(_queryParameters);
+  Future<JobSearchResponse> getJobs() async =>
+      await _service.callJobsApi(_queryParameters);
 }
 
 /// Data that is passed to the isolate

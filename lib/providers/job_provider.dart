@@ -5,6 +5,7 @@ import 'package:studi_match/models/isolate_communication/isolated_stream_respons
 import 'package:studi_match/models/isolate_communication/register_isolate.dart';
 import 'package:studi_match/models/job_list_item.dart';
 import 'package:studi_match/models/job_search_response.dart';
+import 'package:studi_match/providers/async_job_provider.dart';
 import 'package:studi_match/providers/config_provider.dart';
 import 'package:studi_match/providers/isolated_job_provider.dart';
 import 'package:studi_match/providers/query_parameter_provider.dart';
@@ -24,12 +25,14 @@ class JobProvider extends ChangeNotifier {
   JobProvider() {
     // The JobProvider has been created,
     // now lets create one isolate for each query that needs to be done.
-    final listOfKeywords = ConfigProvider.resultPackages['workingStudent']!['listOfKeywords'];
+    final listOfKeywords =
+        ConfigProvider.resultPackages['workingStudent']!['listOfKeywords'];
 
     _receivePort.listen((message) {
       switch (message) {
         case IsolatedStreamResponse<RegisteredIsolate>():
-          logger.d('Isolated JobProvider with keyword: "${message.fromIsolateId}" registered!');
+          logger.d(
+              'Isolated JobProvider with keyword: "${message.fromIsolateId}" registered!');
           // save the sendPort of the isolate, so that we can later send messages to the isolate
           _isolates[message.fromIsolateId] = message.data.sendPort;
         case IsolatedStreamResponse<JobSearchResponse>():
@@ -44,7 +47,12 @@ class JobProvider extends ChangeNotifier {
     for (String keyword in listOfKeywords!) {
       final queryParameters = QueryParameterProvider().getWithKeyword(keyword);
       IsolatedJobProvider(keyword, queryParameters, _receivePort.sendPort);
+      AsyncJobProvider(queryParameters, _addToList);
     }
+  }
+
+  void _addToList() {
+
   }
 
   void refresh() {
@@ -54,6 +62,15 @@ class JobProvider extends ChangeNotifier {
   void notify({required int nowAt, required JobListItem removedJobListItem}) {
     logger.t('Nr of Jobs in List: ${jobList.length} - Index: $nowAt');
     logger.t('JobListItem: ${removedJobListItem.keyword}');
+
     // TODO notify the right isolate that the index has changed
+    /*
+    _isolates[removedJobListItem.keyword]?.send(
+        IsolatedStreamResponse<NotifyIsolateScroll>(
+            fromIsolateId: 'mainIsolate',
+            data: NotifyIsolateScroll()
+        )
+    );
+   */
   }
 }
