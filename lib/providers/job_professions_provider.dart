@@ -6,9 +6,9 @@ class JobProfessionsProvider extends ChangeNotifier {
   final _queryParameters = QueryParameters();
   final _service = EAJobSearchService();
 
-  Map<String, int> _fieldOfWorks = {};
+  List<String> _fieldOfWorks = [];
 
-  Map<String, int> get fieldOfWorks => _fieldOfWorks;
+  List<String> get fieldOfWorks => _fieldOfWorks;
 
   JobProfessionsProvider() {
     _queryParameters.size = 1;
@@ -17,7 +17,9 @@ class JobProfessionsProvider extends ChangeNotifier {
   }
 
   void getProfessions() => _service.callJobsApi(_queryParameters).then((response) {
-        _fieldOfWorks = response.facets.fieldOfWork.counts;
-        notifyListeners();
+        if (response.facets.fieldOfWork != null) {
+          _fieldOfWorks = response.facets.fieldOfWork!.counts.keys.toList();
+          notifyListeners();
+        }
       });
 }
