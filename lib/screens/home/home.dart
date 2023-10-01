@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studi_match/widgets/Dialog/job_preferences_dialog.dart';
+import 'package:studi_match/widgets/Dialog/filter_dialog.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -53,23 +53,7 @@ class Home extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const JobPreferencesDialog()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.greenAccent,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 10)),
-                        child: const Text(
-                          'Jetzt starten!',
-                          style: TextStyle(fontSize: 24, color: Colors.white),
-                        )),
+                    FilterDialog(),
                     ElevatedButton(onPressed: () {},style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent[100]), child: const Text('Log-in', style: TextStyle(fontSize: 20),)),
                     const Text(
                       'und finde dein neues Team hier!',
@@ -83,6 +67,7 @@ class Home extends StatelessWidget {
               ))
         ]),
       );
+
 }
 
 
