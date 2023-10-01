@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list.dart';
+import 'package:studi_match/widgets/Dialog/filter_dialog.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -45,7 +45,7 @@ class Home extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text(
+                     const Text(
                       'Match dein nächstes Abenteuer.',
                       style: TextStyle(
                         fontSize: 24,
@@ -53,23 +53,8 @@ class Home extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    JobPreferencesDialog()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.greenAccent,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 10)),
-                        child: const Text(
-                          'Jetzt starten!',
-                          style: TextStyle(fontSize: 24, color: Colors.white),
-                        )),
+                    FilterDialog(),
+                    ElevatedButton(onPressed: () {},style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent[100]), child: const Text('Log-in', style: TextStyle(fontSize: 20),)),
                     const Text(
                       'und finde dein neues Team hier!',
                       style: TextStyle(
@@ -82,81 +67,7 @@ class Home extends StatelessWidget {
               ))
         ]),
       );
+
 }
 
-class JobPreferencesDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Dialog(
-    insetPadding: const EdgeInsets.symmetric(vertical: 50),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Text(
-                'Select your preferences here:',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Your field of profession',
-                    icon: Icon(Icons.work_rounded),
-                  ),
-                  maxLines: 1),
-              const TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Where do you want to work?',
-                    icon: Icon(Icons.home_rounded),
-                  ),
-                  maxLines: 1),
-              const TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'How do you want to work?',
-                    icon: Icon(Icons.add_home_work_sharp),
-                  ),
-                  maxLines: 1),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.greenAccent),
-                    child: const Text(
-                      'Close',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Close the dialog
-                      Navigator.of(context).pop();
-                      // Navigate to the job list screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EAJobsListScreen(key: Key('EAJobsListScreen'))),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.greenAccent),
-                    child: const Text(
-                      'Navigate to Jobs List',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        )
 
-
-      );
-}
