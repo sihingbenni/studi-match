@@ -54,7 +54,7 @@ class Home extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    FilterDialog(),
+                    const FilterDialog(),
                     ElevatedButton(onPressed: () {},
                         style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent[100]),
                         child: const Text('Log-in', style: TextStyle(
