@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studi_match/screens/authentication/auth.dart';
 import 'package:studi_match/widgets/Dialog/filter_dialog.dart';
 
 class Home extends StatelessWidget {
@@ -55,9 +56,14 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     const FilterDialog(),
-                    ElevatedButton(onPressed: () {},
+                    ElevatedButton(onPressed: ()  =>
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const AuthenticateUser(),
+                            )
+                        ),
                         style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent[100]),
-                        child: const Text('Log-in', style: TextStyle(
+                        child: const Text('Log in', style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,)
