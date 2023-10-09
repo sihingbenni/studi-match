@@ -33,7 +33,7 @@ class _FilterChipState extends State<FilterChipWidget> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: SizedBox(
-            height: 200,
+            height: 400,
             child: SingleChildScrollView(
                 clipBehavior: Clip.hardEdge,
                 scrollDirection: Axis.vertical,
