@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:studi_match/models/workplace.dart';
 import 'package:studi_match/providers/job_logo_provider.dart';
 
@@ -17,7 +17,7 @@ class Job {
   DateTime? entryDate;
   String? logoHashId;
   late String hashId;
-  late CachedNetworkImage logo;
+  late StatelessWidget logo;
 
   Job.fromEAJson(Map<String, dynamic> json) {
     profession = json['beruf'];
