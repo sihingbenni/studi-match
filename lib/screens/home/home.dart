@@ -31,6 +31,7 @@ class Home extends StatelessWidget {
                     'Studi Match',
                     style: TextStyle(
                         fontSize: 36,
+                        letterSpacing: 2.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
@@ -53,8 +54,14 @@ class Home extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    FilterDialog(),
-                    ElevatedButton(onPressed: () {},style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent[100]), child: const Text('Log-in', style: TextStyle(fontSize: 20),)),
+                    const FilterDialog(),
+                    ElevatedButton(onPressed: () {},
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent[100]),
+                        child: const Text('Log-in', style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,)
+                          ,)),
                     const Text(
                       'und finde dein neues Team hier!',
                       style: TextStyle(
