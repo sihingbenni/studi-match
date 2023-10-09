@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studi_match/screens/authentication/auth.dart';
-import 'package:studi_match/widgets/Dialog/filter_dialog.dart';
+import 'package:studi_match/widgets/Dialog/auth_dialog.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -40,14 +39,14 @@ class Home extends StatelessWidget {
               ),
             ),
           ),
-          Align(
+          const Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 height: 300,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                     const Text(
+                    Text(
                       'Match dein nächstes Abenteuer.',
                       style: TextStyle(
                         fontSize: 24,
@@ -55,20 +54,8 @@ class Home extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    const FilterDialog(),
-                    ElevatedButton(onPressed: ()  =>
-                        Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const AuthenticateUser(),
-                            )
-                        ),
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent[100]),
-                        child: const Text('Log in', style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,)
-                          ,)),
-                    const Text(
+                    AuthenticationDialog(),
+                    Text(
                       'und finde dein neues Team hier!',
                       style: TextStyle(
                           fontSize: 20,
