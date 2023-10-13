@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studi_match/widgets/Dialog/auth_dialog.dart';
+import 'package:studi_match/screens/authentication/authetication_page.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -39,14 +39,14 @@ class Home extends StatelessWidget {
               ),
             ),
           ),
-          const Align(
+          Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 height: 300,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
+                    const Text(
                       'Match dein nächstes Abenteuer.',
                       style: TextStyle(
                         fontSize: 24,
@@ -54,8 +54,26 @@ class Home extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    AuthenticationDialog(),
-                    Text(
+                    ElevatedButton(
+                        onPressed: () => {
+                              Navigator.of(context).pop(),
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AuthenticationPage(),
+                                ),
+                              )
+                            },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.greenAccent),
+                        child: const Text(
+                          'Jetzt durchstarten 🚀',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        )),
+                    const Text(
                       'und finde dein neues Team hier!',
                       style: TextStyle(
                           fontSize: 20,
@@ -67,7 +85,4 @@ class Home extends StatelessWidget {
               ))
         ]),
       );
-
 }
-
-
