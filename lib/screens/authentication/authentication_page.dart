@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sign_button/sign_button.dart';
+import 'package:studi_match/screens/authentication/sign_up.dart';
+import 'package:studi_match/screens/home/home.dart';
 
 import '../../widgets/Dialog/onboarding_dialog.dart';
 
@@ -10,7 +12,18 @@ class AuthenticationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar( leading:
+          IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const Home(),
+                ),
+              );
+            },
+          ),
+        ),
         body: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -44,7 +57,14 @@ class AuthenticationPage extends StatelessWidget {
                                   color: Colors.white),
                             )),
                         ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const SignUp(),
+                                ),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                                 side: const BorderSide(
                               color: Colors.greenAccent,
