@@ -56,6 +56,7 @@ class _SignUpState extends State<SignUp> {
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.greenAccent,
+                            minimumSize: const Size(double.infinity, 50),
                           ),
                           child: const Text('Sign Up',
                             style: TextStyle(
