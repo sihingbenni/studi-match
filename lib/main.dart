@@ -21,6 +21,7 @@ class StudiMatchApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(create: (context) => GoogleSignInProvider(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'StudiMatch',
         theme: ThemeData(
           primarySwatch: Colors.green,
