@@ -20,10 +20,10 @@ class AuthenticationPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SvgPicture.asset(
-                        'assets/images/undraw_mobile_encryption.svg',
-                        width: 300,
-                        height: 300,
-                      ),
+                    'assets/images/undraw_mobile_encryption.svg',
+                    width: 300,
+                    height: 300,
+                  ),
                   const Text(
                     'Hallo 👋',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
