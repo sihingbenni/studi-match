@@ -46,7 +46,7 @@ class AuthenticationPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
                 ),
-                const Text('und willkommen zu Studi Match. Logge dich ein oder erstelle einen Account, um passende Angebote zu finden und deine Zukunft zu gestalten!',
+                const Text('und willkommen zu Studi Match. Logge dich ein oder erstelle ein Account, um passende Angebote zu finden und deine Zukunft zu gestalten!',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -128,9 +128,16 @@ class AuthenticationPage extends StatelessWidget {
                           throw Exception(const Text('Anonymer Login hat nicht funktioniert.'));
                         }
                       },
-                      child: const Text(
-                        'bleib anonym 🥷',
-                        style: TextStyle(color: Colors.black, fontSize: 16),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'bleib anonym',
+                            style: TextStyle(color: Colors.black, fontSize: 16, decoration: TextDecoration.underline),
+                          ),
+                          Text('🥷', style: TextStyle(fontSize: 20)),
+                        ],
                       ),
                     ),
                   ],

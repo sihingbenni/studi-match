@@ -43,44 +43,49 @@ class Home extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 height: 300,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Text(
-                      'Match dein nächstes Abenteuer.',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    ElevatedButton(
-                        onPressed: () => {
-                              Navigator.of(context).pop(),
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AuthenticationPage(),
-                                ),
-                              )
-                            },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.greenAccent),
-                        child: const Text(
-                          'Jetzt durchstarten 🚀',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        )),
-                    const Text(
-                      'und finde dein neues Team hier!',
-                      style: TextStyle(
-                          fontSize: 20,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Text(
+                        'Match dein nächstes Abenteuer.',
+                        style: TextStyle(
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ],
+                          color: Colors.white,
+                        ),
+                      ),
+                      ElevatedButton(
+                          onPressed: () => {
+                                Navigator.of(context).pop(),
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AuthenticationPage(),
+                                  ),
+                                )
+                              },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.greenAccent,
+                              minimumSize: const Size(double.infinity, 50),
+                          ),
+                          child: const Text(
+                            'Jetzt durchstarten 🚀',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          )),
+                      const Text(
+                        'und finde dein neues Team hier!',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
               ))
         ]),
