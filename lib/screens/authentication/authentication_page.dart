@@ -23,8 +23,7 @@ class AuthenticationPage extends StatelessWidget {
                         'assets/images/undraw_mobile_encryption.svg',
                         width: 300,
                         height: 300,
-                      ) ??
-                      Text('Failed to load image'),
+                      ),
                   const Text(
                     'Hallo 👋',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),

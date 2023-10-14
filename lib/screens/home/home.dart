@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studi_match/screens/authentication/authetication_page.dart';
+import 'package:studi_match/screens/authentication/authentication_page.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
