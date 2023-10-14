@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:studi_match/screens/authentication/sign_up.dart';
+import 'package:studi_match/screens/employment_agency/jobs_list.dart';
 import 'package:studi_match/screens/home/home.dart';
 
+import '../../providers/google_sign_in.dart';
 import '../../widgets/Dialog/onboarding_dialog.dart';
 
 class AuthenticationPage extends StatelessWidget {
@@ -98,7 +101,16 @@ class AuthenticationPage extends StatelessWidget {
                       'Oder fahre mit den folgenden Möglichkeiten fort:',
                       style: TextStyle(fontSize: 16),
                     ),
-                    SignInButton.mini(buttonType: ButtonType.google, onPressed: () {}),
+                    SignInButton.mini(buttonType: ButtonType.google, onPressed: () {
+                      final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
+                      provider.googleLogin();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                          const EAJobsListScreen(),
+                        ),
+                      );
+                    }),
                     TextButton(
                       onPressed: () {
                         try {
