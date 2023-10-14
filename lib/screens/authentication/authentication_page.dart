@@ -8,7 +8,6 @@ import 'package:studi_match/screens/employment_agency/jobs_list.dart';
 import 'package:studi_match/screens/home/home.dart';
 
 import '../../providers/google_sign_in.dart';
-import '../../widgets/Dialog/onboarding_dialog.dart';
 
 class AuthenticationPage extends StatelessWidget {
   const AuthenticationPage({Key? key}) : super(key: key);
@@ -66,7 +65,7 @@ class AuthenticationPage extends StatelessWidget {
                           minimumSize: const Size(double.infinity, 50),
                         ),
                         child: const Text(
-                          'Login',
+                          'Anmelden',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -89,7 +88,7 @@ class AuthenticationPage extends StatelessWidget {
                             width: 2,
                           ),
                         ),
-                        child: const Text('Sign Up', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.greenAccent)),
+                        child: const Text('Account erstellen', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.greenAccent)),
                       ),
                     ],
                   ),
@@ -119,7 +118,7 @@ class AuthenticationPage extends StatelessWidget {
                             Navigator.of(context).pop();
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const OnboardingDialog(),
+                                builder: (context) => const EAJobsListScreen(),
                               ),
                             );
                           });
