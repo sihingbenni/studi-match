@@ -50,7 +50,8 @@ class _EAJobsListState extends State<EAJobsListScreen> {
   }
 
   // TODO: implement a better way to get the accent color and change text color accordingly
-  MaterialAccentColor getAccentColor (int index) => Colors.accents[index % Colors.accents.length];
+  MaterialAccentColor getAccentColor(int index) =>
+      Colors.accents[index % Colors.accents.length];
 
   @override
   void dispose() {
@@ -135,9 +136,9 @@ class _EAJobsListState extends State<EAJobsListScreen> {
           child: const Icon(Icons.refresh),
         ),
         bottomNavigationBar: CustomNavigationBar(
-          currentIndex: _currentIndex,
-          onItemTapped: _onItemTapped,
-        ),
+                  currentIndex: _currentIndex,
+                  onItemTapped: _onItemTapped,
+                ),
         body: SizedBox(
           child: AppinioSwiper(
               controller: controller,
@@ -191,7 +192,9 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                               const Text(
                                 'Wann?',
                                 style: TextStyle(
-                                    color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(
                                 width: 8,
@@ -210,7 +213,9 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                               const Text(
                                 'Wo?',
                                 style: TextStyle(
-                                    color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(
                                 width: 8,
@@ -229,7 +234,9 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                               const Text(
                                 'Was?',
                                 style: TextStyle(
-                                    color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(
                                 width: 8,
@@ -247,7 +254,9 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                               const Text(
                                 'Referenznummer:',
                                 style: TextStyle(
-                                    color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(
                                 width: 8,
@@ -265,7 +274,9 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                               const Text(
                                 'Aktuelle Veröffentlichung:',
                                 style: TextStyle(
-                                    color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(
                                 width: 8,
