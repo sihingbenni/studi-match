@@ -3,11 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/query_parameters.dart';
 import 'package:studi_match/providers/job_provider.dart';
-import 'package:studi_match/screens/account.dart';
+import 'package:studi_match/screens/account/account.dart';
 import 'package:studi_match/screens/authentication/authentication_page.dart';
 import 'package:studi_match/utilities/logger.dart';
 
 import '../../models/job.dart';
+import '../../widgets/navigation/bottom_navigation_bar.dart';
 
 class EAJobsListScreen extends StatefulWidget {
   const EAJobsListScreen({Key? key}) : super(key: key);
@@ -19,6 +20,14 @@ class EAJobsListScreen extends StatefulWidget {
 class _EAJobsListState extends State<EAJobsListScreen> {
   late final JobProvider jobProvider;
   final queryParameters = QueryParameters();
+
+  int _currentIndex = 1;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   final controller = AppinioSwiperController();
 
@@ -120,6 +129,10 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                 ));
           },
           child: const Icon(Icons.refresh),
+        ),
+        bottomNavigationBar: CustomNavigationBar(
+          currentIndex: _currentIndex,
+          onItemTapped: _onItemTapped,
         ),
         body: SizedBox(
           child: AppinioSwiper(
