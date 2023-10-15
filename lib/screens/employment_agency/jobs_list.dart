@@ -49,6 +49,9 @@ class _EAJobsListState extends State<EAJobsListScreen> {
     });
   }
 
+  // TODO: implement a better way to get the accent color and change text color accordingly
+  MaterialAccentColor getAccentColor (int index) => Colors.accents[index % Colors.accents.length];
+
   @override
   void dispose() {
     jobProvider.dispose();
@@ -69,7 +72,8 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                           builder: (context) => const AuthenticationPage(),
                         ),
                       );
-                    }, icon: const Icon(Icons.login));
+                    },
+                    icon: const Icon(Icons.login));
               } else if (snapshot.connectionState == ConnectionState.active) {
                 if (snapshot.hasData) {
                   // User is logged in
@@ -158,23 +162,126 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.primaries[index % Colors.primaries.length],
+                        color: getAccentColor(index),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                     Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            job.logo,
-                            Text(job.title ?? 'no title',
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18)),
-                            Text(job.employer ?? 'no-employer',
-                                style: const TextStyle(color: Colors.white)),
-                          ],
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [job.logo],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(job.title ?? 'no title',
+                              style: const TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18)),
+                          Text(job.employer ?? 'no-employer',
+                              style: const TextStyle(color: Colors.black87)),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Wann?',
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                  '${job.entryDate?.day}.${job.entryDate!.month}.${job.entryDate!.year}',
+                                  style: const TextStyle(
+                                      color: Colors.black87, fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Wo?',
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                  '${job.workplace?.city ?? 'no-city'}, ${job.workplace?.country ?? 'no-country'}',
+                                  style: const TextStyle(
+                                      color: Colors.black87, fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Was?',
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(job.profession ?? 'no-profession',
+                                  style: const TextStyle(
+                                      color: Colors.black87, fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Referenznummer:',
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(job.referenceNr ?? 'no-referenceNr',
+                                  style: const TextStyle(
+                                      color: Colors.black87, fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Aktuelle Veröffentlichung:',
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                  '${job.currentPublicationDate?.day}.${job.currentPublicationDate!.month}.${job.currentPublicationDate!.year}',
+                                  style: const TextStyle(
+                                      color: Colors.black87, fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 );
               }),
