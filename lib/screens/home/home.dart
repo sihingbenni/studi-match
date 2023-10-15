@@ -8,17 +8,18 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<User?>(
-    stream: FirebaseAuth.instance.authStateChanges(),
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        return const EAJobsListScreen();
-      } else { return Scaffold(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return const EAJobsListScreen();
+        } else {
+          return Scaffold(
             body: Stack(children: [
               Container(
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                  image: NetworkImage(
-                      'https://images.unsplash.com/photo-1545315003-c5ad6226c272'),
+                  // TODO improve loading speed
+                  image: NetworkImage('https://images.unsplash.com/photo-1545315003-c5ad6226c272'),
                   fit: BoxFit.cover,
                 )),
               ),
@@ -68,28 +69,24 @@ class Home extends StatelessWidget {
                                     Navigator.of(context).pop(),
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            const AuthenticationPage(),
+                                        builder: (context) => const AuthenticationPage(),
                                       ),
                                     )
                                   },
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.greenAccent,
-                                  minimumSize: const Size(double.infinity, 50),
+                                backgroundColor: Colors.greenAccent,
+                                minimumSize: const Size(double.infinity, 50),
                               ),
                               child: const Text(
                                 'Jetzt durchstarten 🚀',
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
-                              )),
+                                    color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                              )
+                          ),
                           const Text(
                             'und finde dein neues Team hier!',
                             style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                           ),
                         ],
                       ),
@@ -97,7 +94,6 @@ class Home extends StatelessWidget {
                   ))
             ]),
           );
-    }
-  }
-  );
+        }
+      });
 }

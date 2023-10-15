@@ -4,6 +4,7 @@ import 'package:studi_match/models/job_list.dart';
 import 'package:studi_match/providers/async_job_provider.dart';
 import 'package:studi_match/providers/config_provider.dart';
 import 'package:studi_match/providers/query_parameter_provider.dart';
+import 'package:studi_match/services/firebase/job_service.dart';
 import 'package:studi_match/utilities/logger.dart';
 
 class JobProvider extends ChangeNotifier {
@@ -49,5 +50,9 @@ class JobProvider extends ChangeNotifier {
     // notify each matching asyncJobProvider that the index has changed
     for (var asyncJobProviderKeyword in keywords) {
       _asyncJobProviders[asyncJobProviderKeyword]?.notifyScrolled();
-    }}
+    }
+
+    // add entry to the list of swiped jobs
+    JobService().addViewedJob(removedJob);
+  }
 }

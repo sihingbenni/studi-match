@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/screens/account/account.dart';
+import 'package:studi_match/screens/bookmarks/bookmarks.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list.dart';
-import 'package:studi_match/screens/favorites/favorites_list.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onItemTapped;
 
-  CustomNavigationBar(
+  const CustomNavigationBar(
       {super.key, required this.currentIndex, required this.onItemTapped});
 
   @override
@@ -50,7 +50,7 @@ class CustomNavigationBar extends StatelessWidget {
                 children: [
                   _buildNavItem(0, Icons.account_circle, 'Account', context),
                   _buildNavItem(1, Icons.search, 'Search', context),
-                  _buildNavItem(2, Icons.favorite, 'Favorites', context),
+                  _buildNavItem(2, Icons.bookmark, 'Bookmarks', context),
                 ],
               );
             }
@@ -75,7 +75,7 @@ class CustomNavigationBar extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const FavoritesListScreen()));
+                    builder: (context) => const BookmarksScreen(key: Key('bookmarks_screen'),)));
           }
         },
         child: Column(
