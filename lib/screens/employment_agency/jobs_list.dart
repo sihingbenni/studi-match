@@ -158,27 +158,11 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
+                        color: Colors.primaries[index % Colors.primaries.length],
                         borderRadius: BorderRadius.circular(10.0),
-                        image: const DecorationImage(
-                          image: NetworkImage(
-                              'https://images.unsplash.com/photo-1535957998253-26ae1ef29506?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1936&q=80'),
-                          fit: BoxFit.cover,
-                        ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Colors.transparent, Colors.black87],
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
-                        child: Column(
+                     Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             job.logo,
@@ -191,8 +175,6 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                                 style: const TextStyle(color: Colors.white)),
                           ],
                         ),
-                      ),
-                    )
                   ],
                 );
               }),

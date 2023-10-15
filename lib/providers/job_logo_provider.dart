@@ -19,6 +19,7 @@ class JobLogoProvider {
           'Content-Type': 'image/png'
         },
         placeholder: (context, url) => const CircularProgressIndicator(),
+        width: 80,
       );
     }
     // TODO return a placeholder image if there is no job logo e.g. icon of house
