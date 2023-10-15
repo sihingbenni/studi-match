@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studi_match/screens/account/account.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list.dart';
+import 'package:studi_match/screens/favorites/favorites_list.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -39,7 +40,7 @@ class CustomNavigationBar extends StatelessWidget {
       } else if (index == 1) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => const EAJobsListScreen()));
       } else if (index == 2) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const AccountPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoritesListScreen()));
       }
     },
     child: Column(
