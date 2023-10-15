@@ -1,10 +1,14 @@
 import 'package:appinio_swiper/appinio_swiper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/query_parameters.dart';
 import 'package:studi_match/providers/job_provider.dart';
+import 'package:studi_match/screens/account/account.dart';
+import 'package:studi_match/screens/authentication/authentication_page.dart';
 import 'package:studi_match/utilities/logger.dart';
 
 import '../../models/job.dart';
+import '../../widgets/navigation/bottom_navigation_bar.dart';
 
 class EAJobsListScreen extends StatefulWidget {
   const EAJobsListScreen({Key? key}) : super(key: key);
@@ -16,6 +20,14 @@ class EAJobsListScreen extends StatefulWidget {
 class _EAJobsListState extends State<EAJobsListScreen> {
   late final JobProvider jobProvider;
   final queryParameters = QueryParameters();
+
+  int _currentIndex = 1;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   final controller = AppinioSwiperController();
 
@@ -37,6 +49,10 @@ class _EAJobsListState extends State<EAJobsListScreen> {
     });
   }
 
+  // TODO: implement a better way to get the accent color and change text color accordingly
+  MaterialAccentColor getAccentColor(int index) =>
+      Colors.accents[index % Colors.accents.length];
+
   @override
   void dispose() {
     jobProvider.dispose();
@@ -46,19 +62,83 @@ class _EAJobsListState extends State<EAJobsListScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Employment Agency Jobs List'),
+          leading: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.data?.isAnonymous ?? true) {
+                return IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const AuthenticationPage(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.login));
+              } else if (snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.hasData) {
+                  // User is logged in
+                  return FilledButton.tonal(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const AccountPage(),
+                        ),
+                      );
+                    },
+                    style: FilledButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(2.0),
+                      backgroundColor: Colors.transparent,
+                    ),
+                    child: snapshot.data?.photoURL != null
+                        ? CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(snapshot.data!.photoURL!),
+                          )
+                        : const Icon(Icons.person),
+                  );
+                } else {
+                  // User is not logged in
+                  return IconButton(
+                    icon: const Icon(Icons.login),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const AuthenticationPage(),
+                        ),
+                      );
+                    },
+                  );
+                }
+              } else {
+                // Return a loading indicator while the authentication state is loading
+                return const CircularProgressIndicator();
+              }
+            },
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.filter_list_rounded),
+              onPressed: () {},
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pop(context);
             Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const EAJobsListScreen(),
-              ));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EAJobsListScreen(),
+                ));
           },
           child: const Icon(Icons.refresh),
         ),
+        bottomNavigationBar: CustomNavigationBar(
+                  currentIndex: _currentIndex,
+                  onItemTapped: _onItemTapped,
+                ),
         body: SizedBox(
           child: AppinioSwiper(
               controller: controller,
@@ -83,39 +163,136 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
+                        color: getAccentColor(index),
                         borderRadius: BorderRadius.circular(10.0),
-                        image: const DecorationImage(
-                          image: NetworkImage('https://images.unsplash.com/photo-1535957998253-26ae1ef29506?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1936&q=80'),
-                          fit: BoxFit.cover,
-                        ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Colors.transparent, Colors.black87],
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [job.logo],
                           ),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            job.logo,
-                            Text(job.title ?? 'no title',
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18)),
-                            Text(job.employer ?? 'no-employer',
-                                style: const TextStyle(color: Colors.white)),
-                          ],
-                        ),
+                          const SizedBox(height: 8),
+                          Text(job.title ?? 'no title',
+                              style: const TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18)),
+                          Text(job.employer ?? 'no-employer',
+                              style: const TextStyle(color: Colors.black87)),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Wann?',
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                  '${job.entryDate?.day}.${job.entryDate!.month}.${job.entryDate!.year}',
+                                  style: const TextStyle(
+                                      color: Colors.black87, fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Wo?',
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                  '${job.workplace?.city ?? 'no-city'}, ${job.workplace?.country ?? 'no-country'}',
+                                  style: const TextStyle(
+                                      color: Colors.black87, fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Was?',
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(job.profession ?? 'no-profession',
+                                  style: const TextStyle(
+                                      color: Colors.black87, fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Referenznummer:',
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(job.referenceNr ?? 'no-referenceNr',
+                                  style: const TextStyle(
+                                      color: Colors.black87, fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'Aktuelle Veröffentlichung:',
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                  '${job.currentPublicationDate?.day}.${job.currentPublicationDate!.month}.${job.currentPublicationDate!.year}',
+                                  style: const TextStyle(
+                                      color: Colors.black87, fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                        ],
                       ),
-                    )
+                    ),
                   ],
                 );
               }),
