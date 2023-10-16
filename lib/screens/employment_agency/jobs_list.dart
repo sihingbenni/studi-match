@@ -160,17 +160,17 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                     keywords: jobList[index - 1].foundByKeyword.toList());
                 switch (direction) {
                   case AppinioSwiperDirection.left:
-                    logger.i('Swiped left');
+                    logger.d('Swiped left');
                     break;
                   case AppinioSwiperDirection.right:
-                    logger.i('Swiped right');
+                    logger.d('Swiped right');
                     bookmarkProvider.addBookmark(jobList[index - 1]);
                     break;
                   case AppinioSwiperDirection.top:
-                    logger.i('Swiped up');
+                    logger.d('Swiped up');
                     break;
                   case AppinioSwiperDirection.bottom:
-                    logger.i('Swiped down');
+                    logger.d('Swiped down');
                     break;
                   default: // do nothing
                 }
