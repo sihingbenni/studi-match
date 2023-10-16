@@ -23,10 +23,12 @@ class BookmarkService {
           await _db.collection('users').doc(uuid).collection('bookmarks').get();
       final List<DocumentSnapshot> documents = result.docs;
       for (var element in documents) {
+        logger.i(element['isLiked']);
+        final jobReference = await element['job_reference'].get();
         bookmarkList.add(Bookmark(
+            title: jobReference['job_info']['title'],
+            employer: jobReference['job_info']['employer'],
             jobHashId: element.id,
-            title: element['title'],
-            workplace: element['company'],
             isLiked: element['isLiked']));
       }
     } catch (e) {
