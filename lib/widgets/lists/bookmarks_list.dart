@@ -34,7 +34,7 @@ class _BookmarkListState extends State<BookmarkList> {
         final bookmark = bookmarkProvider.bookmarkList[index];
         return ListTile(
           title: Text(bookmark.title),
-          subtitle: Text(bookmark.workplace),
+          subtitle: Text(bookmark.employer),
           trailing: IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () {

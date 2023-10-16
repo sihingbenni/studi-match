@@ -2,14 +2,14 @@ class Bookmark {
   final String jobHashId;
   late final SwipedJobInfo? swipedJobInfo;
   final String title;
-  final String workplace;
+  final String employer;
   final bool isLiked;
 
   Bookmark(
       {required this.jobHashId,
       this.swipedJobInfo,
       required this.title,
-      required this.workplace,
+      required this.employer,
       required this.isLiked});
 }
 
