@@ -6,6 +6,7 @@ import 'package:sign_button/sign_button.dart';
 import 'package:studi_match/screens/authentication/sign_up.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list.dart';
 import 'package:studi_match/screens/home/home.dart';
+import 'package:studi_match/utilities/logger.dart';
 
 import '../../providers/google_sign_in.dart';
 
@@ -102,19 +103,20 @@ class AuthenticationPage extends StatelessWidget {
                     ),
                     SignInButton.mini(buttonType: ButtonType.google, onPressed: () {
                       final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
-                      provider.googleLogin();
-                      Navigator.of(context).push(
+                      provider.googleLogin().then((value) => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
                           const EAJobsListScreen(),
                         ),
+                      )
                       );
+
                     }),
                     TextButton(
                       onPressed: () {
                         try {
                           FirebaseAuth.instance.signInAnonymously().then((value) {
-                            print('Du bist nun authentifiziert.');
+                            logger.i('Du bist nun authentifiziert.');
                             Navigator.of(context).pop();
                             Navigator.of(context).push(
                               MaterialPageRoute(
