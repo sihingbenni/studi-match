@@ -144,6 +144,12 @@ class _EAJobsListState extends State<EAJobsListScreen> {
         body: SizedBox(
           child: AppinioSwiper(
               controller: controller,
+              swipeOptions: const AppinioSwipeOptions.only(
+                left: true,
+                right: true,
+                top: false,
+                bottom: false,
+              ),
               backgroundCardsCount: 3,
               cardsCount: jobList.length,
               cardsSpacing: 10,
@@ -155,10 +161,10 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                 switch (direction) {
                   case AppinioSwiperDirection.left:
                     logger.i('Swiped left');
-                    bookmarkProvider.addBookmark(jobList[index - 1]);
                     break;
                   case AppinioSwiperDirection.right:
                     logger.i('Swiped right');
+                    bookmarkProvider.addBookmark(jobList[index - 1]);
                     break;
                   case AppinioSwiperDirection.top:
                     logger.i('Swiped up');
