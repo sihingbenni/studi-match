@@ -6,14 +6,19 @@ import 'package:studi_match/models/oauth_response.dart';
 import 'package:studi_match/services/employment_agency/base_service.dart';
 import 'package:studi_match/utilities/logger.dart';
 
-
 class EAOAuthService extends EABaseService {
+  bool _isFetchingToken = false;
 
+  static final EAOAuthService _singleton = EAOAuthService._internal();
+
+  factory EAOAuthService() => _singleton;
+
+  EAOAuthService._internal();
 
   /// checks if there is a valid Oauth token, if yes return it.
   /// if not fetch a new one and return it.
   Future<String> getApiToken() async {
-    logger.d('checking if there is a valid Employment Agency Oauth Token');
+    logger.t('checking if there is a valid Employment Agency Oauth Token');
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String? token = prefs.getString(bearerToken);
@@ -23,6 +28,18 @@ class EAOAuthService extends EABaseService {
       // no token in the shared preferences
       // fetch a new one
       logger.d('no valid Employment Agency Oauth Token found');
+
+      // check if there is already a request to fetch a token
+      if (_isFetchingToken) {
+        logger.d('a request to fetch a new Employment Agency Oauth Token is already running');
+        // wait until the token is fetched
+        while (_isFetchingToken) {
+          await Future.delayed(const Duration(milliseconds: 100));
+        }
+        // return the token
+        return await getApiToken();
+      }
+
       return await _refreshApiToken();
     } else {
       // token in the shared preferences
@@ -36,7 +53,7 @@ class EAOAuthService extends EABaseService {
       } else {
         // token is still valid
         // return it
-        logger.d('a valid Employment Agency Oauth Token was found');
+        logger.t('a valid Employment Agency Oauth Token was found');
         return token;
       }
     }
@@ -44,15 +61,20 @@ class EAOAuthService extends EABaseService {
 
   /// Refreshes the Oauth Token by calling the Employment Agency Oauth Api
   /// and returns the new token.
-  Future<String> _refreshApiToken() async => await callOauthApi().then((value) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<String> _refreshApiToken() async {
+    _isFetchingToken = true;
+    return await callOauthApi().then((value) async {
+      // set the fetching token flag to true
+      SharedPreferences prefs = await SharedPreferences.getInstance();
 
-        // save the token to the shared preferences
-        prefs.setString(bearerToken, value.accessToken);
-        // save when the token expires to the preferences
-        prefs.setString(bearerTokenValidUntil, value.expiresAt.toString());
-        return value.accessToken;
-      });
+      // save the token to the shared preferences
+      prefs.setString(bearerToken, value.accessToken);
+      // save when the token expires to the preferences
+      prefs.setString(bearerTokenValidUntil, value.expiresAt.toString());
+      _isFetchingToken = false;
+      return value.accessToken;
+    });
+  }
 
   /// Calls the Employment Agency Oauth Api and returns the response.
   Future<OauthResponse> callOauthApi() async {
