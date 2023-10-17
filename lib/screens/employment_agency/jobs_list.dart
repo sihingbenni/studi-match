@@ -245,7 +245,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                                 width: 8,
                               ),
                               Text(
-                                  '${job.workplace?.city ?? 'no-city'}, ${job.workplace?.country ?? 'no-country'}',
+                                  '${job.address?.city ?? 'no-city'}, ${job.address?.country ?? 'no-country'}',
                                   style: const TextStyle(
                                       color: Colors.black87, fontSize: 16)),
                             ],

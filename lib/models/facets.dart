@@ -1,23 +1,21 @@
 class Facets {
-  FixedTerm? fixedTerm;
-  Disability? disability;
-  PrivateEmploymentAgency? privateEmploymentAgency;
-  FieldOfWork? fieldOfWork;
-  Workplace? workplace;
+  late final FixedTerm? fixedTerm;
+  late final Disability? disability;
+  late final PrivateEmploymentAgency? privateEmploymentAgency;
+  late final FieldOfWork? fieldOfWork;
+  late final Workplace? workplace;
 
-  // late final TypeOfTraining typeOfTraining;
-  PublishedSince? publishedSince;
+  late final PublishedSince? publishedSince;
 
-  // late final Education education;
-  WorkplaceZipCode? workplaceZipCode;
-  Employer? employer;
-  Profession? profession;
-  Industry? industry;
-  WorkingHours? workingHours;
-  EntryDate? entryDate;
-  TemporaryWork? temporaryWork;
-  Corona? corona;
-  LeadershipResponsibility? leadershipResponsibility;
+  late final WorkplaceZipCode? workplaceZipCode;
+  late final Employer? employer;
+  late final Profession? profession;
+  late final Industry? industry;
+  late final WorkingHours? workingHours;
+  late final EntryDate? entryDate;
+  late final TemporaryWork? temporaryWork;
+  late final Corona? corona;
+  late final LeadershipResponsibility? leadershipResponsibility;
 
   Facets.fromEAJson(Map<String, dynamic> json) {
     fixedTerm = FixedTerm.fromEAJson(json['befristung']);
@@ -25,9 +23,7 @@ class Facets {
     privateEmploymentAgency = PrivateEmploymentAgency.fromEAJson(json['pav']);
     fieldOfWork = FieldOfWork.fromEAJson(json['berufsfeld']);
     workplace = Workplace.fromEAJson(json['arbeitsort']);
-    // typeOfTraining = TypeOfTraining.fromEAJson(json['ausbildungsart']);
     publishedSince = PublishedSince.fromEAJson(json['veroeffentlichtseit']);
-    // education = Education.fromEAJson(json['schulbildung']);
     workplaceZipCode = WorkplaceZipCode.fromEAJson(json['arbeitsort_plz']);
     employer = Employer.fromEAJson(json['arbeitgeber']);
     profession = Profession.fromEAJson(json['beruf']);

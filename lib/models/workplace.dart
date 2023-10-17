@@ -1,7 +1,7 @@
 
 import 'package:studi_match/models/coordinates.dart';
 
-class Workplace {
+class Address {
   late final String? zipCode;
   late final String? city;
   late final String? street;
@@ -10,7 +10,7 @@ class Workplace {
   late final Coordinates? coordinates;
   late final double? distance;
 
-  Workplace.fromEAJson(Map<String, dynamic> json) {
+  Address.fromEAJson(Map<String, dynamic> json) {
     zipCode = json['plz'];
     city = json['ort'];
     street = json['strasse'];
