@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studi_match/widgets/lists/bookmarks_list.dart';
+import 'package:studi_match/widgets/lists/bookmark_list.dart';
 import 'package:studi_match/widgets/navigation/bottom_navigation_bar.dart';
 
 class BookmarksScreen extends StatefulWidget {
