@@ -79,7 +79,7 @@ class AuthenticationPage extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const SignUp(),
+                                builder: (context) => const SignUpScreen(),
                               ),
                             );
                           },
