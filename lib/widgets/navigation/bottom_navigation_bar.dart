@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:studi_match/screens/account/account.dart';
 import 'package:studi_match/screens/bookmarks/bookmarks.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list.dart';
+import 'package:studi_match/widgets/router/nav_router.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -65,16 +66,16 @@ class CustomNavigationBar extends StatelessWidget {
           onItemTapped(index);
           if (index == 0) {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const AccountPage()));
+                NavRouter(builder: (context) => const AccountPage()));
           } else if (index == 1) {
             Navigator.push(
                 context,
-                MaterialPageRoute(
+                NavRouter(
                     builder: (context) => const EAJobsListScreen()));
           } else if (index == 2) {
             Navigator.push(
                 context,
-                MaterialPageRoute(
+                NavRouter(
                     builder: (context) => const BookmarksScreen(key: Key('bookmarks_screen'),)));
           }
         },

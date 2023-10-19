@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:studi_match/screens/authentication/authentication_page.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list.dart';
 
+import '../../widgets/router/nav_router.dart';
+
 class Home extends StatelessWidget {
   const Home({super.key});
 
@@ -68,7 +70,7 @@ class Home extends StatelessWidget {
                               onPressed: () => {
                                     Navigator.of(context).pop(),
                                     Navigator.of(context).push(
-                                      MaterialPageRoute(
+                                      NavRouter(
                                         builder: (context) => const AuthenticationPage(),
                                       ),
                                     )

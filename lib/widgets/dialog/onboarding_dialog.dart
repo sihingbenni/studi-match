@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:studi_match/models/result_package.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list.dart';
 
+import '../router/nav_router.dart';
+
 // Todo: make a page
 
 class OnboardingDialog extends StatefulWidget {
@@ -75,7 +77,7 @@ class _OnboardingDialogState extends State<OnboardingDialog> {
                                 ? () => {
                                       Navigator.of(context).pop(),
                                       Navigator.of(context).push(
-                                        MaterialPageRoute(
+                                        NavRouter(
                                           builder: (context) =>
                                               const EAJobsListScreen(),
                                         ),

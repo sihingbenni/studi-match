@@ -10,6 +10,7 @@ import 'package:studi_match/utilities/logger.dart';
 
 import '../../models/job.dart';
 import '../../widgets/navigation/bottom_navigation_bar.dart';
+import '../../widgets/router/nav_router.dart';
 
 class EAJobsListScreen extends StatefulWidget {
   const EAJobsListScreen({Key? key}) : super(key: key);
@@ -71,7 +72,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                 return IconButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(
+                        NavRouter(
                           builder: (context) => const AuthenticationPage(),
                         ),
                       );
@@ -83,7 +84,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                   return FilledButton.tonal(
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(
+                        NavRouter(
                           builder: (context) => const AccountPage(),
                         ),
                       );
@@ -106,7 +107,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                     icon: const Icon(Icons.login),
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(
+                        NavRouter(
                           builder: (context) => const AuthenticationPage(),
                         ),
                       );
@@ -131,7 +132,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
             Navigator.pop(context);
             Navigator.push(
                 context,
-                MaterialPageRoute(
+                NavRouter(
                   builder: (context) => const EAJobsListScreen(),
                 ));
           },
