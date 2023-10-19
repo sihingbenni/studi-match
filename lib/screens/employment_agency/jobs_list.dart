@@ -2,6 +2,7 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/query_parameters.dart';
+import 'package:studi_match/providers/bookmark_provider.dart';
 import 'package:studi_match/providers/job_provider.dart';
 import 'package:studi_match/screens/account/account.dart';
 import 'package:studi_match/screens/authentication/authentication_page.dart';
@@ -18,7 +19,9 @@ class EAJobsListScreen extends StatefulWidget {
 }
 
 class _EAJobsListState extends State<EAJobsListScreen> {
-  late final JobProvider jobProvider;
+  final JobProvider jobProvider = JobProvider();
+  final BookmarkProvider bookmarkProvider = BookmarkProvider();
+
   final queryParameters = QueryParameters();
 
   int _currentIndex = 1;
@@ -39,7 +42,6 @@ class _EAJobsListState extends State<EAJobsListScreen> {
   @override
   void initState() {
     super.initState();
-    jobProvider = JobProvider();
 
     jobProvider.addListener(() {
       // on change update the list of jobs
@@ -142,6 +144,12 @@ class _EAJobsListState extends State<EAJobsListScreen> {
         body: SizedBox(
           child: AppinioSwiper(
               controller: controller,
+              swipeOptions: const AppinioSwipeOptions.only(
+                left: true,
+                right: true,
+                top: false,
+                bottom: false,
+              ),
               backgroundCardsCount: 3,
               cardsCount: jobList.length,
               cardsSpacing: 10,
@@ -150,6 +158,22 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                     newIndex: index,
                     removedJob: jobList[index - 1],
                     keywords: jobList[index - 1].foundByKeyword.toList());
+                switch (direction) {
+                  case AppinioSwiperDirection.left:
+                    logger.d('Swiped left');
+                    break;
+                  case AppinioSwiperDirection.right:
+                    logger.d('Swiped right');
+                    bookmarkProvider.addBookmark(jobList[index - 1]);
+                    break;
+                  case AppinioSwiperDirection.top:
+                    logger.d('Swiped up');
+                    break;
+                  case AppinioSwiperDirection.bottom:
+                    logger.d('Swiped down');
+                    break;
+                  default: // do nothing
+                }
               },
               onEnd: () {
                 logger.w('End reached');
@@ -221,7 +245,7 @@ class _EAJobsListState extends State<EAJobsListScreen> {
                                 width: 8,
                               ),
                               Text(
-                                  '${job.workplace?.city ?? 'no-city'}, ${job.workplace?.country ?? 'no-country'}',
+                                  '${job.address?.city ?? 'no-city'}, ${job.address?.country ?? 'no-country'}',
                                   style: const TextStyle(
                                       color: Colors.black87, fontSize: 16)),
                             ],

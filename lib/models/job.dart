@@ -7,23 +7,23 @@ class Job {
   /// List of keywords that were used to find this job
   Set<String> foundByKeyword = {};
 
-  String? profession;
-  String? title;
-  String? referenceNr;
-  Workplace? workplace;
-  String? employer;
-  DateTime? currentPublicationDate;
-  DateTime? modificationTimestamp;
-  DateTime? entryDate;
-  String? logoHashId;
-  late String hashId;
-  late StatelessWidget logo;
+  late final String? profession;
+  late final String? title;
+  late final String? referenceNr;
+  late final Address? address;
+  late final String? employer;
+  late final DateTime? currentPublicationDate;
+  late final DateTime? modificationTimestamp;
+  late final DateTime? entryDate;
+  late final String? logoHashId;
+  late final String hashId;
+  late final StatelessWidget logo;
 
   Job.fromEAJson(Map<String, dynamic> json) {
     profession = json['beruf'];
     title = json['titel'];
     referenceNr = json['refnr'];
-    workplace = Workplace.fromEAJson(json['arbeitsort']);
+    address = Address.fromEAJson(json['arbeitsort']);
     employer = json['arbeitgeber'];
     currentPublicationDate = DateTime.parse(json['aktuelleVeroeffentlichungsdatum']);
     modificationTimestamp = DateTime.parse(json['modifikationsTimestamp']);

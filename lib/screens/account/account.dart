@@ -85,7 +85,7 @@ class _AccountPageState extends State<AccountPage> {
                                   width: 10,
                                 ),
                                 Text(
-                                  '${snapshot.data?.displayName}👋' ?? '👋',
+                                  '${snapshot.data?.displayName ?? ' '}👋',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold, fontSize: 28),
                                 )
