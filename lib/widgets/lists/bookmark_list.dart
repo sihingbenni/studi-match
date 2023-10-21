@@ -107,7 +107,7 @@ class _BookmarkListState extends State<BookmarkList> {
                     },
                   ),
                   visualDensity: VisualDensity.comfortable,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8),
                   trailing: FittedBox(
                     alignment: Alignment.centerRight,
                     fit: BoxFit.none,
@@ -117,20 +117,20 @@ class _BookmarkListState extends State<BookmarkList> {
                         children: [
                           Row(children: [
                             const Icon(Icons.remove_red_eye_outlined),
-                            const SizedBox(width: 5),
+                            const SizedBox(width: 4),
                             SizedBox(width: 25, child: Text(_getSwipedJobInfo(bookmark, 'views')))
                           ]),
                           Row(children: [
                             const Icon(Icons.bookmarks_outlined),
-                            const SizedBox(width: 5),
+                            const SizedBox(width: 4),
                             SizedBox(
                                 width: 25, child: Text(_getSwipedJobInfo(bookmark, 'bookmarks')))
                           ]),
                           Row(children: [
                             const Icon(Icons.pageview_outlined),
-                            const SizedBox(width: 5),
+                            const SizedBox(width: 4),
                             SizedBox(
-                                width: 25, child: Text(_getSwipedJobInfo(bookmark, 'detailViews')))
+                                width: 27, child: Text(_getSwipedJobInfo(bookmark, 'detailViews')))
                           ]),
                         ],
                       ),
