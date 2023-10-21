@@ -3,7 +3,7 @@ class Bookmark {
   late final SwipedJobInfo? swipedJobInfo;
   final String title;
   final String employer;
-  final bool isLiked;
+  bool isLiked;
 
   Bookmark(
       {required this.jobHashId,

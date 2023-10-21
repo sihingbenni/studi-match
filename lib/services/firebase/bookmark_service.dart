@@ -11,7 +11,6 @@ class BookmarkService {
 
   Future<Pair<List<Bookmark>, DocumentSnapshot?>> getBookmarks(
       String uuid, DocumentSnapshot? lastDocument) async {
-
     List<Bookmark> bookmarkList = [];
     Query query;
     try {
@@ -83,6 +82,20 @@ class BookmarkService {
   Future<void> removeBookmark(String uuid, String jobId) async {
     try {
       await _db.collection('users').doc(uuid).collection('bookmarks').doc(jobId).delete();
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  Future<void> toggleBookmarkLike(String uuid, Bookmark bookmark, bool toggle) async {
+    logger.i('toggling like for ${bookmark.jobHashId}, set to $toggle');
+    try {
+      await _db
+          .collection('users')
+          .doc(uuid)
+          .collection('bookmarks')
+          .doc(bookmark.jobHashId)
+          .update({'isLiked': toggle});
     } catch (e) {
       logger.e(e);
     }

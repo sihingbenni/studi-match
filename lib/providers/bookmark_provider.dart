@@ -70,4 +70,11 @@ class BookmarkProvider extends ChangeNotifier {
     _jobService.incrementBookmark(job.hashId);
     notifyListeners();
   }
+
+  void toggleBookmarkLike(Bookmark bookmark) {
+    // toggle the like to the opposite
+    bookmarkList[bookmarkList.indexOf(bookmark)].isLiked = !bookmark.isLiked;
+    _service.toggleBookmarkLike(uuid, bookmark, bookmark.isLiked);
+    notifyListeners();
+  }
 }
