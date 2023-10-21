@@ -88,7 +88,6 @@ class BookmarkService {
   }
 
   Future<void> toggleBookmarkLike(String uuid, Bookmark bookmark, bool toggle) async {
-    logger.i('toggling like for ${bookmark.jobHashId}, set to $toggle');
     try {
       await _db
           .collection('users')

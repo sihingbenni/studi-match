@@ -59,92 +59,120 @@ class _BookmarkListState extends State<BookmarkList> {
   }
 
   @override
-  Widget build(BuildContext context) => NotificationListener<ScrollEndNotification>(
-        child: ListView.builder(
-            // if there are still bookmarks, add a loader at the end of the list (+1 item)
-            itemCount: _bookmarkList.length + (_allFetched ? 0 : 1),
-            itemBuilder: (context, index) {
-              if (index == _bookmarkList.length) {
-                return const SizedBox(
-                  key: ValueKey('Loader'),
-                  width: double.infinity,
-                  height: 60,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-              // set the item
-              final bookmark = _bookmarkList[index];
-              return Dismissible(
-                key: Key(bookmark.jobHashId),
-                background: Container(
-                    color: Colors.green,
-                    child: const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 16),
-                        child: Icon(Icons.favorite, color: Colors.white),
-                      ),
-                    )),
-                secondaryBackground: Container(
-                    color: Colors.red,
-                    child: const Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 16),
-                        child: Icon(Icons.delete, color: Colors.white),
-                      ),
-                    )),
-                child: ListTile(
-                  title: Text(bookmark.title),
-                  subtitle: Text(bookmark.employer),
-                  leading: IconButton(
-                    icon: Icon(bookmark.isLiked ? Icons.favorite : Icons.favorite_border,
-                        color: Colors.green),
-                    onPressed: () {
-                      _bookmarkProvider.toggleBookmarkLike(bookmark);
-                    },
-                  ),
-                  visualDensity: VisualDensity.comfortable,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                  trailing: FittedBox(
-                    alignment: Alignment.centerRight,
-                    fit: BoxFit.none,
-                    child: IconTheme(
-                      data: const IconThemeData(color: Colors.grey),
-                      child: Column(
-                        children: [
-                          Row(children: [
-                            const Icon(Icons.remove_red_eye_outlined),
-                            const SizedBox(width: 4),
-                            SizedBox(width: 25, child: Text(_getSwipedJobInfo(bookmark, 'views')))
-                          ]),
-                          Row(children: [
-                            const Icon(Icons.bookmarks_outlined),
-                            const SizedBox(width: 4),
-                            SizedBox(
-                                width: 25, child: Text(_getSwipedJobInfo(bookmark, 'bookmarks')))
-                          ]),
-                          Row(children: [
-                            const Icon(Icons.pageview_outlined),
-                            const SizedBox(width: 4),
-                            SizedBox(
-                                width: 27, child: Text(_getSwipedJobInfo(bookmark, 'detailViews')))
-                          ]),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }),
-        onNotification: (scrollEnd) {
-          if (!_allFetched && scrollEnd.metrics.atEdge && scrollEnd.metrics.pixels > 0) {
+  Widget build(BuildContext context) => ListView.builder(
+      // if there are still bookmarks, add a loader at the end of the list (+1 item)
+      itemCount: _bookmarkList.length + (_allFetched ? 0 : 1),
+      itemBuilder: (context, index) {
+        if (index == _bookmarkList.length) {
+          // deffer the loading of more bookmarks to the next frame,
+          // so it does not get called during build
+          Future.delayed(Duration.zero, () async {
             logger.t('fetching more bookmarks');
             _bookmarkProvider.getBookmarks();
-          }
-          return true;
-        },
-      );
+          });
+          return const SizedBox(
+            key: ValueKey('Loader'),
+            width: double.infinity,
+            height: 60,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        // set the item
+        final bookmark = _bookmarkList[index];
+        return Dismissible(
+          key: Key(bookmark.jobHashId),
+          background: Container(
+              color: Colors.green,
+              child: const Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Icon(Icons.favorite, color: Colors.white),
+                ),
+              )),
+          secondaryBackground: Container(
+              color: Colors.red,
+              child: const Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 16),
+                  child: Icon(Icons.delete, color: Colors.white),
+                ),
+              )),
+          child: ListTile(
+            title: Text(bookmark.title),
+            subtitle: Text(bookmark.employer),
+            leading: IconButton(
+              icon: Icon(bookmark.isLiked ? Icons.favorite : Icons.favorite_border,
+                  color: Colors.green),
+              onPressed: () {
+                _bookmarkProvider.toggleBookmarkLike(bookmark);
+              },
+            ),
+            visualDensity: VisualDensity.comfortable,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+            trailing: FittedBox(
+              alignment: Alignment.centerRight,
+              fit: BoxFit.none,
+              child: IconTheme(
+                data: const IconThemeData(color: Colors.grey),
+                child: Column(
+                  children: [
+                    Row(children: [
+                      const Icon(Icons.remove_red_eye_outlined),
+                      const SizedBox(width: 4),
+                      SizedBox(width: 25, child: Text(_getSwipedJobInfo(bookmark, 'views')))
+                    ]),
+                    Row(children: [
+                      const Icon(Icons.bookmarks_outlined),
+                      const SizedBox(width: 4),
+                      SizedBox(width: 25, child: Text(_getSwipedJobInfo(bookmark, 'bookmarks')))
+                    ]),
+                    Row(children: [
+                      const Icon(Icons.pageview_outlined),
+                      const SizedBox(width: 4),
+                      SizedBox(width: 27, child: Text(_getSwipedJobInfo(bookmark, 'detailViews')))
+                    ]),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          confirmDismiss: (DismissDirection direction) async {
+            if (direction == DismissDirection.startToEnd) {
+              _bookmarkProvider.toggleBookmarkLike(bookmark);
+            } else {
+              return await showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Remove Bookmark'),
+                    content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Are you sure you want to remove this bookmark?'),
+                          const SizedBox(height: 8),
+                          ListTile(
+                            title: Text(bookmark.title),
+                            subtitle: Text(bookmark.employer),
+                          ),
+                        ]),
+                    actions: <Widget>[
+                      ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(true), child: const Text('Yes')),
+                      ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(false), child: const Text('No')),
+                    ],
+                  )
+              );
+            }
+            return null;
+          },
+          onDismissed: (direction) {
+            _bookmarkProvider.removeBookmark(bookmark);
+          },
+        );
+      });
 }

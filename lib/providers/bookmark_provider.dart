@@ -59,9 +59,9 @@ class BookmarkProvider extends ChangeNotifier {
     });
   }
 
-  void removeBookmark(int index) {
-    _service.removeBookmark(uuid, bookmarkList[index].jobHashId);
-    bookmarkList.removeAt(index);
+  void removeBookmark(Bookmark bookmark) {
+    _service.removeBookmark(uuid, bookmark.jobHashId);
+    bookmarkList.remove(bookmark);
     notifyListeners();
   }
 
