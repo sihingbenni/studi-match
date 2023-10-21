@@ -31,27 +31,10 @@ class _BookmarkListState extends State<BookmarkList> {
     super.initState();
   }
 
-  String _getSwipedJobInfo(Bookmark bookmark, String swipeInfo) {
-    int? nr = 0;
-    switch (swipeInfo) {
-      case 'views':
-        nr = bookmark.swipedJobInfo?.views;
-        break;
-      case 'bookmarks':
-        nr = bookmark.swipedJobInfo?.views;
-        break;
-      case 'detailViews':
-        nr = bookmark.swipedJobInfo?.views;
-        break;
-      default:
-        nr = 0;
-    }
-
+  String _formatNumber(int? nr) {
     if (nr == null) {
       return '0';
-    }
-
-    if (nr >= 1000) {
+    } else if (nr >= 1000) {
       return '999+';
     } else {
       return nr.toString();
@@ -113,31 +96,49 @@ class _BookmarkListState extends State<BookmarkList> {
             ),
             visualDensity: VisualDensity.comfortable,
             contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+            // trailing SwipedJobInfo
             trailing: FittedBox(
               alignment: Alignment.centerRight,
               fit: BoxFit.none,
-              child: IconTheme(
-                data: const IconThemeData(color: Colors.grey),
-                child: Column(
-                  children: [
-                    Row(children: [
-                      const Icon(Icons.remove_red_eye_outlined),
-                      const SizedBox(width: 4),
-                      SizedBox(width: 25, child: Text(_getSwipedJobInfo(bookmark, 'views')))
-                    ]),
-                    Row(children: [
-                      const Icon(Icons.bookmarks_outlined),
-                      const SizedBox(width: 4),
-                      SizedBox(width: 25, child: Text(_getSwipedJobInfo(bookmark, 'bookmarks')))
-                    ]),
-                    Row(children: [
-                      const Icon(Icons.pageview_outlined),
-                      const SizedBox(width: 4),
-                      SizedBox(width: 27, child: Text(_getSwipedJobInfo(bookmark, 'detailViews')))
-                    ]),
-                  ],
-                ),
-              ),
+              child: Builder(builder: (context) {
+                if (bookmark.swipedJobInfo == null) {
+                  return const SizedBox(
+                    key: ValueKey('Loader'),
+                    width: 25,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else {
+                  return IconTheme(
+                    data: const IconThemeData(color: Colors.grey),
+                    child: Column(
+                      children: [
+                        Row(children: [
+                          const Icon(Icons.remove_red_eye_outlined),
+                          const SizedBox(width: 4),
+                          SizedBox(
+                              width: 25, child: Text(_formatNumber(bookmark.swipedJobInfo!.views)))
+                        ]),
+                        Row(children: [
+                          const Icon(Icons.bookmarks_outlined),
+                          const SizedBox(width: 4),
+                          SizedBox(
+                              width: 25,
+                              child: Text(_formatNumber(bookmark.swipedJobInfo!.bookmarks)))
+                        ]),
+                        Row(children: [
+                          const Icon(Icons.pageview_outlined),
+                          const SizedBox(width: 4),
+                          SizedBox(
+                              width: 27,
+                              child: Text(_formatNumber(bookmark.swipedJobInfo!.detailViews)))
+                        ]),
+                      ],
+                    ),
+                  );
+                }
+              }),
             ),
           ),
           confirmDismiss: (DismissDirection direction) async {
@@ -145,28 +146,29 @@ class _BookmarkListState extends State<BookmarkList> {
               _bookmarkProvider.toggleBookmarkLike(bookmark);
             } else {
               return await showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Remove Bookmark'),
-                    content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Are you sure you want to remove this bookmark?'),
-                          const SizedBox(height: 8),
-                          ListTile(
-                            title: Text(bookmark.title),
-                            subtitle: Text(bookmark.employer),
-                          ),
-                        ]),
-                    actions: <Widget>[
-                      ElevatedButton(
-                          onPressed: () => Navigator.of(context).pop(true), child: const Text('Yes')),
-                      ElevatedButton(
-                          onPressed: () => Navigator.of(context).pop(false), child: const Text('No')),
-                    ],
-                  )
-              );
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Remove Bookmark'),
+                        content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Are you sure you want to remove this bookmark?'),
+                              const SizedBox(height: 8),
+                              ListTile(
+                                title: Text(bookmark.title),
+                                subtitle: Text(bookmark.employer),
+                              ),
+                            ]),
+                        actions: <Widget>[
+                          ElevatedButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: const Text('Yes')),
+                          ElevatedButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: const Text('No')),
+                        ],
+                      ));
             }
             return null;
           },

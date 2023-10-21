@@ -9,10 +9,20 @@ import 'package:studi_match/utilities/logger.dart';
 class BookmarkService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> getBookmarkStream(String uuid) {
+    try {
+      return _db.collection('users').doc(uuid).collection('bookmarks').snapshots();
+    } catch (e) {
+      logger.e(e);
+      throw Exception(e);
+    }
+  }
+
   Future<Pair<List<Bookmark>, DocumentSnapshot?>> getBookmarks(
       String uuid, DocumentSnapshot? lastDocument) async {
     List<Bookmark> bookmarkList = [];
     Query query;
+
     try {
       var userDocument = await _db.collection('users').doc(uuid).get();
 
@@ -50,12 +60,16 @@ class BookmarkService {
       }
       // for each bookmark document, get the job reference and add it to the list
       for (var doc in documents) {
-        final jobReference = await doc['job_reference'].get();
-        bookmarkList.add(Bookmark(
+        DocumentReference jobReferenceString = doc['job_reference'];
+        final jobReference = await jobReferenceString.get();
+        Stream<DocumentSnapshot<Object?>> jobReferenceStream = jobReferenceString.snapshots();
+        Bookmark bookmark = Bookmark(
+            jobHashId: doc.id,
             title: jobReference['job_info']['title'],
             employer: jobReference['job_info']['employer'],
-            jobHashId: doc.id,
-            isLiked: doc['isLiked']));
+            isLiked: doc['isLiked'],
+            jobReferenceStream: jobReferenceStream);
+        bookmarkList.add(bookmark);
       }
       return Pair(bookmarkList, documents.last);
     } catch (e) {

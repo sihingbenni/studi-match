@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/bookmark.dart';
 import 'package:studi_match/models/job.dart';
+import 'package:studi_match/models/swiped_job_info.dart';
 import 'package:studi_match/providers/config_provider.dart';
 import 'package:studi_match/services/firebase/bookmark_service.dart';
 import 'package:studi_match/services/firebase/job_service.dart';
@@ -25,6 +26,7 @@ class BookmarkProvider extends ChangeNotifier {
   final _jobService = JobService();
 
   final List<Bookmark> bookmarkList = [];
+  late Stream<QuerySnapshot<Map<String, dynamic>>> bookmarkStream;
 
   /// constructor
   BookmarkProvider() {
@@ -47,6 +49,22 @@ class BookmarkProvider extends ChangeNotifier {
       logger.t('adding ${pair.first.length} bookmarks to the list');
 
       bookmarkList.addAll(pair.first);
+
+      for (var bookmark in pair.first) {
+        bookmark.jobReferenceStream.listen((event) {
+          // get the job info from the job reference
+          final jobInfo = event.data() as Map<String, dynamic>;
+
+
+          // check if the bookmark is already in the list
+          var index = bookmarkList.indexOf(bookmark);
+          if (index != -1) {
+            bookmarkList[index].swipedJobInfo = SwipedJobInfo.fromJson(jobInfo['swipe_info']);
+            notifyListeners();
+          }
+        });
+      }
+
       // set the last document
       _lastDocument = pair.last;
 
@@ -57,6 +75,8 @@ class BookmarkProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     });
+
+    bookmarkStream = _service.getBookmarkStream(uuid);
   }
 
   void removeBookmark(Bookmark bookmark) {

@@ -13,8 +13,8 @@ class ConfigProvider {
   static const String bearerToken = 'ea_bearer_token';
   static const String bearerTokenValidUntil = 'ea_token_valid_until';
 
-  //Bookmarks
-  static const int bookmarkPageSize = 10;
+  //Bookmarks load two more than the page size, so that the user can scroll
+  static const int bookmarkPageSize = 12;
 
   static const resultPackages = {
     'internship': {
