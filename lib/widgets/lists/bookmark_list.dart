@@ -144,6 +144,7 @@ class _BookmarkListState extends State<BookmarkList> {
           confirmDismiss: (DismissDirection direction) async {
             if (direction == DismissDirection.startToEnd) {
               _bookmarkProvider.toggleBookmarkLike(bookmark);
+              return false;
             } else if (bookmark.isLiked) {
               return await showDialog(
                   context: context,
@@ -169,8 +170,9 @@ class _BookmarkListState extends State<BookmarkList> {
                               child: const Text('No')),
                         ],
                       ));
+            } else {
+              return true;
             }
-            return true;
           },
           onDismissed: (direction) {
             _bookmarkProvider.removeBookmark(bookmark);
