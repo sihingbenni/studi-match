@@ -144,16 +144,16 @@ class _BookmarkListState extends State<BookmarkList> {
           confirmDismiss: (DismissDirection direction) async {
             if (direction == DismissDirection.startToEnd) {
               _bookmarkProvider.toggleBookmarkLike(bookmark);
-            } else {
+            } else if (bookmark.isLiked) {
               return await showDialog(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Remove Bookmark'),
+                        title: const Text('Remove Liked Bookmark'),
                         content: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Are you sure you want to remove this bookmark?'),
+                              const Text('Are you sure you want to remove this liked bookmark?'),
                               const SizedBox(height: 8),
                               ListTile(
                                 title: Text(bookmark.title),
@@ -170,7 +170,7 @@ class _BookmarkListState extends State<BookmarkList> {
                         ],
                       ));
             }
-            return null;
+            return true;
           },
           onDismissed: (direction) {
             _bookmarkProvider.removeBookmark(bookmark);
