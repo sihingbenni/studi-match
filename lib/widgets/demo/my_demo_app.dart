@@ -8,12 +8,12 @@ class MyDemoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    logger.v('You don\'t always want to see all of these');
+    logger.t('You don\'t always want to see all of these');
     logger.d('Logs a debug message');
     logger.i('Public Function called');
     logger.w('This might become a problem');
     logger.e('Something has happened');
-    logger.wtf('This is bad, I\'m outta here');
+    logger.f('This is bad, I\'m outta here');
 
     return MaterialApp(
       title: 'studi-match',
