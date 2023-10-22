@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:studi_match/widgets/navigation/bottom_navigation_bar.dart';
 
 import '../../models/job_favorites.dart';
 
@@ -11,13 +10,6 @@ class FavoritesListScreen extends StatefulWidget {
 }
 
 class _FavoritesListScreenState extends State<FavoritesListScreen> {
-  int _currentIndex = 2;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
 
   final List<JobFavorite> dummyJobFavorites = [
     JobFavorite(
@@ -79,10 +71,6 @@ class _FavoritesListScreenState extends State<FavoritesListScreen> {
     appBar: AppBar(
       leading: Icon(Icons.favorite, color: Colors.red[900]),
       title: const Text('Favorites'),
-    ),
-    bottomNavigationBar: CustomNavigationBar(
-      currentIndex: _currentIndex,
-      onItemTapped: _onItemTapped,
     ),
     body: ListView.builder(
       itemCount: dummyJobFavorites.length,

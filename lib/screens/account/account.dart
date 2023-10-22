@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/widgets/navigation/bottom_navigation_bar.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../authentication/authentication_page.dart';
@@ -13,13 +12,6 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  int _currentIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -42,10 +34,6 @@ class _AccountPageState extends State<AccountPage> {
               },
             ),
           ],
-        ),
-        bottomNavigationBar: CustomNavigationBar(
-          currentIndex: _currentIndex,
-          onItemTapped: _onItemTapped,
         ),
         body: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
