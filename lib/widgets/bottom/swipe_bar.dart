@@ -16,18 +16,20 @@ class SwipeBar extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(8), // Adjust the padding to control the circle size
             child: IconButton(
-              icon: const Icon(Icons.close, color: Colors.white60),
+              icon: const Icon(Icons.close, color: Colors.white),
+              iconSize: 32,
               onPressed: () {},
             ),
           ),
           Container(
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.orange,
+              color: Colors.blueGrey,
             ),
             padding: const EdgeInsets.all(8), // Adjust the padding to control the circle size
             child: IconButton(
-              icon: const Icon(Icons.info, color: Colors.white60),
+              icon: const Icon(Icons.info, color: Colors.white),
+              iconSize: 32,
               onPressed: () {},
             ),
           ),
@@ -38,7 +40,8 @@ class SwipeBar extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(8), // Adjust the padding to control the circle size
             child: IconButton(
-              icon: const Icon(Icons.done, color: Colors.white60),
+              iconSize: 32,
+              icon: const Icon(Icons.done, color: Colors.white),
               onPressed: () {},
             ),
           ),

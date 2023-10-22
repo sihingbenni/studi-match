@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/screens/bookmarks/bookmarks.dart';
 
 import '../../screens/account/account.dart';
 import '../../screens/authentication/authentication_page.dart';
@@ -70,8 +71,16 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
     ),
     actions: [
       IconButton(
-        icon: const Icon(Icons.filter_list_rounded),
-        onPressed: () {},
+        icon: const Icon(Icons.bookmark),
+        color: Colors.yellow[800],
+        iconSize: 32,
+        onPressed: () {
+          Navigator.of(context).push(
+            NavRouter(
+              builder: (context) => const BookmarksScreen(),
+            ),
+          );
+        },
       ),
     ],
   );

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/screens/bookmarks/bookmarks.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../authentication/authentication_page.dart';
@@ -12,20 +13,10 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).push(
-                NavRouter(
-                  builder: (context) => const AuthenticationPage(),
-                ),
-              );
-            },
-          ),
+          title: const Text('Account'),
           actions: [
             IconButton(
               icon: const Icon(Icons.logout),
@@ -68,7 +59,8 @@ class _AccountPageState extends State<AccountPage> {
                                 const Text(
                                   'Hallo',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 28),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 28),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -76,7 +68,8 @@ class _AccountPageState extends State<AccountPage> {
                                 Text(
                                   '${snapshot.data?.displayName ?? ' '}👋',
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 28),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 28),
                                 )
                               ],
                             ),
@@ -87,7 +80,8 @@ class _AccountPageState extends State<AccountPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     const Icon(Icons.person),
                                     const SizedBox(
@@ -103,25 +97,43 @@ class _AccountPageState extends State<AccountPage> {
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const Icon(Icons.mail ),
+                                    const Icon(Icons.mail),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
-                                      snapshot.data?.email ?? 'Keine E-Mail-Adresse',
+                                      snapshot.data?.email ??
+                                          'Keine E-Mail-Adresse',
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                   ],
                                 ),
                               ],
                             )
-
                           ],
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.yellow[700]),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            NavRouter(
+                              builder: (context) => const BookmarksScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Zu meinen Bookmarks',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ))
                   ],
                 );
               } else {
