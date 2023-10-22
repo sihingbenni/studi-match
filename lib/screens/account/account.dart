@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/widgets/navigation/bottom_navigation_bar.dart';
+import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../authentication/authentication_page.dart';
 
@@ -27,7 +28,7 @@ class _AccountPageState extends State<AccountPage> {
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
+                NavRouter(
                   builder: (context) => const AuthenticationPage(),
                 ),
               );
@@ -148,7 +149,7 @@ class _AccountPageState extends State<AccountPage> {
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).push(
-                          MaterialPageRoute(
+                          NavRouter(
                             builder: (context) => const AuthenticationPage(),
                           ),
                         );

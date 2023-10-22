@@ -7,6 +7,7 @@ import 'package:studi_match/screens/authentication/sign_up.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list.dart';
 import 'package:studi_match/screens/home/home.dart';
 import 'package:studi_match/utilities/logger.dart';
+import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../../providers/google_sign_in.dart';
 
@@ -20,7 +21,7 @@ class AuthenticationPage extends StatelessWidget {
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
+                NavRouter(
                   builder: (context) => const Home(),
                 ),
               );
@@ -78,7 +79,7 @@ class AuthenticationPage extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(
-                              MaterialPageRoute(
+                              NavRouter(
                                 builder: (context) => const SignUpScreen(),
                               ),
                             );
@@ -112,7 +113,7 @@ class AuthenticationPage extends StatelessWidget {
                             final provider =
                                 Provider.of<GoogleSignInProvider>(context, listen: false);
                             provider.googleLogin().then((value) => Navigator.of(context).push(
-                                  MaterialPageRoute(
+                                  NavRouter(
                                     builder: (context) => const EAJobsListScreen(),
                                   ),
                                 ));
@@ -124,7 +125,7 @@ class AuthenticationPage extends StatelessWidget {
                               logger.i('Du bist nun authentifiziert.');
                               Navigator.of(context).pop();
                               Navigator.of(context).push(
-                                MaterialPageRoute(
+                                NavRouter(
                                   builder: (context) => const EAJobsListScreen(),
                                 ),
                               );

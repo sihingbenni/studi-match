@@ -1,5 +1,3 @@
-
-
 import 'package:studi_match/models/job.dart';
 
 class JobList {
