@@ -71,7 +71,7 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
     ),
     actions: [
       IconButton(
-        icon: const Icon(Icons.bookmark),
+        icon: const Icon(Icons.bookmarks),
         color: Colors.yellow[800],
         iconSize: 32,
         onPressed: () {

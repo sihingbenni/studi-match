@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SwipeBar extends StatelessWidget {
+class SwipeBar extends StatefulWidget {
   const SwipeBar({super.key});
+
+  @override
+  State<SwipeBar> createState() => _SwipeBarState();
+}
+
+class _SwipeBarState extends State<SwipeBar> {
 
   @override
   Widget build(BuildContext context) => Container(
@@ -41,7 +47,7 @@ class SwipeBar extends StatelessWidget {
             padding: const EdgeInsets.all(8), // Adjust the padding to control the circle size
             child: IconButton(
               iconSize: 32,
-              icon: const Icon(Icons.done, color: Colors.white),
+              icon: const Icon(Icons.bookmark_add, color: Colors.white),
               onPressed: () {},
             ),
           ),
