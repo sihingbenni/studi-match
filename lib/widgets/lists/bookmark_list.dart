@@ -85,8 +85,59 @@ class _BookmarkListState extends State<BookmarkList> {
                 ),
               )),
           child: ListTile(
-            title: Text(bookmark.title),
-            subtitle: Text(bookmark.employer),
+            horizontalTitleGap: 4,
+            minVerticalPadding: 8,
+            tileColor: bookmark.isLiked ? Colors.green[50] : null,
+            title: Text(bookmark.title, style: const TextStyle(fontWeight: FontWeight.bold),),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(bookmark.employer),
+                SizedBox(
+                  width: double.infinity,
+                  child: Builder(builder: (context) {
+                    if (bookmark.swipedJobInfo == null) {
+                      return const SizedBox(
+                        key: ValueKey('Loader'),
+                        width: 25,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    } else {
+                      return IconTheme(
+                        data: const IconThemeData(color: Colors.grey),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(children: [
+                              const Icon(Icons.remove_red_eye_outlined),
+                              const SizedBox(width: 4),
+                              SizedBox(
+                                  width: 25, child: Text(_formatNumber(bookmark.swipedJobInfo!.views)))
+                            ]),
+                            Row(children: [
+                              const Icon(Icons.pageview_outlined),
+                              const SizedBox(width: 4),
+                              SizedBox(
+                                  width: 27,
+                                  child: Text(_formatNumber(bookmark.swipedJobInfo!.detailViews)))
+                            ]),
+                            Row(children: [
+                              const Icon(Icons.bookmarks_outlined),
+                              const SizedBox(width: 4),
+                              SizedBox(
+                                  width: 25,
+                                  child: Text(_formatNumber(bookmark.swipedJobInfo!.bookmarks)))
+                            ]),
+                          ],
+                        ),
+                      );
+                    }
+                  }),
+                ),
+              ],
+            ),
             leading: IconButton(
               icon: Icon(bookmark.isLiked ? Icons.favorite : Icons.favorite_border,
                   color: Colors.green),
@@ -97,49 +148,6 @@ class _BookmarkListState extends State<BookmarkList> {
             visualDensity: VisualDensity.comfortable,
             contentPadding: const EdgeInsets.symmetric(horizontal: 8),
             // trailing SwipedJobInfo
-            trailing: FittedBox(
-              alignment: Alignment.centerRight,
-              fit: BoxFit.none,
-              child: Builder(builder: (context) {
-                if (bookmark.swipedJobInfo == null) {
-                  return const SizedBox(
-                    key: ValueKey('Loader'),
-                    width: 25,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                } else {
-                  return IconTheme(
-                    data: const IconThemeData(color: Colors.grey),
-                    child: Column(
-                      children: [
-                        Row(children: [
-                          const Icon(Icons.remove_red_eye_outlined),
-                          const SizedBox(width: 4),
-                          SizedBox(
-                              width: 25, child: Text(_formatNumber(bookmark.swipedJobInfo!.views)))
-                        ]),
-                        Row(children: [
-                          const Icon(Icons.bookmarks_outlined),
-                          const SizedBox(width: 4),
-                          SizedBox(
-                              width: 25,
-                              child: Text(_formatNumber(bookmark.swipedJobInfo!.bookmarks)))
-                        ]),
-                        Row(children: [
-                          const Icon(Icons.pageview_outlined),
-                          const SizedBox(width: 4),
-                          SizedBox(
-                              width: 27,
-                              child: Text(_formatNumber(bookmark.swipedJobInfo!.detailViews)))
-                        ]),
-                      ],
-                    ),
-                  );
-                }
-              }),
-            ),
           ),
           confirmDismiss: (DismissDirection direction) async {
             if (direction == DismissDirection.startToEnd) {
