@@ -4,7 +4,6 @@ import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/job.dart';
-import '../../models/query_parameters.dart';
 import '../../providers/bookmark_provider.dart';
 import '../../providers/job_provider.dart';
 import '../../utilities/logger.dart';
@@ -21,50 +20,74 @@ class SwipeList extends StatefulWidget {
   State<SwipeList> createState() => _SwipeListState();
 }
 
-class _SwipeListState extends State<SwipeList> with SingleTickerProviderStateMixin {
+class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
+  // providers
   final JobProvider jobProvider = JobProvider();
   final BookmarkProvider bookmarkProvider = BookmarkProvider();
 
-  late final AnimationController _animationController;
-  late final Animation<double> _animation;
-
-  final queryParameters = QueryParameters();
+  // animation
   final _opacityTween = Tween<double>(begin: 1.0, end: 0.0);
 
-  bool _bookmarkAddRunning = false;
-  bool _bookmarkDelRunning = false;
+  // bookmark animation
+  late final AnimationController _bookmarkAnimationController;
+  late final Animation<double> _bookmarkAnimation;
+  AnimationState _bookmarkAnimationState = AnimationState.none;
+
+  // dismiss animation
+  late final AnimationController _dismissedAnimationController;
+  late final Animation<double> _dismissedAnimation;
+  AnimationState _dismissedAnimationState = AnimationState.none;
 
   int page = 1;
   List<Job> jobList = [];
   int maxNrOfResults = 0;
   int lastFetchedAt = 0;
-
   int _swiperIndex = 0;
+
+  void restartAnimation(AnimationController animationController) {
+    // todo think about resetting both controllers at the same time so that only one animation is running at a time
+    animationController.reset();
+    animationController.forward();
+  }
 
   void _addBookmark(int index) {
     bookmarkProvider.addBookmark(jobList[index - 1]);
-    _bookmarkDelRunning = false;
-    _bookmarkAddRunning = true;
-    _animationController.reset();
-    _animationController.forward();
+    _bookmarkAnimationState = AnimationState.add;
+    restartAnimation(_bookmarkAnimationController);
   }
 
-  void _removeBookmark() {
+  void _undoCardSwipe() {
     // decrement the index and try to undo the bookmark
     if (bookmarkProvider.undoBookmark(jobList[--_swiperIndex])) {
       // the undo was successful, start the animation
-      _bookmarkAddRunning = false;
-      _bookmarkDelRunning = true;
-      _animationController.reset();
-      _animationController.forward();
+      _bookmarkAnimationState = AnimationState.remove;
+      restartAnimation(_bookmarkAnimationController);
+    } else {
+      // the card was not in the bookmarks, so it was dismissed
+      _dismissedAnimationState = AnimationState.add;
+      restartAnimation(_dismissedAnimationController);
     }
   }
 
+  void _dismissCard() {
+    _dismissedAnimationState = AnimationState.remove;
+    restartAnimation(_dismissedAnimationController);
+  }
+
   Icon? _getBookmarkStateIcon() {
-    if (_bookmarkAddRunning) {
+    if (_bookmarkAnimationState == AnimationState.add) {
       return const Icon(Icons.bookmark_add, color: Colors.green, size: 64);
-    } else if (_bookmarkDelRunning) {
+    } else if (_bookmarkAnimationState == AnimationState.remove) {
       return const Icon(Icons.bookmark_remove, color: Colors.red, size: 64);
+    }
+    return null;
+  }
+
+  Icon? _getDismissedStateIcon() {
+    if (_dismissedAnimationState == AnimationState.add) {
+      return const Icon(Icons.restore_from_trash, color: Colors.green, size: 64);
+    } else if (_dismissedAnimationState == AnimationState.remove) {
+      return const Icon(Icons.delete_sweep, color: Colors.red, size: 64);
     }
     return null;
   }
@@ -73,8 +96,8 @@ class _SwipeListState extends State<SwipeList> with SingleTickerProviderStateMix
   void initState() {
     super.initState();
 
-    // Animation stuff
-    _animationController = AnimationController(
+    // init Animations
+    _bookmarkAnimationController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
     )
@@ -82,19 +105,30 @@ class _SwipeListState extends State<SwipeList> with SingleTickerProviderStateMix
         setState(() {});
       })
       ..addStatusListener((state) {
-        if (state == AnimationStatus.forward) {
-        }
         if (state == AnimationStatus.completed) {
-          logger.i('Animation completed');
-          _bookmarkAddRunning = false;
-          _bookmarkDelRunning = false;
-          _animationController.reset();
-        } else if (state == AnimationStatus.dismissed) {
-          logger.i('Animation dismissed');
+          _bookmarkAnimationState = AnimationState.none;
+          _bookmarkAnimationController.reset();
         }
       });
 
-    _animation = CurvedAnimation(parent: _animationController, curve: Curves.easeOut);
+    _dismissedAnimationController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((state) {
+        if (state == AnimationStatus.completed) {
+          _dismissedAnimationState = AnimationState.none;
+          _dismissedAnimationController.reset();
+        }
+      });
+
+    _bookmarkAnimation =
+        CurvedAnimation(parent: _bookmarkAnimationController, curve: Curves.easeOut);
+    _dismissedAnimation =
+        CurvedAnimation(parent: _dismissedAnimationController, curve: Curves.easeOut);
 
     // add a listener to the job provider
     jobProvider.addListener(() {
@@ -131,8 +165,9 @@ class _SwipeListState extends State<SwipeList> with SingleTickerProviderStateMix
               cardsSpacing: 10,
               unlimitedUnswipe: true,
               unswipe: (wasUnswiped) {
+                // check if a card was actually unswiped
                 if (wasUnswiped) {
-                  _removeBookmark();
+                  _undoCardSwipe();
                 }
               },
               onSwipe: (index, direction) {
@@ -148,6 +183,7 @@ class _SwipeListState extends State<SwipeList> with SingleTickerProviderStateMix
                 switch (direction) {
                   case AppinioSwiperDirection.left:
                     logger.d('Swiped left');
+                    _dismissCard();
                     break;
                   case AppinioSwiperDirection.right:
                     logger.d('Swiped right');
@@ -182,10 +218,28 @@ class _SwipeListState extends State<SwipeList> with SingleTickerProviderStateMix
           bottom: 0,
           right: 28,
           child: Opacity(
-            opacity:
-                _bookmarkAddRunning || _bookmarkDelRunning ? _opacityTween.evaluate(_animation) : 0,
+            opacity: _bookmarkAnimationState != AnimationState.none
+                ? _opacityTween.evaluate(_bookmarkAnimation)
+                : 0,
             child: _getBookmarkStateIcon(),
           ),
         ),
+        Positioned(
+          bottom: 0,
+          left: 28,
+          child: Opacity(
+            opacity: _dismissedAnimationState != AnimationState.none
+                ? _opacityTween.evaluate(_dismissedAnimation)
+                : 0,
+            child: _getDismissedStateIcon(),
+          ),
+        ),
       ]);
+}
+
+enum AnimationState {
+  // create different states for the animation
+  none, // no animation
+  add, // add animation
+  remove, // remove animation
 }
