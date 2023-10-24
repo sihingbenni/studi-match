@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/material/colors.dart';
+import 'package:flutter/material.dart';
 import 'package:studi_match/models/job.dart';
 
 class BackCard extends StatelessWidget {
