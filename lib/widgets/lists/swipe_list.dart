@@ -1,4 +1,6 @@
 import 'package:appinio_swiper/appinio_swiper.dart';
+import 'package:flip_card/flip_card.dart';
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/job.dart';
@@ -6,9 +8,17 @@ import '../../models/query_parameters.dart';
 import '../../providers/bookmark_provider.dart';
 import '../../providers/job_provider.dart';
 import '../../utilities/logger.dart';
+import '../details/back_card.dart';
+import '../details/front_card.dart';
 
 class SwipeList extends StatefulWidget {
-  const SwipeList({super.key});
+  const SwipeList(
+      {super.key,
+      required this.flipcardController,
+      required this.appinioController});
+
+  final AppinioSwiperController appinioController;
+  final FlipCardController flipcardController;
 
   @override
   State<SwipeList> createState() => _SwipeListState();
@@ -19,8 +29,6 @@ class _SwipeListState extends State<SwipeList> {
   final BookmarkProvider bookmarkProvider = BookmarkProvider();
 
   final queryParameters = QueryParameters();
-
-  final controller = AppinioSwiperController();
 
   int page = 1;
   List<Job> jobList = [];
@@ -50,10 +58,9 @@ class _SwipeListState extends State<SwipeList> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      SizedBox(
+  Widget build(BuildContext context) => SizedBox(
         child: AppinioSwiper(
-            controller: controller,
+            controller: widget.appinioController,
             swipeOptions: const AppinioSwipeOptions.only(
               left: true,
               right: true,
@@ -93,178 +100,15 @@ class _SwipeListState extends State<SwipeList> {
               // set the job at the index
               final Job job = jobList[index];
 
-              return Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: getAccentColor(index),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [job.logo],
-                        ),
-                        const SizedBox(height: 8),
-                        Text(job.title ?? 'no title',
-                            style: const TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18)),
-                        Text(job.employer ?? 'no-employer',
-                            style: const TextStyle(color: Colors.black87)),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            const Text(
-                              'Wann?',
-                              style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Flexible(
-                              child: Text(
-                                  '${job.entryDate?.day}.${job.entryDate!.month}.${job.entryDate!.year}',
-                                  maxLines: 2,
-                                  style: const TextStyle(
-                                      color: Colors.black87, fontSize: 16)),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            const Text(
-                              'Wo?',
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Flexible(
-                              child: Text(
-                                '${job.address?.city ?? 'no-city'}, ${job.address?.country ?? 'no-country'}',
-                                maxLines: 2,
-                                style: const TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            const Text(
-                              'Was?',
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Flexible(
-                              child: Text(
-                                job.profession ?? 'no-profession',
-                                maxLines: 2,
-                                style: const TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            const Text(
-                              'Referenznummer:',
-                              style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Flexible(
-                              child: Text(
-                                job.referenceNr ?? 'no-referenceNr',
-                                maxLines: 2,
-                                style: const TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            const Text(
-                              'Aktuelle Veröffentlichung:',
-                              style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Flexible(
-                              child: Text(
-                                  '${job.currentPublicationDate?.day}.${job.currentPublicationDate!.month}.${job.currentPublicationDate!.year}',
-                                  maxLines: 2,
-                                  style: const TextStyle(
-                                      color: Colors.black87, fontSize: 16)),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: FlipCard(
+                  controller: widget.flipcardController,
+                  direction: FlipDirection.HORIZONTAL,
+                  front: FrontCard(job: job, accentColor: getAccentColor(index)),
+                  back: BackCard(job: job, accentColor: getAccentColor(index)),
+                ),
               );
             }),
       );
 }
-
