@@ -88,7 +88,10 @@ class _BookmarkListState extends State<BookmarkList> {
             horizontalTitleGap: 4,
             minVerticalPadding: 8,
             tileColor: bookmark.isLiked ? Colors.green[50] : null,
-            title: Text(bookmark.title, style: const TextStyle(fontWeight: FontWeight.bold),),
+            title: Text(
+              bookmark.title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -114,20 +117,21 @@ class _BookmarkListState extends State<BookmarkList> {
                               const Icon(Icons.remove_red_eye_outlined),
                               const SizedBox(width: 4),
                               SizedBox(
-                                  width: 25, child: Text(_formatNumber(bookmark.swipedJobInfo!.views)))
+                                  width: 40,
+                                  child: Text(_formatNumber(bookmark.swipedJobInfo!.views)))
                             ]),
                             Row(children: [
                               const Icon(Icons.pageview_outlined),
                               const SizedBox(width: 4),
                               SizedBox(
-                                  width: 27,
+                                  width: 40,
                                   child: Text(_formatNumber(bookmark.swipedJobInfo!.detailViews)))
                             ]),
                             Row(children: [
                               const Icon(Icons.bookmarks_outlined),
                               const SizedBox(width: 4),
                               SizedBox(
-                                  width: 25,
+                                  width: 40,
                                   child: Text(_formatNumber(bookmark.swipedJobInfo!.bookmarks)))
                             ]),
                           ],
@@ -146,7 +150,7 @@ class _BookmarkListState extends State<BookmarkList> {
               },
             ),
             visualDensity: VisualDensity.comfortable,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             // trailing SwipedJobInfo
           ),
           confirmDismiss: (DismissDirection direction) async {
