@@ -70,6 +70,7 @@ class _SwipeListState extends State<SwipeList> {
             backgroundCardsCount: 3,
             cardsCount: jobList.length,
             cardsSpacing: 10,
+            unlimitedUnswipe: true,
             onSwipe: (index, direction) {
               jobProvider.notify(
                   newIndex: index,

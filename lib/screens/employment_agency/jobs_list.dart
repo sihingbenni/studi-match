@@ -5,8 +5,6 @@ import 'package:studi_match/widgets/appbar/default_appbar.dart';
 import 'package:studi_match/widgets/bottom/swipe_bar.dart';
 import 'package:studi_match/widgets/lists/swipe_list.dart';
 
-import '../../widgets/router/nav_router.dart';
-
 class EAJobsListScreen extends StatefulWidget {
   const EAJobsListScreen({Key? key}) : super(key: key);
 
