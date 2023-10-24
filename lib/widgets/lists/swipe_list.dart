@@ -136,6 +136,10 @@ class _SwipeListState extends State<SwipeList> with SingleTickerProviderStateMix
                 }
               },
               onSwipe: (index, direction) {
+                // If the card is flipped backwards, flip it back to front
+                widget.flipcardController.state!.isFront
+                    ? null
+                    : widget.flipcardController.toggleCardWithoutAnimation();
                 _swiperIndex = index;
                 jobProvider.notify(
                     newIndex: index,
@@ -178,7 +182,8 @@ class _SwipeListState extends State<SwipeList> with SingleTickerProviderStateMix
           bottom: 0,
           right: 28,
           child: Opacity(
-            opacity: _bookmarkAddRunning || _bookmarkDelRunning ? _opacityTween.evaluate(_animation) : 0,
+            opacity:
+                _bookmarkAddRunning || _bookmarkDelRunning ? _opacityTween.evaluate(_animation) : 0,
             child: _getBookmarkStateIcon(),
           ),
         ),
