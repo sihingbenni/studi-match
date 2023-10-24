@@ -72,6 +72,10 @@ class _SwipeListState extends State<SwipeList> {
             cardsSpacing: 10,
             unlimitedUnswipe: true,
             onSwipe: (index, direction) {
+              // If the card is flipped backwards, flip it back to front
+              widget.flipcardController.state!.isFront
+                  ? null
+                  : widget.flipcardController.toggleCardWithoutAnimation();
               jobProvider.notify(
                   newIndex: index,
                   removedJob: jobList[index - 1],
