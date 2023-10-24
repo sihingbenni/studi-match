@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +10,6 @@ import 'package:studi_match/services/firebase/job_service.dart';
 import 'package:studi_match/utilities/logger.dart';
 
 class BookmarkProvider extends ChangeNotifier {
-
   final FirebaseAuth auth = FirebaseAuth.instance;
   late final String uuid;
 
@@ -21,11 +18,13 @@ class BookmarkProvider extends ChangeNotifier {
 
   DocumentSnapshot? _lastDocument;
 
-
   final _service = BookmarkService();
   final _jobService = JobService();
 
   final List<Bookmark> bookmarkList = [];
+
+  /// a list of bookmarks that got added in this session
+  final List<Job> _sessionBookmarkedJobs = [];
   late Stream<QuerySnapshot<Map<String, dynamic>>> bookmarkStream;
 
   /// constructor
@@ -54,7 +53,6 @@ class BookmarkProvider extends ChangeNotifier {
         bookmark.jobReferenceStream.listen((event) {
           // get the job info from the job reference
           final jobInfo = event.data() as Map<String, dynamic>;
-
 
           // check if the bookmark is already in the list
           var index = bookmarkList.indexOf(bookmark);
@@ -85,8 +83,25 @@ class BookmarkProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// removes the job from the list of bookmarked jobs in this session
+  /// if it was added in this session
+  bool undoBookmark(Job job) {
+    // check if the job was added to the list of bookmarked jobs in this session
+    if (_sessionBookmarkedJobs.contains(job)) {
+      _sessionBookmarkedJobs.remove(job);
+      _service.removeBookmark(uuid, job.hashId);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void addBookmark(Job job) {
+    // add the job to the list of bookmarked jobs
+    _sessionBookmarkedJobs.add(job);
+    // call the firestore api and add the bookmark asynchronously
     _service.addBookmark(uuid, job);
+    // increment the bookmark counter for the job via firestore
     _jobService.incrementBookmark(job.hashId);
     notifyListeners();
   }

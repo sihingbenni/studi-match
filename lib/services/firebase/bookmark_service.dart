@@ -99,6 +99,7 @@ class BookmarkService {
     } catch (e) {
       logger.e(e);
     }
+    logger.i('Bookmark removed');
   }
 
   Future<void> toggleBookmarkLike(String uuid, Bookmark bookmark, bool toggle) async {
