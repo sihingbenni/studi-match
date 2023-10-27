@@ -208,7 +208,7 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
 
                 return FlipCard(
                   controller: widget.flipcardController,
-                  direction: FlipDirection.HORIZONTAL,
+                  direction: FlipDirection.VERTICAL,
                   front: FrontCard(job: job, accentColor: getAccentColor(index)),
                   back: BackCard(job: job, accentColor: getAccentColor(index)),
                 );
