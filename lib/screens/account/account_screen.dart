@@ -5,14 +5,14 @@ import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../authentication/authentication_screen.dart';
 
-class AccountPage extends StatefulWidget {
-  const AccountPage({super.key});
+class AccountScreen extends StatefulWidget {
+  const AccountScreen({super.key});
 
   @override
-  State<AccountPage> createState() => _AccountPageState();
+  State<AccountScreen> createState() => _AccountScreenState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -150,7 +150,7 @@ class _AccountPageState extends State<AccountPage> {
                       onPressed: () {
                         Navigator.of(context).push(
                           NavRouter(
-                            builder: (context) => const AuthenticationPage(),
+                            builder: (context) => const AuthenticationScreen(),
                           ),
                         );
                       },

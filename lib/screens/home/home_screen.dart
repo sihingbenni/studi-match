@@ -5,8 +5,8 @@ import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 
 import '../../widgets/router/nav_router.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) => StreamBuilder<User?>(
@@ -71,7 +71,7 @@ class Home extends StatelessWidget {
                                     Navigator.of(context).pop(),
                                     Navigator.of(context).push(
                                       NavRouter(
-                                        builder: (context) => const AuthenticationPage(),
+                                        builder: (context) => const AuthenticationScreen(),
                                       ),
                                     )
                                   },

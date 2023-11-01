@@ -28,7 +28,7 @@ class StudiMatchApp extends StatelessWidget {
           useMaterial3: true,
         ),
 
-        home: const Home() // which widget will be displayed on the home screen
+        home: const HomeScreen() // which widget will be displayed on the home screen
       ),
   );
 }

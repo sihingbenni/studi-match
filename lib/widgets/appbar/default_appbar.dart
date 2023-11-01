@@ -22,7 +22,7 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   NavRouter(
-                    builder: (context) => const AuthenticationPage(),
+                    builder: (context) => const AuthenticationScreen(),
                   ),
                 );
               },
@@ -34,7 +34,7 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   NavRouter(
-                    builder: (context) => const AccountPage(),
+                    builder: (context) => const AccountScreen(),
                   ),
                 );
               },
@@ -57,7 +57,7 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   NavRouter(
-                    builder: (context) => const AuthenticationPage(),
+                    builder: (context) => const AuthenticationScreen(),
                   ),
                 );
               },

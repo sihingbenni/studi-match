@@ -27,7 +27,7 @@ class _FavoritesListScreenState extends State<BookmarksScreen> {
                     onPressed: () {
                       Navigator.of(context).push(
                         NavRouter(
-                          builder: (context) => const AuthenticationPage(),
+                          builder: (context) => const AuthenticationScreen(),
                         ),
                       );
                     },
@@ -39,7 +39,7 @@ class _FavoritesListScreenState extends State<BookmarksScreen> {
                     onPressed: () {
                       Navigator.of(context).push(
                         NavRouter(
-                          builder: (context) => const AccountPage(),
+                          builder: (context) => const AccountScreen(),
                         ),
                       );
                     },
@@ -62,7 +62,7 @@ class _FavoritesListScreenState extends State<BookmarksScreen> {
                     onPressed: () {
                       Navigator.of(context).push(
                         NavRouter(
-                          builder: (context) => const AuthenticationPage(),
+                          builder: (context) => const AuthenticationScreen(),
                         ),
                       );
                     },
