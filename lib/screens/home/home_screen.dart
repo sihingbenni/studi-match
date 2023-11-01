@@ -22,6 +22,7 @@ class HomeScreen extends StatelessWidget {
                     image: DecorationImage(
                   // TODO improve loading speed
                   image: NetworkImage('https://images.unsplash.com/photo-1545315003-c5ad6226c272'),
+                  colorFilter: ColorFilter.mode(Colors.black38, BlendMode.darken),
                   fit: BoxFit.cover,
                 )),
               ),
