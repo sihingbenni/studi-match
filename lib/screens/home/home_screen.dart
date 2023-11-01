@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/screens/authentication/authentication_page.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list.dart';
+import 'package:studi_match/screens/authentication/authentication_screen.dart';
+import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 
 import '../../widgets/router/nav_router.dart';
 

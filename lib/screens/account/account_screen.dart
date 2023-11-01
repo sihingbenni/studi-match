@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/screens/bookmarks/bookmarks.dart';
+import 'package:studi_match/screens/bookmarks/bookmarks_screen.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
-import '../authentication/authentication_page.dart';
+import '../authentication/authentication_screen.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});

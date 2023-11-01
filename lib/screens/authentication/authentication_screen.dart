@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_button/sign_button.dart';
-import 'package:studi_match/screens/authentication/sign_up.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list.dart';
-import 'package:studi_match/screens/home/home.dart';
+import 'package:studi_match/screens/authentication/sign_up_screen.dart';
+import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
+import 'package:studi_match/screens/home/home_screen.dart';
 import 'package:studi_match/utilities/logger.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 

@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/screens/bookmarks/bookmarks.dart';
+import 'package:studi_match/screens/bookmarks/bookmarks_screen.dart';
 
-import '../../screens/account/account.dart';
-import '../../screens/authentication/authentication_page.dart';
+import '../../screens/account/account_screen.dart';
+import '../../screens/authentication/authentication_screen.dart';
 import '../router/nav_router.dart';
 
 class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {

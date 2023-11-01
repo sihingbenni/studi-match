@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:studi_match/widgets/lists/bookmark_list.dart';
 
 import '../../widgets/router/nav_router.dart';
-import '../account/account.dart';
-import '../authentication/authentication_page.dart';
+import '../account/account_screen.dart';
+import '../authentication/authentication_screen.dart';
 
 class BookmarksScreen extends StatefulWidget {
   const BookmarksScreen({super.key});
