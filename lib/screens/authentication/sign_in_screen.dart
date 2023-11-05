@@ -95,13 +95,17 @@ class _SignInScreenState extends State<SignInScreen> {
       );
 
   Future signIn() async {
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim(),
-        )
-        .then((value) => Navigator.of(context).push(NavRouter(
-              builder: (context) => const EAJobsListScreen(),
-            )));
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          )
+          .then((value) => Navigator.of(context).push(NavRouter(
+                builder: (context) => const EAJobsListScreen(),
+              )));
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
   }
 }
