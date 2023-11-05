@@ -81,7 +81,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   width: 10,
                                 ),
                                 Text(
-                                  '${snapshot.data?.displayName ?? snapshot.data?.email?.split('@').first}👋',
+                                  '${snapshot.data?.displayName ?? snapshot.data?.email?.split('@').first ?? ' '} 👋',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 28),
@@ -103,7 +103,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                       width: 10,
                                     ),
                                     Text(
-                                      snapshot.data?.displayName ?? 'Kein Name',
+                                      snapshot.data?.displayName ?? snapshot.data?.email?.split('@').first ?? 'Kein Name',
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                   ],
