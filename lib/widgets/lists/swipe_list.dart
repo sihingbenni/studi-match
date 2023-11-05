@@ -2,6 +2,7 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/utilities/pastel-color-generator.dart';
 
 import '../../models/job.dart';
 import '../../providers/bookmark_provider.dart';
@@ -139,8 +140,8 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
     });
   }
 
-  // TODO: implement a better way to get the accent color and change text color accordingly
-  MaterialAccentColor getAccentColor(int index) => Colors.accents[index % Colors.accents.length];
+  // Color generator
+  PastelColorGenerator pastelColorGenerator = PastelColorGenerator();
 
   @override
   void dispose() {
@@ -209,8 +210,8 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                 return FlipCard(
                   controller: widget.flipcardController,
                   direction: FlipDirection.VERTICAL,
-                  front: FrontCard(job: job, accentColor: getAccentColor(index)),
-                  back: BackCard(job: job, accentColor: getAccentColor(index)),
+                  front: FrontCard(job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
+                  back: BackCard(job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
                 );
               }),
         ),

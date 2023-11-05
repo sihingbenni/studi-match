@@ -6,7 +6,7 @@ class BackCard extends StatelessWidget {
   const BackCard({super.key, required this.job, required this.accentColor});
 
   final Job job;
-  final MaterialAccentColor accentColor;
+  final Color accentColor;
 
   @override
   Widget build(BuildContext context) => Stack(children: [
