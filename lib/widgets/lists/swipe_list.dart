@@ -2,7 +2,7 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/utilities/pastel-color-generator.dart';
+import 'package:studi_match/utilities/pastel_color_generator.dart';
 
 import '../../models/job.dart';
 import '../../providers/bookmark_provider.dart';

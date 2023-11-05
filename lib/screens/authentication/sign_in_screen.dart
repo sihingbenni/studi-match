@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:studi_match/screens/authentication/sign_up_screen.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 
+import '../../utilities/snack_bar.dart';
 import '../../widgets/router/nav_router.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -77,7 +79,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         icon: const Icon(Icons.login, color: Colors.white),
                         label: const Text(
-                          'Sign Up',
+                          'Sign In',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -85,6 +87,26 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                         ),
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Noch kein Account?'),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  NavRouter(
+                                    builder: (context) => const SignUpScreen(),
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                'Registrieren',
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    decoration: TextDecoration.underline),
+                              )),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -106,6 +128,8 @@ class _SignInScreenState extends State<SignInScreen> {
               )));
     } on FirebaseAuthException catch (e) {
       print(e);
+      SnackBarUtil.showSnackBar(e.message!);
+
     }
   }
 }
