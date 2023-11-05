@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
+
+import '../../widgets/router/nav_router.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -9,6 +13,16 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(),
@@ -43,9 +57,11 @@ class _SignInScreenState extends State<SignInScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextFormField(
+                        controller: emailController,
                         decoration: const InputDecoration(labelText: 'Email'),
                       ),
                       TextFormField(
+                        controller: passwordController,
                         decoration:
                             const InputDecoration(labelText: 'Password'),
                         obscureText: true,
@@ -54,19 +70,19 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 20,
                       ),
                       ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: signIn,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.greenAccent,
                           minimumSize: const Size(double.infinity, 50),
                         ),
                         icon: const Icon(Icons.login, color: Colors.white),
                         label: const Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                          'Sign Up',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
@@ -77,4 +93,15 @@ class _SignInScreenState extends State<SignInScreen> {
           ],
         ),
       );
+
+  Future signIn() async {
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        )
+        .then((value) => Navigator.of(context).push(NavRouter(
+              builder: (context) => const EAJobsListScreen(),
+            )));
+  }
 }

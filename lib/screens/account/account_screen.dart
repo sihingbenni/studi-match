@@ -40,11 +40,26 @@ class _AccountScreenState extends State<AccountScreen> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              radius: 35,
-                              backgroundImage:
-                                  NetworkImage(snapshot.data!.photoURL!),
-                            ),
+                            snapshot.data!.photoURL != null
+                                ? const CircleAvatar(
+                                    radius: 35,
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 35,
+                                    ),
+                                  )
+                                :
+                            Container(
+                              width: 50, // Adjust the size as needed
+                              height: 50, // Adjust the size as needed
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.grey, // You can use a different shade of gray
+                              ),
+                              child: const Center(
+                                child: Icon(Icons.person, size: 35, color: Colors.white),
+                              ),
+                            )
                           ],
                         ),
                         const SizedBox(
@@ -66,7 +81,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   width: 10,
                                 ),
                                 Text(
-                                  '${snapshot.data?.displayName ?? ' '}👋',
+                                  '${snapshot.data?.displayName ?? snapshot.data?.email?.split('@').first}👋',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 28),
