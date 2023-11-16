@@ -1,22 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:studi_match/models/swiped_job_info.dart';
+
 class Bookmark {
   final String jobHashId;
-  late final SwipedJobInfo? swipedJobInfo;
+  SwipedJobInfo? swipedJobInfo;
   final String title;
   final String employer;
-  final bool isLiked;
+  bool isLiked;
+  final Stream<DocumentSnapshot<Object?>> jobReferenceStream;
 
   Bookmark(
       {required this.jobHashId,
       this.swipedJobInfo,
       required this.title,
       required this.employer,
-      required this.isLiked});
-}
-
-class SwipedJobInfo {
-  final int bookmarks;
-  final int detailViews;
-  final int views;
-
-  SwipedJobInfo({required this.bookmarks, required this.detailViews, required this.views});
+      required this.isLiked,
+      required this.jobReferenceStream});
 }

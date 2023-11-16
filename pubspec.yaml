@@ -51,6 +51,7 @@ dependencies:
   firebase_core: ^2.17.0
   google_sign_in: ^6.1.5
   cloud_firestore: ^4.9.3
+  flip_card: ^0.7.0
 
 dev_dependencies:
   flutter_test:
