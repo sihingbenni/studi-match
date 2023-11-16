@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/screens/bookmarks/bookmarks_screen.dart';
-import 'package:studi_match/widgets/account/user_preferences_widget.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../authentication/authentication_screen.dart';
@@ -133,10 +132,6 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const UserPreferencesWidget(),
                     const SizedBox(
                       height: 20,
                     ),
