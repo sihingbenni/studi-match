@@ -125,7 +125,7 @@ class _BookmarkListState extends State<BookmarkList> {
                               const SizedBox(width: 4),
                               SizedBox(
                                   width: 40,
-                                  child: Text(_formatNumber(bookmark.swipedJobInfo!.detailViews)))
+                                  child: Text(_formatNumber(bookmark.swipedJobInfo!.details)))
                             ]),
                             Row(children: [
                               const Icon(Icons.bookmarks_outlined),
