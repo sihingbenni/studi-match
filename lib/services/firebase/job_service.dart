@@ -26,9 +26,15 @@ class JobService {
     }
   }
 
-  void incrementBookmark(String hashId) {
+  void incrementBookmarkViews(String hashId) {
     _db.collection('jobs').doc(hashId).update({
       'swipe_info.bookmarks': FieldValue.increment(1),
+    });
+  }
+
+  void incrementDetailViews(String hashId) {
+    _db.collection('jobs').doc(hashId).update({
+      'swipe_info.details': FieldValue.increment(1),
     });
   }
 }

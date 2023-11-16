@@ -67,7 +67,7 @@ class BookmarkProvider extends ChangeNotifier {
 
   void addBookmark(Job job) {
     _service.addBookmark(uuid, job);
-    _jobService.incrementBookmark(job.hashId);
+    _jobService.incrementBookmarkViews(job.hashId);
     notifyListeners();
   }
 }
