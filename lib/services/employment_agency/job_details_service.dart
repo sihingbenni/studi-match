@@ -20,6 +20,7 @@ class EAJobDetailsService extends EABaseService {
       final responseString = await sendRequest(uri);
       return JobDetails.fromEAJson(jsonDecode(responseString));
     } catch (e) {
+      logger.e(e.toString());
       logger.e('Failed to fetch the Employment Agency Job Details!\nused JobHashID: $jobHashID');
       //TODO handle the error
       throw Exception();
