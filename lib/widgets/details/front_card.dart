@@ -5,7 +5,7 @@ class FrontCard extends StatelessWidget {
   const FrontCard({super.key, required this.job, required this.accentColor});
 
   final Job job;
-  final MaterialAccentColor accentColor;
+  final Color accentColor;
 
   @override
   Widget build(BuildContext context) =>

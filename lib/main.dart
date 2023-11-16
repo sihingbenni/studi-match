@@ -2,7 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studi_match/providers/google_sign_in.dart';
-import 'package:studi_match/screens/home/home.dart';
+import 'package:studi_match/screens/home/home_screen.dart';
+import 'package:studi_match/utilities/snack_bar.dart';
 
 import 'firebase_options.dart';
 
@@ -21,6 +22,7 @@ class StudiMatchApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(create: (context) => GoogleSignInProvider(),
       child: MaterialApp(
+        scaffoldMessengerKey: SnackBarUtil.messengerKey,
         debugShowCheckedModeBanner: false,
         title: 'StudiMatch',
         theme: ThemeData(
@@ -28,7 +30,7 @@ class StudiMatchApp extends StatelessWidget {
           useMaterial3: true,
         ),
 
-        home: const Home() // which widget will be displayed on the home screen
+        home: const HomeScreen() // which widget will be displayed on the home screen
       ),
   );
 }

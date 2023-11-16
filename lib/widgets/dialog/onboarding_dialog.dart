@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/result_package.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list.dart';
+import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 
 import '../router/nav_router.dart';
 

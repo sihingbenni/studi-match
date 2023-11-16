@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_button/sign_button.dart';
-import 'package:studi_match/screens/authentication/sign_up.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list.dart';
-import 'package:studi_match/screens/home/home.dart';
+import 'package:studi_match/screens/authentication/sign_in_screen.dart';
+import 'package:studi_match/screens/authentication/sign_up_screen.dart';
+import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
+import 'package:studi_match/screens/home/home_screen.dart';
 import 'package:studi_match/utilities/logger.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../../providers/google_sign_in.dart';
 
-class AuthenticationPage extends StatelessWidget {
-  const AuthenticationPage({Key? key}) : super(key: key);
+class AuthenticationScreen extends StatelessWidget {
+  const AuthenticationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -22,7 +23,7 @@ class AuthenticationPage extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(
                 NavRouter(
-                  builder: (context) => const Home(),
+                  builder: (context) => const HomeScreen(),
                 ),
               );
             },
@@ -62,7 +63,13 @@ class AuthenticationPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              NavRouter(
+                                builder: (context) => const SignInScreen(),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.greenAccent,
                             minimumSize: const Size(double.infinity, 50),

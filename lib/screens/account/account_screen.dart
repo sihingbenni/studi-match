@@ -1,18 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/screens/bookmarks/bookmarks.dart';
+import 'package:studi_match/screens/bookmarks/bookmarks_screen.dart';
+import 'package:studi_match/widgets/account/user_preferences_widget.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
-import '../authentication/authentication_page.dart';
+import '../authentication/authentication_screen.dart';
 
-class AccountPage extends StatefulWidget {
-  const AccountPage({super.key});
+class AccountScreen extends StatefulWidget {
+  const AccountScreen({super.key});
 
   @override
-  State<AccountPage> createState() => _AccountPageState();
+  State<AccountScreen> createState() => _AccountScreenState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -40,11 +41,26 @@ class _AccountPageState extends State<AccountPage> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              radius: 35,
-                              backgroundImage:
-                                  NetworkImage(snapshot.data!.photoURL!),
-                            ),
+                            snapshot.data!.photoURL != null
+                                ? const CircleAvatar(
+                                    radius: 35,
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 35,
+                                    ),
+                                  )
+                                :
+                            Container(
+                              width: 50, // Adjust the size as needed
+                              height: 50, // Adjust the size as needed
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.grey, // You can use a different shade of gray
+                              ),
+                              child: const Center(
+                                child: Icon(Icons.person, size: 35, color: Colors.white),
+                              ),
+                            )
                           ],
                         ),
                         const SizedBox(
@@ -66,7 +82,7 @@ class _AccountPageState extends State<AccountPage> {
                                   width: 10,
                                 ),
                                 Text(
-                                  '${snapshot.data?.displayName ?? ' '}👋',
+                                  '${snapshot.data?.displayName ?? snapshot.data?.email?.split('@').first ?? ' '} 👋',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 28),
@@ -88,7 +104,7 @@ class _AccountPageState extends State<AccountPage> {
                                       width: 10,
                                     ),
                                     Text(
-                                      snapshot.data?.displayName ?? 'Kein Name',
+                                      snapshot.data?.displayName ?? snapshot.data?.email?.split('@').first ?? 'Kein Name',
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                   ],
@@ -117,6 +133,10 @@ class _AccountPageState extends State<AccountPage> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const UserPreferencesWidget(),
                     const SizedBox(
                       height: 20,
                     ),
@@ -150,7 +170,7 @@ class _AccountPageState extends State<AccountPage> {
                       onPressed: () {
                         Navigator.of(context).push(
                           NavRouter(
-                            builder: (context) => const AuthenticationPage(),
+                            builder: (context) => const AuthenticationScreen(),
                           ),
                         );
                       },
