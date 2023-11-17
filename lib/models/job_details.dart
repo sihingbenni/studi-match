@@ -61,9 +61,8 @@ class JobDetails {
     employerHashId = json['arbeitgeberHashId'];
     customerNumberHash = json['kundennummerHash'];
     hashId = json['hashId'];
-    workplaces = json['arbeitsorte'].map<Address>(Address.fromEAJson).toList();
-    print(json['arbeitszeitmodelle']);
-    workingTimeModels = json['arbeitszeitmodelle'] != null ? json['arbeitszeitmodelle'].map<WorkingTimeModel>(WorkingTimeModel.fromEAJson).toList() : null;
+    workplaces = json['arbeitsorte'] != null ? json['arbeitsorte'].map<Address>(Address.fromEAJson).toList() : List.empty();
+    workingTimeModels = json['arbeitszeitmodelle'] != null ? json['arbeitszeitmodelle'].map<WorkingTimeModel>(WorkingTimeModel.fromEAJson).toList() : List.empty();
     informationAboutWorkingTime = json['informationenZurArbeitszeit'];
     fixedTerm = json['befristung'] != null ? int.parse(json['befristung']) : null;
     hasPossibilityOfPermanentEmployment = json['uebernahme'];
@@ -94,4 +93,7 @@ class JobDetails {
     isGoogleJobsRelevant = json['istGoogleJobsRelevant'];
     isAnonymousAdvertisement = json['anzeigeAnonym'];
   }
+
+  @override
+  String toString() => 'JobDetails: $title';
 }
