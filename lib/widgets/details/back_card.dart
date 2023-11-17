@@ -60,7 +60,7 @@ class BackCard extends StatelessWidget {
                         ),
                         job.logo,
                         Text(
-                          job.employer ?? 'no employer',
+                          jobDetails.employer ?? 'no employer',
                           style: const TextStyle(
                               color: Colors.black87, fontSize: 16),
                         ),

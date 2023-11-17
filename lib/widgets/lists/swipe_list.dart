@@ -144,8 +144,8 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
     });
 
     jobDetailsProvider.addListener(() {
-      setState(() {
-      });
+      // the job list has been updated set the State to notify the listeners
+      setState(() {});
     });
   }
 
@@ -222,8 +222,10 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                   front: FrontCard(job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
                   back: BackCard(job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
                   onFlip: () {
-                    // if the card is flipped, fetch the job details
-                    jobDetailsProvider.getDetails(job);
+                    // if the card is first time flipped to the back, fetch the job details
+                    if (job.jobDetails == null) {
+                      jobDetailsProvider.getDetails(job);
+                    }
                   }
                 );
               }),
