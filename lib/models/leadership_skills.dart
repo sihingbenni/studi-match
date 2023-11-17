@@ -8,7 +8,6 @@ class LeadershipSkills {
     if (json == null) {
       return;
     }
-    print(json);
     hasPowerOfAttorney = json['hatVollmacht'];
     hasBudgetResponsibility = json['hatBudgetverantwortung'];
     leadershipResponsibility = json['leadershipResponsibility'];

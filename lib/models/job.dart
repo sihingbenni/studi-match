@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studi_match/models/job_details.dart';
 import 'package:studi_match/models/workplace.dart';
 import 'package:studi_match/providers/job_logo_provider.dart';
 
@@ -19,7 +20,10 @@ class Job {
   late final String hashId;
   late final StatelessWidget logo;
 
+  late JobDetails? jobDetails;
+
   Job.fromEAJson(Map<String, dynamic> json) {
+    jobDetails = null;
     profession = json['beruf'];
     title = json['titel'];
     referenceNr = json['refnr'];

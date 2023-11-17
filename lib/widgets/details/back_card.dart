@@ -1,50 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/job.dart';
 import 'package:studi_match/models/job_details.dart';
-import 'package:studi_match/providers/job_details_provider.dart';
 
-class BackCard extends StatefulWidget {
+class BackCard extends StatelessWidget {
   const BackCard({super.key, required this.job, required this.accentColor});
 
   final Job job;
   final Color accentColor;
 
   @override
-  State<BackCard> createState() => _BackCardState();
-}
-
-class _BackCardState extends State<BackCard> {
-  final JobDetailsProvider jobDetailsProvider = JobDetailsProvider();
-
-  JobDetails? _jobDetails;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    jobDetailsProvider.addListener(() {
-      // on change update the jobDetails
-      setState(() {
-        _jobDetails = jobDetailsProvider.jobDetails!;
-      });
-    });
-    jobDetailsProvider.getDetails(widget.job.hashId);
-  }
-
-  @override
   Widget build(BuildContext context) => Stack(children: [
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: widget.accentColor,
+            color: accentColor,
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Builder(builder: (context) {
-            if (_jobDetails == null) {
+            if (job.jobDetails == null) {
               return const CircularProgressIndicator();
             } else {
+              JobDetails jobDetails = job.jobDetails!;
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -52,7 +30,7 @@ class _BackCardState extends State<BackCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _jobDetails!.title ?? 'no title',
+                          jobDetails.title ?? 'no title',
                           maxLines: 2,
                           style: const TextStyle(
                               color: Colors.black87,
@@ -60,7 +38,7 @@ class _BackCardState extends State<BackCard> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          widget.job.profession ?? 'no profession',
+                          jobDetails.profession ?? 'no profession',
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                               color: Colors.black87, fontSize: 16),
@@ -80,14 +58,14 @@ class _BackCardState extends State<BackCard> {
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
-                        widget.job.logo,
+                        job.logo,
                         Text(
-                          widget.job.employer ?? 'no employer',
+                          job.employer ?? 'no employer',
                           style: const TextStyle(
                               color: Colors.black87, fontSize: 16),
                         ),
                         Text(
-                          '${widget.job.address?.city ?? 'no-city'}, ${widget.job.address?.country ?? 'no-country'}',
+                          '${job.address?.city ?? 'no-city'}, ${job.address?.country ?? 'no-country'}',
                           maxLines: 2,
                           style: const TextStyle(
                             color: Colors.black87,
