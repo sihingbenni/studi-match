@@ -1,8 +1,10 @@
 class Mobility {
   late final bool isVehicleRequired;
 
-
-  Mobility.fromEAJson(Map<String, dynamic> json) {
-    isVehicleRequired = json['isVehicleRequired'];
+  Mobility.fromEAJson(dynamic json) {
+    if (json == null) {
+      return;
+    }
+    isVehicleRequired = json['fahrzeugErforderlich'];
   }
 }

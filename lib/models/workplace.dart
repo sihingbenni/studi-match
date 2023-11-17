@@ -10,7 +10,12 @@ class Address {
   late final Coordinates? coordinates;
   late final double? distance;
 
-  Address.fromEAJson(Map<String, dynamic> json) {
+  Address.fromEAJson(dynamic json) {
+
+    if (json == null) {
+      return;
+    }
+
     zipCode = json['plz'];
     city = json['ort'];
     street = json['strasse'];

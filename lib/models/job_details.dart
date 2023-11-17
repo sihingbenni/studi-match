@@ -51,9 +51,9 @@ class JobDetails {
 
 
   JobDetails.fromEAJson(Map<String, dynamic> json) {
-    currentPublicationDate = DateTime.parse(json['aktuelleVeroeffentlichungsdatum']);
+    currentPublicationDate = json['aktuelleVeroeffentlichungsdatum'] != null ? DateTime.parse(json['aktuelleVeroeffentlichungsdatum']) : null;
     alternativeProfessions = json['alternativBerufe']?.cast<String>();
-    offerType = int.parse(json['angebotsart']);
+    offerType = json['angebotsart'] != null ? int.parse(json['angebotsart']) : null;
     employer = json['arbeitgeber'];
     branch = json['branche'];
     branchGroup = json['branchengruppe'];
@@ -61,31 +61,32 @@ class JobDetails {
     employerHashId = json['arbeitgeberHashId'];
     customerNumberHash = json['kundennummerHash'];
     hashId = json['hashId'];
-    //workplaces = json['arbeitsorte'].map<Address>(Address.fromEAJson).toList();
-    workingTimeModels = json['arbeitszeitmodelle'].map<WorkingTimeModel>(WorkingTimeModel.fromEAJson).toList();
+    workplaces = json['arbeitsorte'].map<Address>(Address.fromEAJson).toList();
+    print(json['arbeitszeitmodelle']);
+    workingTimeModels = json['arbeitszeitmodelle'] != null ? json['arbeitszeitmodelle'].map<WorkingTimeModel>(WorkingTimeModel.fromEAJson).toList() : null;
     informationAboutWorkingTime = json['informationenZurArbeitszeit'];
-    fixedTerm = int.parse(json['befristung']);
+    fixedTerm = json['befristung'] != null ? int.parse(json['befristung']) : null;
     hasPossibilityOfPermanentEmployment = json['uebernahme'];
-    companySize = int.parse(json['betriebsgroesse']);
-    entryDate = DateTime.parse(json['eintrittsdatum']);
-    firstPublicationDate = DateTime.parse(json['ersteVeroeffentlichungsdatum']);
+    companySize = (json['betriebsgroesse'] != null) ? int.parse(json['betriebsgroesse']) : null;
+    entryDate = json['eintrittsdatum'] != null ? DateTime.parse(json['eintrittsdatum']) : null;
+    firstPublicationDate = json['ersteVeroeffentlichungsdatum'] != null ? DateTime.parse(json['ersteVeroeffentlichungsdatum']) : null;
     alliancePartner = json['allianzpartner'];
     alliancePartnerUrl = json['allianzpartnerUrl'];
     title = json['titel'];
     profession = json['beruf'];
-    modificationTimestamp = DateTime.parse(json['modifikationsTimestamp']);
+    modificationTimestamp = json['modifikationsTimestamp'] != null ? DateTime.parse(json['modifikationsTimestamp']) : null;
     jobDescription = json['stellenbeschreibung'];
     referenceNr = json['refnr'];
     collectiveAgreement = json['tarifvertrag'];
     suitableForRefugees = json['fuerFluechtlingeGeeignet'];
     onlyForSeverelyDisabled = json['nurFuerSchwerbehinderte'];
-    numberOfOpenPositions = int.parse(json['anzahlOffeneStellen']);
+    numberOfOpenPositions = json['anzahlOffeneStellen'];  // this is already an int
     employerAddress = Address.fromEAJson(json['arbeitgeberAdresse']);
     mobility = Mobility.fromEAJson(json['mobilitaet']);
     leadershipSkills = LeadershipSkills.fromEAJson(json['fuehrungskompetenzen']);
     employerPresentationUrl = json['arbeitgeberdarstellungUrl'];
     employerPresentation = json['arbeitgeberdarstellung'];
-    mainDkz = int.parse(json['hauptDkz']);
+    mainDkz = json['hauptDkz'] != null ? int.parse(json['hauptDkz']) : null;
     alternativeDkzs = json['alternativDkzs']?.cast<int>();
     isSupervised = json['istBetreut'];
     isPrivateEmploymentAgency = json['istPrivateArbeitsvermittlung'];
