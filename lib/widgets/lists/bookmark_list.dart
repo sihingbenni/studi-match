@@ -89,7 +89,7 @@ class _BookmarkListState extends State<BookmarkList> {
             minVerticalPadding: 8,
             tileColor: bookmark.isLiked ? Colors.green[50] : null,
             title: Text(
-              bookmark.title,
+              bookmark.title ?? 'no title',
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             subtitle: Column(
@@ -169,7 +169,7 @@ class _BookmarkListState extends State<BookmarkList> {
                               const Text('Are you sure you want to remove this liked bookmark?'),
                               const SizedBox(height: 8),
                               ListTile(
-                                title: Text(bookmark.title),
+                                title: Text(bookmark.title ?? 'no title'),
                                 subtitle: Text(bookmark.employer),
                               ),
                             ]),
