@@ -27,7 +27,7 @@ class BackCard extends StatelessWidget {
                 child: Column(
                   children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           jobDetails.title ?? 'no title',
@@ -58,6 +58,7 @@ class BackCard extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
+
                         job.logo,
                         Text(
                           jobDetails.employer ?? 'no employer',
@@ -85,6 +86,17 @@ class BackCard extends StatelessWidget {
                         const SizedBox(
                           height: 8,
                         ),
+                        jobDetails.jobDescription != null
+                            ? Text(
+                                jobDetails.jobDescription!,
+                                style: const TextStyle(
+                                    color: Colors.black87, fontSize: 16),
+                              )
+                            : const Text(
+                                'no description',
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 16),
+                              ),
                       ],
                     )
                   ],
