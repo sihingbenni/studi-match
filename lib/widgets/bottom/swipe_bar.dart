@@ -22,7 +22,6 @@ class _SwipeBarState extends State<SwipeBar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          // TODO: write a widget for buttons
           ElevatedButton(
             onPressed: () {
               widget.appinioController.swipeLeft();
@@ -38,6 +37,7 @@ class _SwipeBarState extends State<SwipeBar> {
               size: 32,
             ),
           ),
+          /// Shows details
           ElevatedButton(
             onPressed: () {
               widget.flipcardController.toggleCard();

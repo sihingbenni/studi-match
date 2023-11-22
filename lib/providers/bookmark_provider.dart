@@ -102,7 +102,7 @@ class BookmarkProvider extends ChangeNotifier {
     // call the firestore api and add the bookmark asynchronously
     _service.addBookmark(uuid, job);
     // increment the bookmark counter for the job via firestore
-    _jobService.incrementBookmark(job.hashId);
+    _jobService.incrementBookmarkViews(job.hashId);
     notifyListeners();
   }
 

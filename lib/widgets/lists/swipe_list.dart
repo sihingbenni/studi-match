@@ -2,6 +2,7 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/providers/job_details_provider.dart';
 import 'package:studi_match/utilities/pastel_color_generator.dart';
 
 import '../../models/job.dart';
@@ -25,6 +26,7 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   // providers
   final JobProvider jobProvider = JobProvider();
   final BookmarkProvider bookmarkProvider = BookmarkProvider();
+  final JobDetailsProvider jobDetailsProvider = JobDetailsProvider();
 
   // animation
   final _opacityTween = Tween<double>(begin: 1.0, end: 0.0);
@@ -45,7 +47,7 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   int lastFetchedAt = 0;
   int _swiperIndex = 0;
 
-  void restartAnimation(AnimationController animationController) {
+  void _restartAnimation(AnimationController animationController) {
     // todo think about resetting both controllers at the same time so that only one animation is running at a time
     animationController.reset();
     animationController.forward();
@@ -54,7 +56,7 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   void _addBookmark(int index) {
     bookmarkProvider.addBookmark(jobList[index - 1]);
     _bookmarkAnimationState = AnimationState.add;
-    restartAnimation(_bookmarkAnimationController);
+    _restartAnimation(_bookmarkAnimationController);
   }
 
   void _undoCardSwipe() {
@@ -62,17 +64,17 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
     if (bookmarkProvider.undoBookmark(jobList[--_swiperIndex])) {
       // the undo was successful, start the animation
       _bookmarkAnimationState = AnimationState.remove;
-      restartAnimation(_bookmarkAnimationController);
+      _restartAnimation(_bookmarkAnimationController);
     } else {
       // the card was not in the bookmarks, so it was dismissed
       _dismissedAnimationState = AnimationState.add;
-      restartAnimation(_dismissedAnimationController);
+      _restartAnimation(_dismissedAnimationController);
     }
   }
 
   void _dismissCard() {
     _dismissedAnimationState = AnimationState.remove;
-    restartAnimation(_dismissedAnimationController);
+    _restartAnimation(_dismissedAnimationController);
   }
 
   Icon? _getBookmarkStateIcon() {
@@ -97,7 +99,7 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    // init Animations
+    // ---- start Animations ----
     _bookmarkAnimationController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -131,12 +133,19 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
     _dismissedAnimation =
         CurvedAnimation(parent: _dismissedAnimationController, curve: Curves.easeOut);
 
+    // ----- end animations ----
+
     // add a listener to the job provider
     jobProvider.addListener(() {
       // on change update the list of jobs
       setState(() {
         jobList = jobProvider.jobList.values.toList();
       });
+    });
+
+    jobDetailsProvider.addListener(() {
+      // the job list has been updated set the State to notify the listeners
+      setState(() {});
     });
   }
 
@@ -212,6 +221,12 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                   direction: FlipDirection.VERTICAL,
                   front: FrontCard(job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
                   back: BackCard(job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
+                  onFlip: () {
+                    // if the card is first time flipped to the back, fetch the job details
+                    if (job.jobDetails == null) {
+                      jobDetailsProvider.getDetails(job);
+                    }
+                  }
                 );
               }),
         ),

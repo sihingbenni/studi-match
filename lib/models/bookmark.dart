@@ -4,7 +4,7 @@ import 'package:studi_match/models/swiped_job_info.dart';
 class Bookmark {
   final String jobHashId;
   SwipedJobInfo? swipedJobInfo;
-  final String title;
+  final String? title;
   final String employer;
   bool isLiked;
   final Stream<DocumentSnapshot<Object?>> jobReferenceStream;

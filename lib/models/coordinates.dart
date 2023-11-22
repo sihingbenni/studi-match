@@ -3,7 +3,12 @@ class Coordinates {
   late final double lat;
   late final double lon;
 
-  Coordinates.fromEAJson(Map<String, dynamic> json) {
+  Coordinates.fromEAJson(dynamic json) {
+
+    if (json == null) {
+      return;
+    }
+
     lat = json['lat'];
     lon = json['lon'];
   }
