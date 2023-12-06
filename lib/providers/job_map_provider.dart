@@ -18,13 +18,13 @@ class JobMapProvider {
       return CachedNetworkImage(
         imageUrl: 'https://maps.googleapis.com/maps/api/staticmap'
             '?center=${coordinates.lat},${coordinates.lon}'
-            '&zoom=14'
+            '&zoom=13'
             '&size=300x200'
             '&scale=2'
             '&key=$apiKey'
             '&markers=color:red|${coordinates.lat},${coordinates.lon}',
         placeholder: (context, url) => const CircularProgressIndicator(),
-        width: 300,
+        fit: BoxFit.cover,
       );
     } else {
       return const Icon(Icons.question_mark);

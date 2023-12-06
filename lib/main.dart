@@ -17,7 +17,7 @@ void main() async {
 }
 
 class StudiMatchApp extends StatelessWidget {
-  const StudiMatchApp({Key? key}) : super(key: key);
+  const StudiMatchApp({super.key});
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(create: (context) => GoogleSignInProvider(),

@@ -13,7 +13,7 @@ import 'package:studi_match/widgets/router/nav_router.dart';
 import '../../providers/google_sign_in.dart';
 
 class AuthenticationScreen extends StatelessWidget {
-  const AuthenticationScreen({Key? key}) : super(key: key);
+  const AuthenticationScreen({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(

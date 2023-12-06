@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:studi_match/models/job.dart';
 
 class FrontCard extends StatelessWidget {
@@ -9,17 +10,16 @@ class FrontCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: accentColor,
-            ),
+      Stack(children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: accentColor,
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -30,11 +30,8 @@ class FrontCard extends StatelessWidget {
               const SizedBox(height: 8),
               Text(job.title ?? 'no title',
                   style: const TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18)),
-              Text(job.employer ?? 'no-employer',
-                  style: const TextStyle(color: Colors.black87)),
+                      color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 18)),
+              Text(job.employer ?? 'no-employer', style: const TextStyle(color: Colors.black87)),
               const SizedBox(
                 height: 8,
               ),
@@ -44,10 +41,8 @@ class FrontCard extends StatelessWidget {
                 children: [
                   const Text(
                     'Wann?',
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                    style:
+                    TextStyle(color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     width: 8,
@@ -56,8 +51,7 @@ class FrontCard extends StatelessWidget {
                     child: Text(
                         '${job.entryDate?.day}.${job.entryDate!.month}.${job.entryDate!.year}',
                         maxLines: 2,
-                        style: const TextStyle(
-                            color: Colors.black87, fontSize: 16)),
+                        style: const TextStyle(color: Colors.black87, fontSize: 16)),
                   ),
                 ],
               ),
@@ -130,10 +124,8 @@ class FrontCard extends StatelessWidget {
                 children: [
                   const Text(
                     'Referenznummer:',
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                    style:
+                    TextStyle(color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     width: 8,
@@ -159,30 +151,40 @@ class FrontCard extends StatelessWidget {
                 children: [
                   const Text(
                     'Aktuelle Veröffentlichung:',
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                    style:
+                    TextStyle(color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     width: 8,
                   ),
                   Flexible(
                     child: Text(
-                        '${job.currentPublicationDate?.day}.${job.currentPublicationDate!.month}.${job.currentPublicationDate!.year}',
+                        '${job.currentPublicationDate?.day}.${job.currentPublicationDate!
+                            .month}.${job.currentPublicationDate!.year}',
                         maxLines: 2,
-                        style: const TextStyle(
-                            color: Colors.black87, fontSize: 16)),
+                        style: const TextStyle(color: Colors.black87, fontSize: 16)),
                   ),
                 ],
               ),
               // MAP
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [job.map],
+              FittedBox(
+                fit: BoxFit.fitWidth,
+                child: InkWell(
+                  child: job.map,
+                  onTap: () async {
+
+                    final availableMaps = await MapLauncher.installedMaps;
+
+                    await availableMaps.first.showMarker(
+                      coords: Coords(job.address!.coordinates!.lat, job.address!.coordinates!.lon),
+                      title: job.employer ?? 'workplace',
+                      zoom: 13
+                    );
+                  }
+                ),
               ),
             ],
+          ),
         ),
-          ),]
-      );
+      ]);
 }

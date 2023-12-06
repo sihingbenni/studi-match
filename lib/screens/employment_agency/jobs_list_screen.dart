@@ -1,4 +1,4 @@
-import 'package:appinio_swiper/controllers.dart';
+import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/widgets/appbar/default_appbar.dart';
@@ -6,7 +6,7 @@ import 'package:studi_match/widgets/bottom/swipe_bar.dart';
 import 'package:studi_match/widgets/lists/swipe_list.dart';
 
 class EAJobsListScreen extends StatefulWidget {
-  const EAJobsListScreen({Key? key}) : super(key: key);
+  const EAJobsListScreen({super.key});
 
   @override
   State<EAJobsListScreen> createState() => _EAJobsListScreenState();
