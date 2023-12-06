@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studi_match/screens/authentication/sign_in_screen.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
+import 'package:studi_match/utilities/logger.dart';
 import 'package:studi_match/utilities/snack_bar.dart';
-
-import '../../widgets/router/nav_router.dart';
+import 'package:studi_match/widgets/router/nav_router.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -141,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ));
     } on FirebaseAuthException catch (e) {
-      print(e);
+      logger.e(e.message!);
       SnackBarUtil.showSnackBar(e.message!);
     }
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:studi_match/models/job_details.dart';
 import 'package:studi_match/models/workplace.dart';
 import 'package:studi_match/providers/job_logo_provider.dart';
+import 'package:studi_match/providers/job_map_provider.dart';
 
 /// Model of the Arbeitsagentur Job
 class Job {
@@ -19,6 +20,7 @@ class Job {
   late final String? logoHashId;
   late final String hashId;
   late final StatelessWidget logo;
+  late final StatelessWidget map;
 
   late JobDetails? jobDetails;
 
@@ -36,6 +38,9 @@ class Job {
     hashId = json['hashId'];
     JobLogoProvider.getLogo(logoHashId).then(
       (value) => logo = value,
+    );
+    JobMapProvider.getMap(address?.coordinates).then(
+      (value) => map = value,
     );
   }
 }
