@@ -1,12 +1,9 @@
-
-
+import 'package:studi_match/models/address.dart';
 import 'package:studi_match/models/leadership_skills.dart';
 import 'package:studi_match/models/mobility.dart';
 import 'package:studi_match/models/working_time_model.dart';
-import 'package:studi_match/models/workplace.dart';
 
 class JobDetails {
-
   late final DateTime? currentPublicationDate;
   late final List<String>? alternativeProfessions;
   late final int? offerType;
@@ -49,9 +46,10 @@ class JobDetails {
   late final bool? isGoogleJobsRelevant;
   late final bool? isAnonymousAdvertisement;
 
-
   JobDetails.fromEAJson(Map<String, dynamic> json) {
-    currentPublicationDate = json['aktuelleVeroeffentlichungsdatum'] != null ? DateTime.parse(json['aktuelleVeroeffentlichungsdatum']) : null;
+    currentPublicationDate = json['aktuelleVeroeffentlichungsdatum'] != null
+        ? DateTime.parse(json['aktuelleVeroeffentlichungsdatum'])
+        : null;
     alternativeProfessions = json['alternativBerufe']?.cast<String>();
     offerType = json['angebotsart'] != null ? int.parse(json['angebotsart']) : null;
     employer = json['arbeitgeber'];
@@ -61,25 +59,33 @@ class JobDetails {
     employerHashId = json['arbeitgeberHashId'];
     customerNumberHash = json['kundennummerHash'];
     hashId = json['hashId'];
-    workplaces = json['arbeitsorte'] != null ? json['arbeitsorte'].map<Address>(Address.fromEAJson).toList() : List.empty();
-    workingTimeModels = json['arbeitszeitmodelle'] != null ? json['arbeitszeitmodelle'].map<WorkingTimeModel>(WorkingTimeModel.fromEAJson).toList() : List.empty();
+    workplaces = json['arbeitsorte'] != null
+        ? json['arbeitsorte'].map<Address>(Address.fromEAJson).toList()
+        : List.empty();
+    workingTimeModels = json['arbeitszeitmodelle'] != null
+        ? json['arbeitszeitmodelle'].map<WorkingTimeModel>(WorkingTimeModel.fromEAJson).toList()
+        : List.empty();
     informationAboutWorkingTime = json['informationenZurArbeitszeit'];
     fixedTerm = json['befristung'] != null ? int.parse(json['befristung']) : null;
     hasPossibilityOfPermanentEmployment = json['uebernahme'];
     companySize = (json['betriebsgroesse'] != null) ? int.parse(json['betriebsgroesse']) : null;
     entryDate = json['eintrittsdatum'] != null ? DateTime.parse(json['eintrittsdatum']) : null;
-    firstPublicationDate = json['ersteVeroeffentlichungsdatum'] != null ? DateTime.parse(json['ersteVeroeffentlichungsdatum']) : null;
+    firstPublicationDate = json['ersteVeroeffentlichungsdatum'] != null
+        ? DateTime.parse(json['ersteVeroeffentlichungsdatum'])
+        : null;
     alliancePartner = json['allianzpartner'];
     alliancePartnerUrl = json['allianzpartnerUrl'];
     title = json['titel'];
     profession = json['beruf'];
-    modificationTimestamp = json['modifikationsTimestamp'] != null ? DateTime.parse(json['modifikationsTimestamp']) : null;
+    modificationTimestamp = json['modifikationsTimestamp'] != null
+        ? DateTime.parse(json['modifikationsTimestamp'])
+        : null;
     jobDescription = json['stellenbeschreibung'];
     referenceNr = json['refnr'];
     collectiveAgreement = json['tarifvertrag'];
     suitableForRefugees = json['fuerFluechtlingeGeeignet'];
     onlyForSeverelyDisabled = json['nurFuerSchwerbehinderte'];
-    numberOfOpenPositions = json['anzahlOffeneStellen'];  // this is already an int
+    numberOfOpenPositions = json['anzahlOffeneStellen']; // this is already an int
     employerAddress = Address.fromEAJson(json['arbeitgeberAdresse']);
     mobility = Mobility.fromEAJson(json['mobilitaet']);
     leadershipSkills = LeadershipSkills.fromEAJson(json['fuehrungskompetenzen']);

@@ -8,7 +8,7 @@ class Address {
   late final String? region;
   late final String? country;
   late final Coordinates? coordinates;
-  late final double distance;
+  late final double? distance;
 
   Address.fromEAJson(dynamic json) {
 
@@ -22,7 +22,7 @@ class Address {
     region = json['region'];
     country = json['land'];
     coordinates = Coordinates.fromEAJson(json['koordinaten']);
-    distance = double.parse(json['entfernung']);
+    distance = json['entfernung'] != null ? double.parse(json['entfernung']) : null;
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:studi_match/models/address.dart';
 import 'package:studi_match/models/job_details.dart';
-import 'package:studi_match/models/workplace.dart';
 import 'package:studi_match/providers/job_logo_provider.dart';
 import 'package:studi_match/providers/job_map_provider.dart';
 
