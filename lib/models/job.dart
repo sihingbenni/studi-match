@@ -39,7 +39,7 @@ class Job {
     JobLogoProvider.getLogo(logoHashId).then(
       (value) => logo = value,
     );
-    JobMapProvider.getMap(address?.coordinates).then(
+    JobMapProvider.getMap(address).then(
       (value) => map = value,
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:map_launcher/map_launcher.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:studi_match/models/job.dart';
 
 class FrontCard extends StatelessWidget {
@@ -75,7 +75,7 @@ class FrontCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      '${job.address?.city ?? 'no-city'}, ${job.address?.country ?? 'no-country'}',
+                      '${job.address?.zipCode ?? ''} ${job.address?.city}, ${job.address?.country}',
                       maxLines: 2,
                       style: const TextStyle(
                         color: Colors.black87,
@@ -172,14 +172,11 @@ class FrontCard extends StatelessWidget {
                 child: InkWell(
                   child: job.map,
                   onTap: () async {
-
-                    final availableMaps = await MapLauncher.installedMaps;
-
-                    await availableMaps.first.showMarker(
-                      coords: Coords(job.address!.coordinates!.lat, job.address!.coordinates!.lon),
-                      title: job.employer ?? 'workplace',
-                      zoom: 13
-                    );
+                    if (job.address?.street != null) {
+                      MapsLauncher.launchCoordinates(job.address!.coordinates!.lat, job.address!.coordinates!.lon, job.employer);
+                    } else {
+                      MapsLauncher.launchQuery('${job.address?.zipCode} ${job.address?.city}, ${job.address?.country}');
+                    }
                   }
                 ),
               ),
