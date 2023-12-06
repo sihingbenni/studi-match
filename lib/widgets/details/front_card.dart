@@ -39,10 +39,6 @@ class FrontCard extends StatelessWidget {
                 height: 8,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [job.map],
-              ),
-              Row(
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: [
@@ -179,6 +175,11 @@ class FrontCard extends StatelessWidget {
                             color: Colors.black87, fontSize: 16)),
                   ),
                 ],
+              ),
+              // MAP
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [job.map],
               ),
             ],
         ),

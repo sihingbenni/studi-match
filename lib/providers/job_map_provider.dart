@@ -12,12 +12,19 @@ class JobMapProvider {
   static Future<StatelessWidget> getMap(Coordinates? coordinates) async {
     if (coordinates != null && !coordinates.lat.isNaN && !coordinates.lon.isNaN) {
 
+      // get the key from the firebase api
       String apiKey = DefaultFirebaseOptions.currentPlatform.apiKey;
 
       return CachedNetworkImage(
-        imageUrl: 'https://maps.googleapis.com/maps/api/staticmap?center=${coordinates.lat},${coordinates.lon}&zoom=14&size=200x200&scale=2&key=$apiKey',
+        imageUrl: 'https://maps.googleapis.com/maps/api/staticmap'
+            '?center=${coordinates.lat},${coordinates.lon}'
+            '&zoom=14'
+            '&size=300x200'
+            '&scale=2'
+            '&key=$apiKey'
+            '&markers=color:red|${coordinates.lat},${coordinates.lon}',
         placeholder: (context, url) => const CircularProgressIndicator(),
-        width: 200,
+        width: 300,
       );
     } else {
       return const Icon(Icons.question_mark);
