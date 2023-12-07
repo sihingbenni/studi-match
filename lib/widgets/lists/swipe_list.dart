@@ -182,6 +182,10 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                     _undoCardSwipe(targetIndex);
                     return;
                   }
+                  if (activity is CancelSwipe) {
+                    logger.d('Swipe cancelled');
+                    return;
+                  }
                   // If the card is flipped backwards, flip it back to front
                   widget.flipcardController.state!.isFront
                       ? null

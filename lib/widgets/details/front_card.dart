@@ -9,8 +9,7 @@ class FrontCard extends StatelessWidget {
   final Color accentColor;
 
   @override
-  Widget build(BuildContext context) =>
-      Stack(children: [
+  Widget build(BuildContext context) => Stack(children: [
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
@@ -30,8 +29,11 @@ class FrontCard extends StatelessWidget {
               const SizedBox(height: 8),
               Text(job.title ?? 'no title',
                   style: const TextStyle(
-                      color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 18)),
-              Text(job.employer ?? 'no-employer', style: const TextStyle(color: Colors.black87)),
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18)),
+              Text(job.employer ?? 'no-employer',
+                  style: const TextStyle(color: Colors.black87)),
               const SizedBox(
                 height: 8,
               ),
@@ -41,8 +43,10 @@ class FrontCard extends StatelessWidget {
                 children: [
                   const Text(
                     'Wann?',
-                    style:
-                    TextStyle(color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     width: 8,
@@ -51,7 +55,8 @@ class FrontCard extends StatelessWidget {
                     child: Text(
                         '${job.entryDate?.day}.${job.entryDate!.month}.${job.entryDate!.year}',
                         maxLines: 2,
-                        style: const TextStyle(color: Colors.black87, fontSize: 16)),
+                        style: const TextStyle(
+                            color: Colors.black87, fontSize: 16)),
                   ),
                 ],
               ),
@@ -124,8 +129,10 @@ class FrontCard extends StatelessWidget {
                 children: [
                   const Text(
                     'Referenznummer:',
-                    style:
-                    TextStyle(color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     width: 8,
@@ -151,18 +158,20 @@ class FrontCard extends StatelessWidget {
                 children: [
                   const Text(
                     'Aktuelle Veröffentlichung:',
-                    style:
-                    TextStyle(color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     width: 8,
                   ),
                   Flexible(
                     child: Text(
-                        '${job.currentPublicationDate?.day}.${job.currentPublicationDate!
-                            .month}.${job.currentPublicationDate!.year}',
+                        '${job.currentPublicationDate?.day}.${job.currentPublicationDate!.month}.${job.currentPublicationDate!.year}',
                         maxLines: 2,
-                        style: const TextStyle(color: Colors.black87, fontSize: 16)),
+                        style: const TextStyle(
+                            color: Colors.black87, fontSize: 16)),
                   ),
                 ],
               ),
@@ -170,15 +179,18 @@ class FrontCard extends StatelessWidget {
               FittedBox(
                 fit: BoxFit.fitWidth,
                 child: InkWell(
-                  child: job.map,
-                  onTap: () async {
-                    if (job.address?.street != null) {
-                      MapsLauncher.launchCoordinates(job.address!.coordinates!.lat, job.address!.coordinates!.lon, job.employer);
-                    } else {
-                      MapsLauncher.launchQuery('${job.address?.zipCode} ${job.address?.city}, ${job.address?.country}');
-                    }
-                  }
-                ),
+                    child: job.map,
+                    onTap: () async {
+                      if (job.address?.street != null) {
+                        MapsLauncher.launchCoordinates(
+                            job.address!.coordinates!.lat,
+                            job.address!.coordinates!.lon,
+                            job.employer);
+                      } else {
+                        MapsLauncher.launchQuery(
+                            '${job.address?.zipCode} ${job.address?.city}, ${job.address?.country}');
+                      }
+                    }),
               ),
             ],
           ),
