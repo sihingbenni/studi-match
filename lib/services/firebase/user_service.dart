@@ -19,4 +19,14 @@ class UserService {
       logger.e(e);
     }
   }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>?> getUser(String uuid) async {
+    logger.i('getUser: $uuid');
+    try {
+      return await _db.collection('users').doc(uuid).get();
+    } catch (e) {
+      logger.e(e);
+    }
+    return null;
+  }
 }

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_button/sign_button.dart';
+import 'package:studi_match/screens/account/onboarding_screen.dart';
 import 'package:studi_match/screens/authentication/sign_in_screen.dart';
 import 'package:studi_match/screens/authentication/sign_up_screen.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 import 'package:studi_match/screens/home/home_screen.dart';
 import 'package:studi_match/utilities/logger.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
@@ -119,11 +119,15 @@ class AuthenticationScreen extends StatelessWidget {
                           onPressed: () {
                             final provider =
                                 Provider.of<GoogleSignInProvider>(context, listen: false);
-                            provider.googleLogin().then((value) => Navigator.of(context).push(
-                                  NavRouter(
-                                    builder: (context) => const EAJobsListScreen(),
-                                  ),
-                                ));
+                            provider.googleLogin().then((value) {
+                              // check if the login worked, and if the user is a first time User
+                              Navigator.of(context).pop();
+                              Navigator.of(context).push(
+                                NavRouter(
+                                  builder: (context) => const OnBoardingScreen(),
+                                ),
+                              );
+                            });
                           }),
                       TextButton(
                         onPressed: () {
@@ -133,13 +137,13 @@ class AuthenticationScreen extends StatelessWidget {
                               Navigator.of(context).pop();
                               Navigator.of(context).push(
                                 NavRouter(
-                                  builder: (context) => const EAJobsListScreen(),
+                                  builder: (context) => const OnBoardingScreen(),
                                 ),
                               );
                             });
                             // TODO: Loading indicator and pop up upon successful login
                           } on Exception catch (_) {
-                            throw Exception(const Text('Anonymer Login hat nicht funktioniert.'));
+                            throw Exception('Anonymer Login hat nicht funktioniert.');
                           }
                         },
                         child: const Row(

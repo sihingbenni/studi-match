@@ -2,8 +2,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:studi_match/screens/account/onboarding_screen.dart';
 import 'package:studi_match/screens/authentication/sign_in_screen.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 import 'package:studi_match/utilities/logger.dart';
 import 'package:studi_match/utilities/snack_bar.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
@@ -137,7 +137,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           )
           .then((value) => Navigator.of(context).push(
                 NavRouter(
-                  builder: (context) => const EAJobsListScreen(),
+                  builder: (context) => const OnBoardingScreen(),
                 ),
               ));
     } on FirebaseAuthException catch (e) {

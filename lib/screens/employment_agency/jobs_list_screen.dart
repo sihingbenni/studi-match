@@ -20,9 +20,19 @@ class _EAJobsListScreenState extends State<EAJobsListScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: const DefaultAppbar(),
-        body: SwipeList(
-            appinioController: appinioController,
-            flipcardController: flipCardController),
+        body: Builder(
+          builder: (context) {
+            try {
+              return SwipeList(
+                  appinioController: appinioController,
+                  flipcardController: flipCardController);
+            } on Exception catch (e) {
+              return Center(
+                child: Text(e.toString()),
+              );
+            }
+          }
+        ),
         bottomNavigationBar: SwipeBar(
             appinioController: appinioController,
             flipcardController: flipCardController),

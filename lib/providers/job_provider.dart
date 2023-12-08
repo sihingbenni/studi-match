@@ -1,10 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/exceptions/package_missing_exception.dart';
+import 'package:studi_match/exceptions/preferences_not_set_exception.dart';
+import 'package:studi_match/exceptions/user_does_not_exists_exception.dart';
+import 'package:studi_match/exceptions/user_not_logged_in_exception.dart';
 import 'package:studi_match/models/job.dart';
 import 'package:studi_match/models/job_list.dart';
 import 'package:studi_match/providers/async_job_provider.dart';
 import 'package:studi_match/providers/config_provider.dart';
 import 'package:studi_match/providers/query_parameter_provider.dart';
 import 'package:studi_match/services/firebase/job_service.dart';
+import 'package:studi_match/services/firebase/user_service.dart';
 import 'package:studi_match/utilities/logger.dart';
 
 class JobProvider extends ChangeNotifier {
@@ -16,15 +23,47 @@ class JobProvider extends ChangeNotifier {
   final Map<String, AsyncJobProvider> _asyncJobProviders = {};
 
   /// constructor
-  JobProvider() {
-    // The JobProvider has been created,
-    // now lets create one isolate for each query that needs to be done.
-    final listOfKeywords = ConfigProvider.resultPackages['workingStudent']!['listOfKeywords'];
+  JobProvider();
+
+  Future<Exception?> init() async {
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if (uid == null) {
+      return UserNotLoggedInException('user is not yet logged in');
+    }
+
+    DocumentSnapshot<Map<String, dynamic>>? user = await UserService().getUser(uid);
+    if (user == null) {
+      return UserDoesNotExistsException('user does not exist');
+    }
+
+
+    if(!user.exists) {
+      // the user is logging in for the first time
+      return UserDoesNotExistsException('user does not exist');
+    }
+
+    String packageString;
+
+    try {
+      packageString = user['preferences']['package'];
+    } on StateError catch (e) {
+      return PreferencesNotSetException(e.message);
+    }
+
+    Map<String, List<String>>? package = ConfigProvider.resultPackages[packageString];
+
+    if (package == null) {
+      return PackageMissingException('package: "$packageString" does not exist');
+    }
+
+    final listOfKeywords = package['listOfKeywords'];
 
     for (String keyword in listOfKeywords!) {
       final queryParameters = QueryParameterProvider().getWithKeyword(keyword);
       _asyncJobProviders[keyword] = AsyncJobProvider(keyword, queryParameters, _addJobsToMap);
     }
+    return null;
   }
 
   void _addJobsToMap(JobList list) {
@@ -43,7 +82,8 @@ class JobProvider extends ChangeNotifier {
   }
 
   void notify({required int newIndex, required Job removedJob, required List<String> keywords}) {
-    logger.t('Nr of Jobs in List: ${jobList.length} - Index: $newIndex - Remaining: ${jobList.length - newIndex}');
+    logger.t(
+        'Nr of Jobs in List: ${jobList.length} - Index: $newIndex - Remaining: ${jobList.length - newIndex}');
     logger.t('Swiped Job was had the keywords: $keywords');
     logger.d('notifying $keywords that the index has changed');
 

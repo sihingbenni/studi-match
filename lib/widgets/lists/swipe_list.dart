@@ -2,8 +2,11 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/exceptions/user_does_not_exists_exception.dart';
 import 'package:studi_match/providers/job_details_provider.dart';
+import 'package:studi_match/screens/account/onboarding_screen.dart';
 import 'package:studi_match/utilities/pastel_color_generator.dart';
+import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../../models/job.dart';
 import '../../providers/bookmark_provider.dart';
@@ -97,6 +100,30 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+
+    jobProvider.init().then((Exception? exception) {
+      switch (exception.runtimeType) {
+        case const (UserDoesNotExistsException):
+          Navigator.of(context).pop();
+          Navigator.of(context).push(
+            NavRouter(
+              builder: (context) => const OnBoardingScreen(),
+            ),
+          );
+          return;
+        default:
+          break;
+      }
+      if (exception != null) {
+        logger.e(exception);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.'),
+          ),
+        );
+      }
+    });
 
     // ---- start Animations ----
     _bookmarkAnimationController = AnimationController(
