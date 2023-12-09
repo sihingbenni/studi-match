@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/screens/bookmarks/bookmarks_screen.dart';
+import 'package:studi_match/widgets/picker/preference_picker.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../authentication/authentication_screen.dart';
@@ -13,6 +14,9 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+
+  final String uuid = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -148,7 +152,9 @@ class _AccountScreenState extends State<AccountScreen> {
                         child: const Text(
                           'Zu meinen Bookmarks',
                           style: TextStyle(fontSize: 16, color: Colors.white),
-                        ))
+                        )
+                    ),
+                    PreferencePicker(uuid: uuid),
                   ],
                 );
               } else {

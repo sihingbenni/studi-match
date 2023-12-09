@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
-import 'package:studi_match/widgets/dialog/filter_options.dart';
+import 'package:studi_match/services/firebase/user_service.dart';
+import 'package:studi_match/widgets/picker/preference_picker.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -12,22 +14,24 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
+  final String uuid = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   void initState() {
     super.initState();
-
+    UserService().addUser(uuid);
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Preferenzen Auswählen'),
+          title: const Center(child: Text('Auswahl deiner Preferencen')),
         ),
         body: Center(
           child: Column(
             children: [
               const Text('Wir wissen noch gar nicht wonach du suchst!'),
-              const FilterChipWidget(),
+              PreferencePicker(uuid: uuid),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();

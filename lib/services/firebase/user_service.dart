@@ -11,8 +11,8 @@ class UserService {
           .doc(uuid)
           .set({
             'preferences': {
-              'location': const GeoPoint(0, 0),   // TODO Get location
-              'package': 'TODO Get package name', // TODO Get package name
+              'location': '',
+              'packages': [],
             },
           });
     } catch (e) {
@@ -21,12 +21,27 @@ class UserService {
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>?> getUser(String uuid) async {
-    logger.i('getUser: $uuid');
     try {
       return await _db.collection('users').doc(uuid).get();
     } catch (e) {
       logger.e(e);
     }
     return null;
+  }
+
+  Future<void> updatePreferences(String uuid, List<String> packages, String location) async {
+    try {
+      await _db
+          .collection('users')
+          .doc(uuid)
+          .update({
+            'preferences': {
+              'packages': packages,
+              'location': location,
+            },
+          });
+    } catch (e) {
+      logger.e(e);
+    }
   }
 }

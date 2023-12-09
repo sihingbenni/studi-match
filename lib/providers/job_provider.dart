@@ -38,30 +38,42 @@ class JobProvider extends ChangeNotifier {
     }
 
 
+    //
     if(!user.exists) {
       // the user is logging in for the first time
       return UserDoesNotExistsException('user does not exist');
     }
 
-    String packageString;
+    List<String> packageStrings;
 
+    // get the packages from the user
     try {
-      packageString = user['preferences']['package'];
-    } on StateError catch (e) {
-      return PreferencesNotSetException(e.message);
+      packageStrings = List<String>.from(user['preferences']['packages'] as List);
+    } on Error catch (e) {
+      return PreferencesNotSetException(e.toString());
     }
 
-    Map<String, List<String>>? package = ConfigProvider.resultPackages[packageString];
-
-    if (package == null) {
-      return PackageMissingException('package: "$packageString" does not exist');
+    // if the user has not set any preferences throw an exception
+    if (packageStrings.isEmpty) {
+      return PreferencesNotSetException('no preferences set');
     }
 
-    final listOfKeywords = package['listOfKeywords'];
+    for (var packageString in packageStrings) {
+      try {
+        // get all the keywords for the package
+        Map<String, List<String>> packages = ConfigProvider.resultPackages[packageString]!;
 
-    for (String keyword in listOfKeywords!) {
-      final queryParameters = QueryParameterProvider().getWithKeyword(keyword);
-      _asyncJobProviders[keyword] = AsyncJobProvider(keyword, queryParameters, _addJobsToMap);
+        final listOfKeywords = packages['listOfKeywords'];
+
+        // for each keyword create an asyncJobProvider
+        for (String keyword in listOfKeywords!) {
+          final queryParameters = QueryParameterProvider().getWithKeyword(keyword);
+          _asyncJobProviders[keyword] = AsyncJobProvider(keyword, queryParameters, _addJobsToMap);
+        }
+        // on error throw an exception
+      } catch (e) {
+        return PackageMissingException('package: "$packageString" does not exist');
+      }
     }
     return null;
   }

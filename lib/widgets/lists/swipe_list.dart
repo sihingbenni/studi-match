@@ -2,6 +2,8 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/exceptions/package_missing_exception.dart';
+import 'package:studi_match/exceptions/preferences_not_set_exception.dart';
 import 'package:studi_match/exceptions/user_does_not_exists_exception.dart';
 import 'package:studi_match/providers/job_details_provider.dart';
 import 'package:studi_match/screens/account/onboarding_screen.dart';
@@ -105,6 +107,8 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
     jobProvider.init().then((Exception? exception) {
       switch (exception.runtimeType) {
         case const (UserDoesNotExistsException):
+        case const (PackageMissingException):
+        case const (PreferencesNotSetException):
           Navigator.of(context).pop();
           Navigator.of(context).push(
             NavRouter(
