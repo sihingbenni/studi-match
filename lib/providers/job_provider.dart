@@ -22,6 +22,8 @@ class JobProvider extends ChangeNotifier {
   Map<String, Job> get jobList => _jobList;
   final Map<String, AsyncJobProvider> _asyncJobProviders = {};
 
+  final queryParameterProvider = QueryParameterProvider();
+
   /// constructor
   JobProvider();
 
@@ -45,13 +47,20 @@ class JobProvider extends ChangeNotifier {
     }
 
     List<String> packageStrings;
+    String location;
+    int distance;
 
     // get the packages from the user
     try {
       packageStrings = List<String>.from(user['preferences']['packages'] as List);
+      location = user['preferences']['location'];
+      distance = user['preferences']['distance'];
     } on Error catch (e) {
       return PreferencesNotSetException(e.toString());
     }
+
+    queryParameterProvider.setDistance(distance);
+    queryParameterProvider.setLocation(location);
 
     // if the user has not set any preferences throw an exception
     if (packageStrings.isEmpty) {
@@ -67,7 +76,7 @@ class JobProvider extends ChangeNotifier {
 
         // for each keyword create an asyncJobProvider
         for (String keyword in listOfKeywords!) {
-          final queryParameters = QueryParameterProvider().getWithKeyword(keyword);
+          final queryParameters = queryParameterProvider.getWithKeyword(keyword);
           _asyncJobProviders[keyword] = AsyncJobProvider(keyword, queryParameters, _addJobsToMap);
         }
         // on error throw an exception
