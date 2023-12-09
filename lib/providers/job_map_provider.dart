@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/firebase_options.dart';
@@ -24,7 +26,7 @@ class JobMapProvider {
         url += '&markers=color:red|${coordinates.lat},${coordinates.lon}';
         url += '&zoom=${zoom.toInt()}';
       } else {
-        zoom = zoom - (address?.distance ?? 0);
+        zoom = zoom - min(address?.distance ?? 0, 4);
         url += '&zoom=${zoom.toInt()}';
       }
 
