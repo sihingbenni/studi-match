@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:studi_match/providers/config_provider.dart';
 import 'package:studi_match/providers/job_preferences_provider.dart';
+import 'package:studi_match/utilities/logger.dart';
 
 class PreferencePicker extends StatefulWidget {
   final String uuid;
@@ -16,8 +17,12 @@ class _PreferencePickerState extends State<PreferencePicker> {
   List<String> packages = [];
   List<FilterChip> packageChips = [];
   String location = '';
+  int distance = 25;
   bool loading = true;
   final preferencesProvider = JobPreferencesProvider();
+
+  final int maxDistance = 100;
+  final int minDistance = 1;
 
   @override
   void initState() {
@@ -30,6 +35,8 @@ class _PreferencePickerState extends State<PreferencePicker> {
         packages = preferencesProvider.packages;
         location = preferencesProvider.location;
         loading = preferencesProvider.loading;
+        distance = preferencesProvider.distance;
+        logger.f('$location, $packages, $distance');
       });
     });
     super.initState();
@@ -42,7 +49,6 @@ class _PreferencePickerState extends State<PreferencePicker> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SizedBox(
-                  height: 100,
                   child: Builder(
                     builder: (context) {
                       if (loading) {
@@ -75,18 +81,18 @@ class _PreferencePickerState extends State<PreferencePicker> {
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: SizedBox(
-          height: 100,
+          width: 80,
           child: TextField(
             maxLength: 5,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly
             ],
+            keyboardType: TextInputType.number,
             onChanged: (value) {
               location = value;
+              logger.i(value);
             },
-            onTapOutside: (value) {
-              preferencesProvider.updateLocation(widget.uuid, location);
-            },
+
             onSubmitted: (value) {
               location = value;
               preferencesProvider.updateLocation(widget.uuid, location);
@@ -94,11 +100,74 @@ class _PreferencePickerState extends State<PreferencePicker> {
             controller: TextEditingController(text: location),
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
-              labelText: 'Postleitzahl',
+              labelText: 'PLZ',
             ),
           ),
         ),
       ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: 80,
+            child: TextField(
+              maxLength: 3,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  return;
+                }
+                int parsedInstance = int.parse(value);
+                if (parsedInstance > maxDistance) {
+                  parsedInstance = maxDistance;
+                } else if (parsedInstance < minDistance) {
+                  parsedInstance = minDistance;
+                }
+                distance = parsedInstance;
+              },
+              onSubmitted: (value) {
+                preferencesProvider.updateDistance(widget.uuid, _getDistance(value));
+              },
+              controller: TextEditingController(text: distance.toString()),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Umkreis',
+              ),
+            ),
+          ),
+          Slider(
+            value: _getDistance(distance).toDouble(),
+            min: minDistance.toDouble(),
+            max: maxDistance.toDouble(),
+            divisions: 20,
+            onChanged: (value) {
+              setState(() {
+                distance = value.toInt();
+              });
+            },
+            onChangeEnd: (value) {
+              preferencesProvider.updateDistance(widget.uuid, distance);
+            },
+            label: '$distance km',
+          ),
+        ],
+      ),
     ],
   );
+
+  int _getDistance(value) {
+    int parsedInstance = distance;
+    if (parsedInstance > maxDistance) {
+      parsedInstance = maxDistance;
+    } else if (parsedInstance < minDistance) {
+      parsedInstance = minDistance;
+    }
+    setState(() {
+      distance = parsedInstance;
+    });
+    return distance;
+  }
 }

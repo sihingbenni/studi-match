@@ -13,6 +13,7 @@ class UserService {
             'preferences': {
               'location': '',
               'packages': [],
+              'distance': 25,
             },
           });
     } catch (e) {
@@ -29,7 +30,7 @@ class UserService {
     return null;
   }
 
-  Future<void> updatePreferences(String uuid, List<String> packages, String location) async {
+  Future<void> updatePreferences(String uuid, List<String> packages, String location, int distance) async {
     try {
       await _db
           .collection('users')
@@ -38,6 +39,7 @@ class UserService {
             'preferences': {
               'packages': packages,
               'location': location,
+              'distance': distance,
             },
           });
     } catch (e) {

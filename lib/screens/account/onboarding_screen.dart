@@ -27,22 +27,27 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         appBar: AppBar(
           title: const Center(child: Text('Auswahl deiner Preferencen')),
         ),
-        body: Center(
-          child: Column(
-            children: [
-              const Text('Wir wissen noch gar nicht wonach du suchst!'),
-              PreferencePicker(uuid: uuid),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(NavRouter(
-                    builder: (context) => const EAJobsListScreen(),
-                  ));
-                },
-                child: const Text('Weiter'),
+        body: ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: [
+            Center(
+              child: Column(
+                children: [
+                  const Text('Wir wissen noch gar nicht wonach du suchst!'),
+                  PreferencePicker(uuid: uuid),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(NavRouter(
+                        builder: (context) => const EAJobsListScreen(),
+                      ));
+                    },
+                    child: const Text('Weiter'),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
 }
