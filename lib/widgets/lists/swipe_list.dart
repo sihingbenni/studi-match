@@ -2,8 +2,13 @@ import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/exceptions/package_missing_exception.dart';
+import 'package:studi_match/exceptions/preferences_not_set_exception.dart';
+import 'package:studi_match/exceptions/user_does_not_exists_exception.dart';
 import 'package:studi_match/providers/job_details_provider.dart';
+import 'package:studi_match/screens/account/onboarding_screen.dart';
 import 'package:studi_match/utilities/pastel_color_generator.dart';
+import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../../models/job.dart';
 import '../../providers/bookmark_provider.dart';
@@ -45,7 +50,6 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   List<Job> jobList = [];
   int maxNrOfResults = 0;
   int lastFetchedAt = 0;
-  int _swiperIndex = 0;
 
   void _restartAnimation(AnimationController animationController) {
     // todo think about resetting both controllers at the same time so that only one animation is running at a time
@@ -54,14 +58,14 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   }
 
   void _addBookmark(int index) {
-    bookmarkProvider.addBookmark(jobList[index - 1]);
+    bookmarkProvider.addBookmark(jobList[index]);
     _bookmarkAnimationState = AnimationState.add;
     _restartAnimation(_bookmarkAnimationController);
   }
 
-  void _undoCardSwipe() {
+  void _undoCardSwipe(int index) {
     // decrement the index and try to undo the bookmark
-    if (bookmarkProvider.undoBookmark(jobList[--_swiperIndex])) {
+    if (bookmarkProvider.undoBookmark(jobList[index])) {
       // the undo was successful, start the animation
       _bookmarkAnimationState = AnimationState.remove;
       _restartAnimation(_bookmarkAnimationController);
@@ -98,6 +102,32 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+
+    jobProvider.init().then((Exception? exception) {
+      switch (exception.runtimeType) {
+        case const (UserDoesNotExistsException):
+        case const (PackageMissingException):
+        case const (PreferencesNotSetException):
+          Navigator.of(context).pop();
+          Navigator.of(context).push(
+            NavRouter(
+              builder: (context) => const OnBoardingScreen(),
+            ),
+          );
+          return;
+        default:
+          break;
+      }
+      if (exception != null) {
+        logger.e(exception);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.'),
+          ),
+        );
+      }
+    });
 
     // ---- start Animations ----
     _bookmarkAnimationController = AnimationController(
@@ -160,75 +190,84 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) => Stack(children: [
-        const Padding(padding: EdgeInsets.all(16.0)),
-        SizedBox(
-          child: AppinioSwiper(
-              controller: widget.appinioController,
-              swipeOptions: const AppinioSwipeOptions.only(
-                left: true,
-                right: true,
-                top: false,
-                bottom: false,
-              ),
-              backgroundCardsCount: 3,
-              cardsCount: jobList.length,
-              cardsSpacing: 10,
-              unlimitedUnswipe: true,
-              unswipe: (wasUnswiped) {
-                // check if a card was actually unswiped
-                if (wasUnswiped) {
-                  _undoCardSwipe();
-                }
-              },
-              onSwipe: (index, direction) {
-                // If the card is flipped backwards, flip it back to front
-                widget.flipcardController.state!.isFront
-                    ? null
-                    : widget.flipcardController.toggleCardWithoutAnimation();
-                _swiperIndex = index;
-                jobProvider.notify(
-                    newIndex: index,
-                    removedJob: jobList[index - 1],
-                    keywords: jobList[index - 1].foundByKeyword.toList());
-                switch (direction) {
-                  case AppinioSwiperDirection.left:
-                    logger.d('Swiped left');
-                    _dismissCard();
-                    break;
-                  case AppinioSwiperDirection.right:
-                    logger.d('Swiped right');
-                    _addBookmark(index);
-                    break;
-                  case AppinioSwiperDirection.top:
-                    logger.d('Swiped up');
-                    break;
-                  case AppinioSwiperDirection.bottom:
-                    logger.d('Swiped down');
-                    break;
-                  default: // do nothing
-                }
-              },
-              onEnd: () {
-                logger.w('End reached');
-                //TODO make sure that no more are loading
-              },
-              cardsBuilder: (context, index) {
-                // set the job at the index
-                final Job job = jobList[index];
-
-                return FlipCard(
-                  controller: widget.flipcardController,
-                  direction: FlipDirection.VERTICAL,
-                  front: FrontCard(job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
-                  back: BackCard(job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
-                  onFlip: () {
-                    // if the card is first time flipped to the back, fetch the job details
-                    if (job.jobDetails == null) {
-                      jobDetailsProvider.getDetails(job);
-                    }
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Builder(builder: (context) {
+            if (jobList.isEmpty) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return SizedBox(
+              child: AppinioSwiper(
+                controller: widget.appinioController,
+                swipeOptions: const SwipeOptions.only(
+                  left: true,
+                  right: true,
+                  up: false,
+                  down: false,
+                ),
+                backgroundCardCount: 3,
+                cardCount: jobList.length,
+                backgroundCardOffset: const Offset(10, 0),
+                onSwipeEnd: (int previousIndex, int targetIndex, SwiperActivity activity) {
+                  if (activity is Unswipe) {
+                    _undoCardSwipe(targetIndex);
+                    return;
                   }
-                );
-              }),
+                  if (activity is CancelSwipe) {
+                    logger.d('Swipe cancelled');
+                    return;
+                  }
+                  // If the card is flipped backwards, flip it back to front
+                  widget.flipcardController.state!.isFront
+                      ? null
+                      : widget.flipcardController.toggleCardWithoutAnimation();
+                  jobProvider.notify(
+                      newIndex: targetIndex,
+                      removedJob: jobList[previousIndex],
+                      keywords: jobList[previousIndex].foundByKeyword.toList());
+                  switch (activity.direction) {
+                    case AxisDirection.left:
+                      logger.d('Swiped left');
+                      _dismissCard();
+                      break;
+                    case AxisDirection.right:
+                      logger.d('Swiped right');
+                      _addBookmark(previousIndex);
+                      break;
+                    case AxisDirection.up:
+                      logger.d('Swiped up');
+                      break;
+                    case AxisDirection.down:
+                      logger.d('Swiped down');
+                      break;
+                    default: // do nothing
+                  }
+                },
+                onEnd: () {
+                  logger.w('End reached');
+                  //TODO make sure that no more are loading
+                },
+                cardBuilder: (context, index) {
+                  // set the job at the index
+                  final Job job = jobList[index];
+
+                  return FlipCard(
+                      controller: widget.flipcardController,
+                      direction: FlipDirection.VERTICAL,
+                      front: FrontCard(
+                          job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
+                      back: BackCard(
+                          job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
+                      onFlip: () {
+                        // if the card is first time flipped to the back, fetch the job details
+                        if (job.jobDetails == null) {
+                          jobDetailsProvider.getDetails(job);
+                        }
+                      });
+                },
+              ),
+            );
+          }),
         ),
         Positioned(
           bottom: 0,

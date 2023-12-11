@@ -2,11 +2,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:studi_match/screens/account/onboarding_screen.dart';
 import 'package:studi_match/screens/authentication/sign_in_screen.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
+import 'package:studi_match/utilities/logger.dart';
 import 'package:studi_match/utilities/snack_bar.dart';
-
-import '../../widgets/router/nav_router.dart';
+import 'package:studi_match/widgets/router/nav_router.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -58,19 +58,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: emailController,
                         decoration: const InputDecoration(labelText: 'Email'),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (email) =>
-                            email != null && !EmailValidator.validate(email)
-                                ? 'Füge eine gültige Email-Adresse hinzu'
-                                : null,
+                        validator: (email) => email != null && !EmailValidator.validate(email)
+                            ? 'Füge eine gültige Email-Adresse hinzu'
+                            : null,
                       ),
                       TextFormField(
                         controller: passwordController,
-                        decoration:
-                            const InputDecoration(labelText: 'Password'),
+                        decoration: const InputDecoration(labelText: 'Password'),
                         obscureText: true,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) =>
-                        value != null && value.length < 6
+                        validator: (value) => value != null && value.length < 6
                             ? 'Das Passwort sollte min. 6 Zeichen haben.'
                             : null,
                       ),
@@ -83,8 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           backgroundColor: Colors.greenAccent,
                           minimumSize: const Size(double.infinity, 50),
                         ),
-                        icon: const Icon(Icons.arrow_forward_rounded,
-                            color: Colors.white),
+                        icon: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
                         label: const Text(
                           'Sign Up',
                           style: TextStyle(
@@ -109,8 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               child: const Text(
                                 'Login',
                                 style: TextStyle(
-                                    color: Colors.green,
-                                    decoration: TextDecoration.underline),
+                                    color: Colors.green, decoration: TextDecoration.underline),
                               )),
                         ],
                       )
@@ -132,16 +127,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim(),
-          )
-          .then((value) => Navigator.of(context).push(
-                NavRouter(
-                  builder: (context) => const EAJobsListScreen(),
-                ),
-              ));
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      ).then((value) {
+          // remove all routes from the stack and push the onboarding screen
+          Navigator.of(context).popUntil((route) => false);
+          Navigator.of(context).push(
+          NavRouter(
+            builder: (context) => const OnBoardingScreen(),
+          ),
+        );
+      });
     } on FirebaseAuthException catch (e) {
-      print(e);
+      logger.e(e.message!);
       SnackBarUtil.showSnackBar(e.message!);
     }
   }

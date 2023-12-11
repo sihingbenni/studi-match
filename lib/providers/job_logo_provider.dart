@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/providers/config_provider.dart';
 import 'package:studi_match/services/employment_agency/oauth_service.dart';
+import 'package:studi_match/utilities/logger.dart';
 
 /// This class provides the Job Logo from the Employment Agency Api
 class JobLogoProvider {
@@ -20,6 +21,10 @@ class JobLogoProvider {
         },
         placeholder: (context, url) => const CircularProgressIndicator(),
         width: 90,
+        errorWidget: (context, url, error) {
+          logger.w(error);
+          return const Icon(Icons.apartment);
+        }
       );
     } else {
       return const Icon(Icons.apartment);

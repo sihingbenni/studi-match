@@ -11,8 +11,35 @@ class UserService {
           .doc(uuid)
           .set({
             'preferences': {
-              'location': const GeoPoint(0, 0),   // TODO Get location
-              'package': 'TODO Get package name', // TODO Get package name
+              'location': '',
+              'packages': [],
+              'distance': 25,
+            },
+          });
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>?> getUser(String uuid) async {
+    try {
+      return await _db.collection('users').doc(uuid).get();
+    } catch (e) {
+      logger.e(e);
+    }
+    return null;
+  }
+
+  Future<void> updatePreferences(String uuid, List<String> packages, String location, int distance) async {
+    try {
+      await _db
+          .collection('users')
+          .doc(uuid)
+          .update({
+            'preferences': {
+              'packages': packages,
+              'location': location,
+              'distance': distance,
             },
           });
     } catch (e) {

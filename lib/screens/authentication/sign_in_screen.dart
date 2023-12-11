@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:studi_match/screens/authentication/sign_up_screen.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
+import 'package:studi_match/utilities/logger.dart';
 
 import '../../utilities/snack_bar.dart';
 import '../../widgets/router/nav_router.dart';
@@ -127,7 +128,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 builder: (context) => const EAJobsListScreen(),
               )));
     } on FirebaseAuthException catch (e) {
-      print(e);
+      logger.e(e.message!);
       SnackBarUtil.showSnackBar(e.message!);
 
     }

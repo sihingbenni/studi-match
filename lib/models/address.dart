@@ -24,4 +24,7 @@ class Address {
     coordinates = Coordinates.fromEAJson(json['koordinaten']);
     distance = json['entfernung'] != null ? double.parse(json['entfernung']) : null;
   }
+
+  @override
+  String toString() => '$street, $zipCode $city, $region, $country, $distance';
 }

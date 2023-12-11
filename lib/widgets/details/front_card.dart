@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:studi_match/models/job.dart';
 
 class FrontCard extends StatelessWidget {
@@ -8,18 +9,16 @@ class FrontCard extends StatelessWidget {
   final Color accentColor;
 
   @override
-  Widget build(BuildContext context) =>
-      Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: accentColor,
-            ),
+  Widget build(BuildContext context) => Stack(children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: accentColor,
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -81,7 +80,7 @@ class FrontCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      '${job.address?.city ?? 'no-city'}, ${job.address?.country ?? 'no-country'}',
+                      '${job.address?.zipCode ?? ''} ${job.address?.city}, ${job.address?.country}',
                       maxLines: 2,
                       style: const TextStyle(
                         color: Colors.black87,
@@ -176,8 +175,25 @@ class FrontCard extends StatelessWidget {
                   ),
                 ],
               ),
+              // MAP
+              FittedBox(
+                fit: BoxFit.fitWidth,
+                child: InkWell(
+                    child: job.map,
+                    onTap: () async {
+                      if (job.address?.street != null) {
+                        MapsLauncher.launchCoordinates(
+                            job.address!.coordinates!.lat,
+                            job.address!.coordinates!.lon,
+                            job.employer);
+                      } else {
+                        MapsLauncher.launchQuery(
+                            '${job.address?.zipCode} ${job.address?.city}, ${job.address?.country}');
+                      }
+                    }),
+              ),
             ],
+          ),
         ),
-          ),]
-      );
+      ]);
 }

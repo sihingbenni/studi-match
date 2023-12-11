@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_button/sign_button.dart';
+import 'package:studi_match/screens/account/onboarding_screen.dart';
 import 'package:studi_match/screens/authentication/sign_in_screen.dart';
 import 'package:studi_match/screens/authentication/sign_up_screen.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
@@ -13,7 +14,7 @@ import 'package:studi_match/widgets/router/nav_router.dart';
 import '../../providers/google_sign_in.dart';
 
 class AuthenticationScreen extends StatelessWidget {
-  const AuthenticationScreen({Key? key}) : super(key: key);
+  const AuthenticationScreen({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -119,27 +120,33 @@ class AuthenticationScreen extends StatelessWidget {
                           onPressed: () {
                             final provider =
                                 Provider.of<GoogleSignInProvider>(context, listen: false);
-                            provider.googleLogin().then((value) => Navigator.of(context).push(
-                                  NavRouter(
-                                    builder: (context) => const EAJobsListScreen(),
-                                  ),
-                                ));
-                          }),
-                      TextButton(
-                        onPressed: () {
-                          try {
-                            FirebaseAuth.instance.signInAnonymously().then((value) {
-                              logger.i('Du bist nun authentifiziert.');
-                              Navigator.of(context).pop();
+                            provider.googleLogin().then((value) {
+                              // remove all routes from the stack and push the onboarding screen
+                              Navigator.of(context).popUntil((route) => false);
                               Navigator.of(context).push(
                                 NavRouter(
                                   builder: (context) => const EAJobsListScreen(),
                                 ),
                               );
                             });
+                          }),
+                      TextButton(
+                        onPressed: () {
+                          try {
+                            FirebaseAuth.instance.signInAnonymously().then((value) {
+                              logger.i('Du bist nun authentifiziert.');
+                              logger.f('tst');
+                              // remove all routes from the stack and push the onboarding screen
+                              Navigator.of(context).popUntil((route) => false);
+                              Navigator.of(context).push(
+                                NavRouter(
+                                  builder: (context) => const OnBoardingScreen(),
+                                ),
+                              );
+                            });
                             // TODO: Loading indicator and pop up upon successful login
                           } on Exception catch (_) {
-                            throw Exception(const Text('Anonymer Login hat nicht funktioniert.'));
+                            throw Exception('Anonymer Login hat nicht funktioniert.');
                           }
                         },
                         child: const Row(
