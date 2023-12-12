@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/screens/home/home_screen.dart';
 import 'package:studi_match/widgets/appbar/custom_appbar.dart';
-import 'package:studi_match/widgets/picker/preference_picker.dart';
+import 'package:studi_match/widgets/form/preference_form.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../authentication/authentication_screen.dart';
@@ -44,7 +44,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20)),
                     const SizedBox(height: 20),
-                    PreferencePicker(uuid: uuid),
+                    PreferenceForm(uuid: uuid),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.yellow[700],
@@ -171,7 +171,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      PreferencePicker(uuid: uuid),
+                      PreferenceForm(uuid: uuid),
                       ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.yellow[700],
