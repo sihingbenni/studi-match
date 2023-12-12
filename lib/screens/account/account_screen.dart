@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/screens/bookmarks/bookmarks_screen.dart';
+import 'package:studi_match/widgets/appbar/custom_appbar.dart';
 import 'package:studi_match/widgets/picker/preference_picker.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
@@ -19,17 +19,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Account'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-            ),
-          ],
-        ),
+        appBar: const CustomAppbar(leadingSearchIcon: true, actionAccountIcon: false, title: 'Dein Profil'),
         body: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
@@ -139,20 +129,14 @@ class _AccountScreenState extends State<AccountScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    ElevatedButton(
+                    ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.yellow[700]),
                         onPressed: () {
-                          Navigator.of(context).push(
-                            NavRouter(
-                              builder: (context) => const BookmarksScreen(),
-                            ),
-                          );
+                          FirebaseAuth.instance.signOut();
                         },
-                        child: const Text(
-                          'Zu meinen Bookmarks',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        )
+                        label: const Text('Ausloggen', style: TextStyle(color: Colors.white)),
+                        icon: const Icon(Icons.logout, color: Colors.white),
                     ),
                     PreferencePicker(uuid: uuid),
                   ],
