@@ -30,14 +30,9 @@ class AuthenticationScreen extends StatelessWidget {
             },
           ),
         ),
-        body: ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: [
-            SizedBox(
-              // TODO: better way to set height
-              height: MediaQuery.of(context).size.height * 0.85,
-              child: Column(
+        body: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   SvgPicture.asset(
                     'assets/images/undraw_mobile_encryption.svg',
@@ -58,10 +53,9 @@ class AuthenticationScreen extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: Column(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         ElevatedButton(
                           onPressed: () {
@@ -83,6 +77,9 @@ class AuthenticationScreen extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ),
+                        ),
+                        const SizedBox(
+                          height: 8,
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -107,9 +104,9 @@ class AuthenticationScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
                       const Text(
                         'Oder fahre mit den folgenden Möglichkeiten fort:',
@@ -152,6 +149,7 @@ class AuthenticationScreen extends StatelessWidget {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
                               'bleib anonym',
@@ -160,7 +158,7 @@ class AuthenticationScreen extends StatelessWidget {
                                   fontSize: 16,
                                   decoration: TextDecoration.underline),
                             ),
-                            Text('🥷', style: TextStyle(fontSize: 20)),
+                            Text('🕵', style: TextStyle(fontSize: 20)),
                           ],
                         ),
                       ),
@@ -168,8 +166,5 @@ class AuthenticationScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
       );
 }
