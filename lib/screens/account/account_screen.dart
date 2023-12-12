@@ -37,9 +37,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 28)),
                     const Text(
-                        'Du bist anonym unterwegs. Wenn du die volle Kraft '
-                            'unserer App austesten möchtest, dann musst du '
-                            'dich anmelden!',
+                        'Du bist anonym unterwegs. Wenn du dich ausloggst dann verlierst du deine Daten.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20)),

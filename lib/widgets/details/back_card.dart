@@ -29,6 +29,32 @@ class BackCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            const Text(
+                              'Referenznummer:',
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Flexible(
+                              child: Text(
+                                job.referenceNr ?? 'no-referenceNr',
+                                maxLines: 2,
+                                style: const TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                         Text(
                           jobDetails.title ?? 'no title',
                           maxLines: 2,
