@@ -69,13 +69,12 @@ class JobProvider extends ChangeNotifier {
 
     for (var packageString in packageStrings) {
       try {
+        final package = ConfigProvider.resultPackages[packageString];
         // get all the keywords for the package
-        Map<String, List<String>> packages = ConfigProvider.resultPackages[packageString]!;
-
-        final listOfKeywords = packages['listOfKeywords'];
+        final List<String> listOfKeywords = package!['listOfKeywords'] as List<String>;
 
         // for each keyword create an asyncJobProvider
-        for (String keyword in listOfKeywords!) {
+        for (String keyword in listOfKeywords) {
           final queryParameters = queryParameterProvider.getWithKeyword(keyword);
           _asyncJobProviders[keyword] = AsyncJobProvider(keyword, queryParameters, _addJobsToMap);
         }
