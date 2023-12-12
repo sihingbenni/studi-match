@@ -1,7 +1,7 @@
 import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/widgets/appbar/default_appbar.dart';
+import 'package:studi_match/widgets/appbar/custom_appbar.dart';
 import 'package:studi_match/widgets/bottom/swipe_bar.dart';
 import 'package:studi_match/widgets/lists/swipe_list.dart';
 
@@ -19,7 +19,7 @@ class _EAJobsListScreenState extends State<EAJobsListScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: const DefaultAppbar(),
+        appBar: const CustomAppbar(leadingSearchIcon: false, actionAccountIcon: false, title: 'Dein nächster Job:'),
         body: Builder(
           builder: (context) {
             try {
