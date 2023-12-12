@@ -13,14 +13,18 @@ class ConfigProvider {
   static const String bearerToken = 'ea_bearer_token';
   static const String bearerTokenValidUntil = 'ea_token_valid_until';
 
+  static const int preferencesMaxDistance = 200;
+  static const int preferencesMinDistance = 0;
+  static const int preferencesDistanceDivisions = 40;
+
   //Bookmarks load two more than the page size, so that the user can scroll
   static const int bookmarkPageSize = 12;
 
   static const resultPackages = {
-    'internship': {
+    'Praktika': {
       'listOfKeywords': ['Praktikum']
     },
-    'workingStudent': {
+    'Werkstudenten Jobs': {
       'listOfKeywords': ['Werkstudent', 'Student', 'Studentische']
     }
   };

@@ -27,33 +27,7 @@ class JobPreferencesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updatePackages(String uuid, List<String> packages) {
-    loading = true;
-    this.packages = packages;
-    UserService().updatePreferences(uuid, packages, location, distance);
-    loading = false;
-    notifyListeners();
-  }
-
-  void updateLocation(String uuid, location) {
-    loading = true;
-    this.location = location;
-    UserService().updatePreferences(uuid, packages, location, distance);
-    loading = false;
-    notifyListeners();
-  }
-
-
-
-  void updateDistance(String uuid, int distance) {
-    loading = true;
-    this.distance = distance;
-    UserService().updatePreferences(uuid, packages, location, distance);
-    loading = false;
-    notifyListeners();
-  }
-
-  void updateAll(String uuid, List<String> packages, String location, int distance) {
+  void savePreferences(String uuid, List<String> packages, String location, int distance) {
     loading = true;
     this.packages = packages;
     this.location = location;

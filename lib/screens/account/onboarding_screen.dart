@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 import 'package:studi_match/services/firebase/user_service.dart';
-import 'package:studi_match/widgets/picker/preference_picker.dart';
-import 'package:studi_match/widgets/router/nav_router.dart';
+import 'package:studi_match/widgets/form/preference_form.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -13,7 +11,6 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-
   final String uuid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
@@ -25,28 +22,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Center(child: Text('Auswahl deiner Preferencen')),
+          title: const Center(child: Text('Wähle deine Sucheinstellungen')),
         ),
         body: ListView(
           padding: const EdgeInsets.all(16.0),
           children: [
-            Center(
-              child: Column(
-                children: [
-                  const Text('Wir wissen noch gar nicht wonach du suchst!'),
-                  PreferencePicker(uuid: uuid),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).push(NavRouter(
-                        builder: (context) => const EAJobsListScreen(),
-                      ));
-                    },
-                    child: const Text('Weiter'),
-                  ),
-                ],
-              ),
-            ),
+            const Text('Bevor du loslegen kannst, musst du noch ein paar Einstellungen vornehmen.'),
+            PreferenceForm(uuid: uuid),
           ],
         ),
       );
