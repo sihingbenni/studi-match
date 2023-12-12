@@ -30,14 +30,16 @@ class _AccountScreenState extends State<AccountScreen> {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     const Text('Hallo 👋',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 28)),
                     const Text(
-                        'Du bist anonym unterwegs. Wenn du die volle Kraft unserer App austesten möchtest, dann musst du dich anmelden!',
+                        'Du bist anonym unterwegs. Wenn du die volle Kraft '
+                            'unserer App austesten möchtest, dann musst du '
+                            'dich anmelden!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20)),
@@ -108,7 +110,9 @@ class _AccountScreenState extends State<AccountScreen> {
                               children: [
                                 Flexible(
                                   child: Text(
-                                    'Hallo ${snapshot.data?.displayName ?? snapshot.data?.email?.split('@').first ?? ''} 👋',
+                                    'Hallo ${snapshot.data?.displayName ??
+                                        snapshot.data?.email?.split('@').first ??
+                                        ''} 👋',
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 28),

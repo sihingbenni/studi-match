@@ -176,21 +176,36 @@ class FrontCard extends StatelessWidget {
                 ],
               ),
               // MAP
-              FittedBox(
-                fit: BoxFit.fitWidth,
+              Flexible(
+                fit: FlexFit.loose,
                 child: InkWell(
-                    child: job.map,
-                    onTap: () async {
-                      if (job.address?.street != null) {
-                        MapsLauncher.launchCoordinates(
-                            job.address!.coordinates!.lat,
-                            job.address!.coordinates!.lon,
-                            job.employer);
-                      } else {
-                        MapsLauncher.launchQuery(
-                            '${job.address?.zipCode} ${job.address?.city}, ${job.address?.country}');
-                      }
-                    }),
+                  onTap: () async {
+                    if (job.address?.street != null) {
+                      MapsLauncher.launchCoordinates(
+                        job.address!.coordinates!.lat,
+                        job.address!.coordinates!.lon,
+                        job.employer,
+                      );
+                    } else {
+                      MapsLauncher.launchQuery(
+                        '${job.address?.zipCode} ${job.address?.city}, ${job.address?.country}',
+                      );
+                    }
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    constraints: const BoxConstraints(
+                      maxWidth: double.infinity,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0), // Adjust the radius as needed
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: job.map, // Replace job.map with your actual widget
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

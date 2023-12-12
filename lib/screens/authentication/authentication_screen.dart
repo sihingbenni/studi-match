@@ -30,141 +30,149 @@ class AuthenticationScreen extends StatelessWidget {
             },
           ),
         ),
-        body: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SvgPicture.asset(
+                'assets/images/undraw_mobile_encryption.svg',
+                width: 300,
+                height: 300,
+              ),
+              const Text(
+                'Hallo 👋',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+              ),
+              const Text(
+                'und willkommen zu Studi Match. Logge dich ein oder erstelle ein Account, um passende Angebote zu finden und deine Zukunft zu gestalten!',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  SvgPicture.asset(
-                    'assets/images/undraw_mobile_encryption.svg',
-                    width: 300,
-                    height: 300,
-                  ),
-                  const Text(
-                    'Hallo 👋',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
-                  ),
-                  const Text(
-                    'und willkommen zu Studi Match. Logge dich ein oder erstelle ein Account, um passende Angebote zu finden und deine Zukunft zu gestalten!',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        NavRouter(
+                          builder: (context) => const SignInScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.greenAccent,
+                      minimumSize: const Size(double.infinity, 50),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              NavRouter(
-                                builder: (context) => const SignInScreen(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.greenAccent,
-                            minimumSize: const Size(double.infinity, 50),
-                          ),
-                          child: const Text(
-                            'Anmelden',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              NavRouter(
-                                builder: (context) => const SignUpScreen(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(double.infinity, 50),
-                            side: const BorderSide(
-                              color: Colors.greenAccent,
-                              width: 2,
-                            ),
-                          ),
-                          child: const Text('Account erstellen',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.greenAccent)),
-                        ),
-                      ],
+                    child: const Text(
+                      'Anmelden',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const Text(
-                        'Oder fahre mit den folgenden Möglichkeiten fort:',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      SignInButton.mini(
-                          buttonType: ButtonType.google,
-                          onPressed: () {
-                            final provider =
-                                Provider.of<GoogleSignInProvider>(context, listen: false);
-                            provider.googleLogin().then((value) {
-                              // remove all routes from the stack and push the onboarding screen
-                              Navigator.of(context).popUntil((route) => false);
-                              Navigator.of(context).push(
-                                NavRouter(
-                                  builder: (context) => const EAJobsListScreen(),
-                                ),
-                              );
-                            });
-                          }),
-                      TextButton(
-                        onPressed: () {
-                          try {
-                            FirebaseAuth.instance.signInAnonymously().then((value) {
-                              logger.i('Du bist nun authentifiziert.');
-                              logger.f('tst');
-                              // remove all routes from the stack and push the onboarding screen
-                              Navigator.of(context).popUntil((route) => false);
-                              Navigator.of(context).push(
-                                NavRouter(
-                                  builder: (context) => const OnBoardingScreen(),
-                                ),
-                              );
-                            });
-                            // TODO: Loading indicator and pop up upon successful login
-                          } on Exception catch (_) {
-                            throw Exception('Anonymer Login hat nicht funktioniert.');
-                          }
-                        },
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              'bleib anonym',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  decoration: TextDecoration.underline),
-                            ),
-                            Text('🕵', style: TextStyle(fontSize: 20)),
-                          ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        NavRouter(
+                          builder: (context) => const SignUpScreen(),
                         ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 50),
+                      side: const BorderSide(
+                        color: Colors.greenAccent,
+                        width: 2,
                       ),
-                    ],
+                    ),
+                    child: const Text('Account erstellen',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.greenAccent)),
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 2,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const Text(
+                    'Oder fahre mit den folgenden Möglichkeiten fort:',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SignInButton.mini(
+                      buttonType: ButtonType.google,
+                      onPressed: () {
+                        final provider = Provider.of<GoogleSignInProvider>(
+                            context,
+                            listen: false);
+                        provider.googleLogin().then((value) {
+                          // remove all routes from the stack and push the onboarding screen
+                          Navigator.of(context).popUntil((route) => false);
+                          Navigator.of(context).push(
+                            NavRouter(
+                              builder: (context) => const EAJobsListScreen(),
+                            ),
+                          );
+                        });
+                      }),
+                  TextButton(
+                    onPressed: () {
+                      try {
+                        FirebaseAuth.instance.signInAnonymously().then((value) {
+                          logger.i('Du bist nun authentifiziert.');
+                          logger.f('tst');
+                          // remove all routes from the stack and push the onboarding screen
+                          Navigator.of(context).popUntil((route) => false);
+                          Navigator.of(context).push(
+                            NavRouter(
+                              builder: (context) => const OnBoardingScreen(),
+                            ),
+                          );
+                        });
+                        // TODO: Loading indicator and pop up upon successful login
+                      } on Exception catch (_) {
+                        throw Exception(
+                            'Anonymer Login hat nicht funktioniert.');
+                      }
+                    },
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          'bleib anonym',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              decoration: TextDecoration.underline),
+                        ),
+                        Text(' 🕵', style: TextStyle(fontSize: 20)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       );
 }
