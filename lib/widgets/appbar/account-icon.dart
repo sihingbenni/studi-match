@@ -17,11 +17,11 @@ class AccountIcon extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     NavRouter(
-                      builder: (context) => const AuthenticationScreen(),
+                      builder: (context) => const AccountScreen(),
                     ),
                   );
                 },
-                icon: const Icon(Icons.login));
+                icon: const Icon(Icons.person));
           } else if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
               // User is logged in
