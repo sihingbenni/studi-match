@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 import 'package:studi_match/services/firebase/user_service.dart';
-import 'package:studi_match/widgets/picker/preference_picker.dart';
+import 'package:studi_match/widgets/form/preference_form.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -34,7 +34,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               child: Column(
                 children: [
                   const Text('Wir wissen noch gar nicht wonach du suchst!'),
-                  PreferencePicker(uuid: uuid),
+                  PreferenceForm(uuid: uuid),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
