@@ -53,7 +53,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
                         Navigator.of(context).push(NavRouter(
-                          builder: (context) => const HomeScreen(),
+                          builder: (context) => const AuthenticationScreen(),
                         ));
                       },
                       label: const Text('Einloggen',
