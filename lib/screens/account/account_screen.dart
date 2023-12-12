@@ -29,36 +29,40 @@ class _AccountScreenState extends State<AccountScreen> {
             if (snapshot.data?.isAnonymous ?? true) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.max,
+                child: ListView(
                   children: [
-                    const Text('Hallo 👋',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 28)),
-                    const Text(
-                        'Du bist anonym unterwegs. Wenn du die volle Kraft '
-                            'unserer App austesten möchtest, dann musst du '
-                            'dich anmelden!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20)),
-                    const SizedBox(height: 20),
-                    PreferenceForm(uuid: uuid),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow[700],
-                        minimumSize: const Size(double.infinity, 40),
-                      ),
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut();
-                        Navigator.of(context).push(NavRouter(
-                          builder: (context) => const AuthenticationScreen(),
-                        ));
-                      },
-                      label: const Text('Einloggen',
-                          style: TextStyle(color: Colors.white)),
-                      icon: const Icon(Icons.login, color: Colors.white),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        const Text('Hallo 👋',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 28)),
+                        const Text(
+                            'Du bist anonym unterwegs. Wenn du die volle Kraft '
+                                'unserer App austesten möchtest, dann musst du '
+                                'dich anmelden!',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20)),
+                        const SizedBox(height: 20),
+                        PreferenceForm(uuid: uuid),
+                        ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.yellow[700],
+                            minimumSize: const Size(double.infinity, 40),
+                          ),
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut();
+                            Navigator.of(context).push(NavRouter(
+                              builder: (context) => const AuthenticationScreen(),
+                            ));
+                          },
+                          label: const Text('Einloggen',
+                              style: TextStyle(color: Colors.white)),
+                          icon: const Icon(Icons.login, color: Colors.white),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -68,124 +72,128 @@ class _AccountScreenState extends State<AccountScreen> {
                 // User is logged in
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
+                  child: ListView(
                     children: [
-                      Row(
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          Row(
                             children: [
-                              snapshot.data!.photoURL != null
-                                  ? const CircleAvatar(
-                                      radius: 35,
-                                      child: Icon(
-                                        Icons.person,
-                                        size: 35,
-                                      ),
-                                    )
-                                  : Container(
-                                      width: 50, // Adjust the size as needed
-                                      height: 50, // Adjust the size as needed
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors
-                                            .grey, // You can use a different shade of gray
-                                      ),
-                                      child: const Center(
-                                        child: Icon(Icons.person,
-                                            size: 35, color: Colors.white),
-                                      ),
-                                    )
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Flexible(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    'Hallo ${snapshot.data?.displayName ??
-                                        snapshot.data?.email?.split('@').first ??
-                                        ''} 👋',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 28),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.person),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Flexible(
-                                          child: Text(
-                                            snapshot.data?.displayName ??
-                                                snapshot.data?.email
-                                                    ?.split('@')
-                                                    .first ??
-                                                'Kein Name',
-                                            style:
-                                                const TextStyle(fontSize: 16),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  snapshot.data!.photoURL != null
+                                      ? const CircleAvatar(
+                                          radius: 35,
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 35,
                                           ),
-                                        ),
-                                      ],
+                                        )
+                                      : Container(
+                                          width: 50, // Adjust the size as needed
+                                          height: 50, // Adjust the size as needed
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors
+                                                .grey, // You can use a different shade of gray
+                                          ),
+                                          child: const Center(
+                                            child: Icon(Icons.person,
+                                                size: 35, color: Colors.white),
+                                          ),
+                                        )
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Flexible(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        'Hallo ${snapshot.data?.displayName ??
+                                            snapshot.data?.email?.split('@').first ??
+                                            ''} 👋',
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 28),
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Row(
+                                    Column(
                                       children: [
-                                        const Icon(Icons.mail),
-                                        const SizedBox(
-                                          width: 10,
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.person),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                snapshot.data?.displayName ??
+                                                    snapshot.data?.email
+                                                        ?.split('@')
+                                                        .first ??
+                                                    'Kein Name',
+                                                style:
+                                                    const TextStyle(fontSize: 16),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Flexible(
-                                          child: Text(
-                                            snapshot.data?.email ??
-                                                'Keine E-Mail-Adresse',
-                                            style:
-                                                const TextStyle(fontSize: 12),
-                                          ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.mail),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                snapshot.data?.email ??
+                                                    'Keine E-Mail-Adresse',
+                                                style:
+                                                    const TextStyle(fontSize: 12),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
-                                    ),
+                                    )
                                   ],
-                                )
-                              ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          PreferenceForm(uuid: uuid),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.yellow[700],
+                              minimumSize: const Size(double.infinity, 40),
                             ),
+                            onPressed: () {
+                              FirebaseAuth.instance.signOut();
+                              Navigator.of(context).push(NavRouter(
+                                builder: (context) => const HomeScreen(),
+                              ));
+                            },
+                            label: const Text('Ausloggen',
+                                style: TextStyle(color: Colors.white)),
+                            icon: const Icon(Icons.logout, color: Colors.white),
                           ),
                         ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      PreferenceForm(uuid: uuid),
-                      ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.yellow[700],
-                          minimumSize: const Size(double.infinity, 40),
-                        ),
-                        onPressed: () {
-                          FirebaseAuth.instance.signOut();
-                          Navigator.of(context).push(NavRouter(
-                            builder: (context) => const HomeScreen(),
-                          ));
-                        },
-                        label: const Text('Ausloggen',
-                            style: TextStyle(color: Colors.white)),
-                        icon: const Icon(Icons.logout, color: Colors.white),
                       ),
                     ],
                   ),
