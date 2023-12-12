@@ -108,9 +108,9 @@ class _PreferenceFormState extends State<PreferenceForm> {
         ),
         FormBuilderTextField(
           autovalidateMode: AutovalidateMode.always,
-          name: 'age',
+          name: 'plz',
           decoration: InputDecoration(
-            labelText: 'Age',
+            labelText: 'PLZ',
             suffixIcon: _plzHasError
                 ? const Icon(Icons.error, color: Colors.red)
                 : const Icon(Icons.check, color: Colors.green),
@@ -118,8 +118,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
           onChanged: (val) {
             setState(() {
               _plzHasError =
-              !(_formKey.currentState?.fields['age']?.validate() ??
-                  false);
+              !(_formKey.currentState?.fields['plz']?.validate() ?? false);
             });
           },
         ),
