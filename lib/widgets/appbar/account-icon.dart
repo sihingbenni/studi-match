@@ -17,14 +17,14 @@ class AccountIcon extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     NavRouter(
-                      builder: (context) => const AuthenticationScreen(),
+                      builder: (context) => const AccountScreen(),
                     ),
                   );
                 },
-                icon: const Icon(Icons.login));
+                icon: const Icon(Icons.person));
           } else if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
-// User is logged in
+              // User is logged in
               return FilledButton.tonal(
                 onPressed: () {
                   Navigator.of(context).push(
@@ -45,7 +45,7 @@ class AccountIcon extends StatelessWidget {
                     : const Icon(Icons.person),
               );
             } else {
-// User is not logged in
+              // User is not logged in
               return IconButton(
                 icon: const Icon(Icons.login),
                 onPressed: () {

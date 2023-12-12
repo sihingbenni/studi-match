@@ -19,7 +19,7 @@ class _EAJobsListScreenState extends State<EAJobsListScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: const CustomAppbar(leadingSearchIcon: false, actionAccountIcon: false, title: 'Dein nächster Job:'),
+        appBar: const CustomAppbar(leadingSearchIcon: false, actionAccountIcon: false, title: 'Dein nächster Job'),
         body: Builder(
           builder: (context) {
             try {
