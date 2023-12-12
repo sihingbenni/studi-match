@@ -47,6 +47,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                 fontWeight: FontWeight.bold, fontSize: 20)),
                         const SizedBox(height: 20),
                         PreferenceForm(uuid: uuid),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.yellow[700],
@@ -178,6 +181,9 @@ class _AccountScreenState extends State<AccountScreen> {
                             height: 20,
                           ),
                           PreferenceForm(uuid: uuid),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.yellow[700],
