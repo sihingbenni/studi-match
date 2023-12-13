@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/screens/account/anonymous_account_screen.dart';
 
-import '../../screens/account/account_screen.dart';
+import '../../screens/account/logged_in_account_screen.dart';
 import '../../screens/authentication/authentication_screen.dart';
 import '../router/nav_router.dart';
 
@@ -17,7 +18,7 @@ class AccountIcon extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     NavRouter(
-                      builder: (context) => const AccountScreen(),
+                      builder: (context) => const AnonymousAccountScreen(),
                     ),
                   );
                 },
@@ -29,7 +30,7 @@ class AccountIcon extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     NavRouter(
-                      builder: (context) => const AccountScreen(),
+                      builder: (context) => const LoggedInAccountScreen(),
                     ),
                   );
                 },
