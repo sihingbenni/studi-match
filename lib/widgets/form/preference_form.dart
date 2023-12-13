@@ -137,7 +137,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Bitte gib deine Postleitzahl ein';
+                    return null;
                   }
                   if (int.tryParse(value) == null) {
                     return 'Bitte gib eine gültige Postleitzahl ein';
