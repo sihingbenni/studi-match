@@ -10,6 +10,9 @@ class GeoLocationProvider {
   static Coordinates lastCoordinatesCalled = Coordinates(0, 0);
   static String lastZipCodeCalled = '';
 
+  static String lastZipCodeValidated = '';
+  static bool lastZipCodeValidationResult = false;
+
   /// Determine the current position of the device.
   ///
   /// When the location services are not enabled or permissions
@@ -81,18 +84,25 @@ class GeoLocationProvider {
 
   Future<bool> validatePostalCode(String postalCode) async {
     try {
+
+      if (postalCode == lastZipCodeValidated) {
+        logger.i('GeoApi called again with same postal code. Returning last result: $lastZipCodeValidationResult');
+        return lastZipCodeValidationResult;
+      }
+
       List<Location> locations = await locationFromAddress('$postalCode, Germany');
+
+      lastZipCodeValidated = postalCode;
 
       // this is the center of Germany. If the location is the same, the postal code is invalid
       if (locations.first.latitude == 51.165690999999995 && locations.first.longitude == 10.451526) {
         logger.w('GeoApi found invalid PLZ: $postalCode');
+        lastZipCodeValidationResult = false;
         return false;
       }
 
-      if (locations.isNotEmpty) {
-        return true;
-      }
-      return false;
+      lastZipCodeValidationResult = true;
+      return true;
     } catch (e) {
       return false;
     }
