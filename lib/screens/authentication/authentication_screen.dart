@@ -138,7 +138,6 @@ class AuthenticationScreen extends StatelessWidget {
                       try {
                         FirebaseAuth.instance.signInAnonymously().then((value) {
                           logger.i('Du bist nun authentifiziert.');
-                          logger.f('tst');
                           // remove all routes from the stack and push the onboarding screen
                           Navigator.of(context).popUntil((route) => false);
                           Navigator.of(context).push(
