@@ -2,9 +2,14 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:studi_match/exceptions/geo_locator_exception.dart';
+import 'package:studi_match/models/coordinates.dart';
 import 'package:studi_match/utilities/logger.dart';
 
 class GeoLocationProvider {
+
+  static Coordinates lastCoordinatesCalled = Coordinates(0, 0);
+  static String lastZipCodeCalled = '';
+
   /// Determine the current position of the device.
   ///
   /// When the location services are not enabled or permissions
@@ -50,9 +55,20 @@ class GeoLocationProvider {
     try {
       final position = await _determinePosition();
 
+      if (lastCoordinatesCalled.lat == position.latitude && lastCoordinatesCalled.lon == position.longitude) {
+        logger.i('GeoApi called again with same coordinates. Returning last: $lastZipCodeCalled');
+        return lastZipCodeCalled;
+      }
+
+
       List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       if (placemarks.first.postalCode != null) {
         logger.i('GeoApi found PLZ: ${placemarks.first.postalCode}');
+
+        // save the call to reduce spam
+        lastCoordinatesCalled = Coordinates(position.latitude, position.longitude);
+        lastZipCodeCalled = placemarks.first.postalCode!;
+
         return placemarks.first.postalCode!;
       } else {
         return GeoLocatorException('Es konnte keine Postleitzahl ermittelt werden. Versuche es manuell.');
