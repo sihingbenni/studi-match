@@ -27,6 +27,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
   String location = '';
   int distance = 25;
   bool loading = true;
+  bool _plzValid = false;
   final preferencesProvider = JobPreferencesProvider();
 
   final TextEditingController _plzController = TextEditingController(text: '');
@@ -123,6 +124,13 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   ),
                 ),
                 onChanged: (val) {
+                  if (val != null && val.length == 5) {
+                   GeoLocationProvider().validatePostalCode(val).then((isValid) {
+                      setState(() {
+                        _plzValid = isValid;
+                      });
+                    });
+                  }
                   setState(() {
                     location = val ?? '';
                   });
@@ -137,6 +145,11 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   if (value.length != 5) {
                     return 'Bitte gib eine gültige Postleitzahl ein';
                   }
+
+                  if (_plzValid == false) {
+                    return 'Bitte gib eine gültige Postleitzahl ein';
+                  }
+
                   return null;
                 },
               ),

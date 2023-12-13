@@ -61,6 +61,7 @@ class GeoLocationProvider {
       }
 
 
+      // get the placemarks from the coordinates
       List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       if (placemarks.first.postalCode != null) {
         logger.i('GeoApi found PLZ: ${placemarks.first.postalCode}');
@@ -75,6 +76,25 @@ class GeoLocationProvider {
       }
     } catch (e) {
       return GeoLocatorException(e.toString());
+    }
+  }
+
+  Future<bool> validatePostalCode(String postalCode) async {
+    try {
+      List<Location> locations = await locationFromAddress('$postalCode, Germany');
+      logger.f('GeoApi found locations: $locations');
+
+      // this is the center of Germany. If the location is the same, the postal code is invalid
+      if (locations.first.latitude == 51.165690999999995 && locations.first.longitude == 10.451526) {
+        return false;
+      }
+
+      if (locations.isNotEmpty) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
     }
   }
 }
