@@ -82,10 +82,10 @@ class GeoLocationProvider {
   Future<bool> validatePostalCode(String postalCode) async {
     try {
       List<Location> locations = await locationFromAddress('$postalCode, Germany');
-      logger.f('GeoApi found locations: $locations');
 
       // this is the center of Germany. If the location is the same, the postal code is invalid
       if (locations.first.latitude == 51.165690999999995 && locations.first.longitude == 10.451526) {
+        logger.w('GeoApi found invalid PLZ: $postalCode');
         return false;
       }
 

@@ -27,7 +27,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
   String location = '';
   int distance = 25;
   bool loading = true;
-  bool _plzValid = false;
+  bool _plzValid = true;
   final preferencesProvider = JobPreferencesProvider();
 
   final TextEditingController _plzController = TextEditingController(text: '');
