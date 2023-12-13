@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:studi_match/exceptions/geo_locator_exception.dart';
 import 'package:studi_match/providers/config_provider.dart';
+import 'package:studi_match/providers/geo_location_provider.dart';
 import 'package:studi_match/providers/job_preferences_provider.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 import 'package:studi_match/utilities/logger.dart';
@@ -19,12 +21,15 @@ class PreferenceForm extends StatefulWidget {
 class _PreferenceFormState extends State<PreferenceForm> {
   final _formKey = GlobalKey<FormBuilderState>();
 
+
   List<String> packages = [];
   List<FilterChip> packageChips = [];
   String location = '';
   int distance = 25;
   bool loading = true;
   final preferencesProvider = JobPreferencesProvider();
+
+  final TextEditingController _plzController = TextEditingController(text: '');
 
   @override
   void initState() {
@@ -40,6 +45,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
         _formKey.currentState?.fields['plz']?.setValue(location);
         _formKey.currentState?.fields['package_filter']?.setValue(packages);
         _formKey.currentState?.fields['distance_slider']?.setValue(distance.toDouble());
+        _plzController.text = location;
       });
     });
     super.initState();
@@ -88,8 +94,8 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 showCheckmark: false,
               ),
               FormBuilderTextField(
-                initialValue: location,
                 keyboardType: TextInputType.number,
+                controller: _plzController,
                 name: 'plz',
                 maxLength: 5,
                 decoration: InputDecoration(
@@ -98,7 +104,21 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.my_location),
                     onPressed: () {
-                      //TODO get location from device
+                      GeoLocationProvider().getZipCode().then((value) {
+                        if (value is GeoLocatorException) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(value.message),
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        } else {
+                          setState(() {
+                            location = value.toString();
+                            _plzController.text = location;
+                          });
+                        }
+                      });
                     },
                   ),
                 ),
@@ -167,9 +187,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                           // navigate to jobs list
                           Navigator.of(context).popUntil((route) => false);
                           Navigator.of(context).push(
-                            NavRouter(
-                              builder: (context) => const EAJobsListScreen(),
-                            ),
+                            NavRouter(builder: (context) => const EAJobsListScreen()),
                           );
                         } else {
                           // show error message in snackbar

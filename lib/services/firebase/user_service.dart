@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:studi_match/providers/config_provider.dart';
 import 'package:studi_match/utilities/logger.dart';
 
 class UserService {
@@ -12,7 +13,7 @@ class UserService {
           .set({
             'preferences': {
               'location': '',
-              'packages': [],
+              'packages': ConfigProvider.resultPackages.keys.toList(),
               'distance': 25,
             },
           });
