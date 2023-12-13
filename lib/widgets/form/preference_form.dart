@@ -136,20 +136,25 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   });
                 },
                 validator: (value) {
+                  // if the value is null or empty its ok
                   if (value == null || value.isEmpty) {
                     return null;
                   }
+                  // if the value is not a number its not valid
                   if (int.tryParse(value) == null) {
                     return 'Bitte gib eine gültige Postleitzahl ein';
                   }
+                  // if the value is not 5 digits long its not valid
                   if (value.length != 5) {
                     return 'Bitte gib eine gültige Postleitzahl ein';
                   }
 
+                  // if the geolocator api returns an invalid postal code its not valid
                   if (_plzValid == false) {
                     return 'Bitte gib eine gültige Postleitzahl ein';
                   }
 
+                  // none of the above, so its valid
                   return null;
                 },
               ),
