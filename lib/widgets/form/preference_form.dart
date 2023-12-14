@@ -93,6 +93,8 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   return null;
                 },
                 showCheckmark: false,
+                backgroundColor: Colors.yellow[100],
+                selectedColor: Colors.yellow[700],
               ),
               FormBuilderTextField(
                 keyboardType: TextInputType.number,
@@ -161,16 +163,18 @@ class _PreferenceFormState extends State<PreferenceForm> {
               FormBuilderSlider(
                 name: 'distance_slider',
                 validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.min(ConfigProvider.preferencesMinDistance),
-                  FormBuilderValidators.max(ConfigProvider.preferencesMaxDistance)
+                  FormBuilderValidators.min(
+                      ConfigProvider.preferencesMinDistance),
+                  FormBuilderValidators.max(
+                      ConfigProvider.preferencesMaxDistance)
                 ]),
                 // onChanged: _onChanged,
                 min: ConfigProvider.preferencesMinDistance.toDouble(),
                 max: ConfigProvider.preferencesMaxDistance.toDouble(),
                 initialValue: distance.toDouble(),
                 divisions: ConfigProvider.preferencesDistanceDivisions,
-                activeColor: Colors.red,
-                inactiveColor: Colors.pink[100],
+                activeColor: Colors.yellow[700],
+                inactiveColor: Colors.yellow[100],
                 onChangeEnd: (val) {
                   setState(() {
                     distance = val.toInt();
@@ -185,6 +189,10 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 children: <Widget>[
                   Expanded(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.yellow[700],
+                        minimumSize: const Size(double.infinity, 40),
+                      ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           logger.i('preference form: validation successful');
@@ -198,7 +206,8 @@ class _PreferenceFormState extends State<PreferenceForm> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               backgroundColor: Colors.green,
-                              content: Text('Deine Einstellungen wurden gespeichert'),
+                              content: Text(
+                                  'Deine Einstellungen wurden gespeichert'),
                               duration: Duration(seconds: 2),
                             ),
                           );
