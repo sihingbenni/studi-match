@@ -124,6 +124,11 @@ class AuthenticationScreen extends StatelessWidget {
                             context,
                             listen: false);
                         provider.googleLogin().then((value) {
+                          // check if the login was successful
+                          if (FirebaseAuth.instance.currentUser == null) {
+                            logger.w('Google Login failed');
+                            return;
+                          }
                           // remove all routes from the stack and push the onboarding screen
                           Navigator.of(context).popUntil((route) => false);
                           Navigator.of(context).push(
