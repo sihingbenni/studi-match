@@ -21,8 +21,8 @@ class _EAJobsListScreenState extends State<EAJobsListScreen> {
   Widget build(BuildContext context) => Scaffold(
         appBar: const CustomAppbar(backButton: false,
             actionAccountIcon: false,
-            actionSignIn: false,
-            actionSignOut: false,
+            userIsAnonymous: false,
+            userIsNotAnonymous: false,
             actionBookmark: true,
             title: 'Dein nächster Job'),
         body: Builder(

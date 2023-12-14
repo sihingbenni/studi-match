@@ -22,8 +22,8 @@ class _LoggedInAccountScreenState extends State<LoggedInAccountScreen> {
         appBar: const CustomAppbar(
             backButton: true,
             actionAccountIcon: false,
-            actionSignIn: false,
-            actionSignOut: true,
+            userIsAnonymous: false,
+            userIsNotAnonymous: true,
             actionBookmark: false,
             title: 'Dein Profil'),
         body: StreamBuilder(

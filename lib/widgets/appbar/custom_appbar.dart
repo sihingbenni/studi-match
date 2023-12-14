@@ -5,13 +5,13 @@ import 'package:studi_match/screens/bookmarks/bookmarks_screen.dart';
 import 'package:studi_match/screens/home/home_screen.dart';
 
 import '../router/nav_router.dart';
-import 'account-icon.dart';
+import 'account_icon.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final bool backButton;
   final bool actionAccountIcon;
-  final bool actionSignOut;
-  final bool actionSignIn;
+  final bool userIsNotAnonymous;
+  final bool userIsAnonymous;
   final bool actionBookmark;
   final String title;
 
@@ -20,8 +20,8 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       required this.backButton,
       required this.actionAccountIcon,
       required this.title,
-      required this.actionSignOut,
-      required this.actionSignIn,
+      required this.userIsNotAnonymous,
+      required this.userIsAnonymous,
       required this.actionBookmark});
 
   @override
@@ -32,9 +32,8 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
         leading: backButton ? const BackButton() : const AccountIcon(),
         title: Text(title),
         actions: [
-          actionAccountIcon
-              ? const AccountIcon()
-              : actionSignOut
+          actionAccountIcon ? const AccountIcon()
+              : userIsNotAnonymous
                   ? IconButton(
                       icon: const Icon(Icons.logout),
                       iconSize: 32,
@@ -47,18 +46,43 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                         );
                       },
                     )
-                  : actionSignIn
+                  : userIsAnonymous
                       ? IconButton(
-                          icon: const Icon(Icons.login),
+                          icon: const Icon(Icons.logout),
                           iconSize: 32,
                           onPressed: () {
-                            FirebaseAuth.instance.signOut();
-                            Navigator.of(context).push(
-                              NavRouter(
-                                builder: (context) =>
-                                    const AuthenticationScreen(),
-                              ),
-                            );
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                      title: const Text('Ausloggen?'),
+                                      content: const Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Bist du dir sicher, dass du dich ausloggen möchtest?'),
+                                            SizedBox(height: 8),
+                                            Text('Du wirst alle deine Favoriten und Einstellungen verlieren.'),
+                                          ]),
+                                      actions: <Widget>[
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              FirebaseAuth.instance.signOut();
+                                              Navigator.of(context)
+                                                  .popUntil((route) => false);
+                                              Navigator.of(context).push(
+                                                NavRouter(
+                                                  builder: (context) =>
+                                                      const AuthenticationScreen(),
+                                                ),
+                                              );
+                                            },
+                                            child: const Text('Ja')),
+                                        ElevatedButton(
+                                            onPressed: () => Navigator.of(context).pop(false),
+                                            child: const Text('Nein')),
+                                      ],
+                                    ));
                           },
                         )
                       : actionBookmark

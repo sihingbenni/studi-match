@@ -22,8 +22,8 @@ class _AnonymousAccountScreenState extends State<AnonymousAccountScreen> {
     appBar: const CustomAppbar(
         backButton: true,
         actionAccountIcon: false,
-        actionSignIn: true,
-        actionSignOut: false,
+        userIsAnonymous: true,
+        userIsNotAnonymous: false,
         actionBookmark: false,
         title: 'Das könnte dein Profil sein'),
     body: StreamBuilder(

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/screens/authentication/authentication_screen.dart';
@@ -19,12 +20,12 @@ class HomeScreen extends StatelessWidget {
             body: Stack(children: [
               Container(
                 decoration: const BoxDecoration(
-                    image: DecorationImage(
-                  // TODO improve loading speed
-                  image: NetworkImage('https://images.unsplash.com/photo-1545315003-c5ad6226c272'),
-                  colorFilter: ColorFilter.mode(Colors.black38, BlendMode.darken),
-                  fit: BoxFit.cover,
-                )),
+                  image: DecorationImage(
+                    image: CachedNetworkImageProvider('https://images.unsplash.com/photo-1545315003-c5ad6226c272'),
+                    colorFilter: ColorFilter.mode(Colors.black38, BlendMode.darken),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
               const Align(
                 alignment: Alignment.topCenter,
@@ -72,7 +73,8 @@ class HomeScreen extends StatelessWidget {
                                     Navigator.of(context).pop(),
                                     Navigator.of(context).push(
                                       NavRouter(
-                                        builder: (context) => const AuthenticationScreen(),
+                                        builder: (context) =>
+                                            const AuthenticationScreen(),
                                       ),
                                     )
                                   },
@@ -83,13 +85,16 @@ class HomeScreen extends StatelessWidget {
                               child: const Text(
                                 'Jetzt durchstarten 🚀',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-                              )
-                          ),
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              )),
                           const Text(
                             'und finde dein neues Team hier!',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                           ),
                         ],
                       ),
