@@ -24,6 +24,7 @@ class _LoggedInAccountScreenState extends State<LoggedInAccountScreen> {
             actionAccountIcon: false,
             actionSignIn: false,
             actionSignOut: true,
+            actionBookmark: false,
             title: 'Dein Profil'),
         body: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),

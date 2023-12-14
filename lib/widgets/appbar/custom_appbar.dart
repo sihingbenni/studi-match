@@ -12,6 +12,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final bool actionAccountIcon;
   final bool actionSignOut;
   final bool actionSignIn;
+  final bool actionBookmark;
   final String title;
 
   const CustomAppbar(
@@ -20,7 +21,8 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       required this.actionAccountIcon,
       required this.title,
       required this.actionSignOut,
-      required this.actionSignIn});
+      required this.actionSignIn,
+      required this.actionBookmark});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -59,18 +61,21 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                             );
                           },
                         )
-                      : IconButton(
-                          icon: const Icon(Icons.bookmarks),
-                          color: Colors.yellow[800],
-                          iconSize: 32,
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              NavRouter(
-                                builder: (context) => const BookmarksScreen(),
-                              ),
-                            );
-                          },
-                        ),
+                      : actionBookmark
+                          ? IconButton(
+                              icon: const Icon(Icons.bookmarks),
+                              color: Colors.yellow[800],
+                              iconSize: 32,
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  NavRouter(
+                                    builder: (context) =>
+                                        const BookmarksScreen(),
+                                  ),
+                                );
+                              },
+                            )
+                          : Container(),
         ],
       );
 }

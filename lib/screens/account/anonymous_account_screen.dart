@@ -24,6 +24,7 @@ class _AnonymousAccountScreenState extends State<AnonymousAccountScreen> {
         actionAccountIcon: false,
         actionSignIn: true,
         actionSignOut: false,
+        actionBookmark: false,
         title: 'Das könnte dein Profil sein'),
     body: StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
