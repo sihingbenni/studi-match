@@ -34,12 +34,12 @@ class _SignInScreenState extends State<SignInScreen> {
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 SvgPicture.asset(
                   'assets/images/undraw_my_password.svg',
-                  width: 300,
-                  height: 300,
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.3,
                 ),
                 const Text(
                   'Willkommen zurück 👋',
