@@ -13,7 +13,7 @@ class _FavoritesListScreenState extends State<BookmarksScreen> {
 
   @override
   Widget build(BuildContext context) => const Scaffold(
-      appBar: CustomAppbar(backButton: true, actionAccountIcon: false, title: 'Deine Favoriten', actionSignOut: false, actionSignIn: false),
+      appBar: CustomAppbar(backButton: true, actionAccountIcon: false, title: 'Deine Favoriten', actionSignOut: false, actionSignIn: false, actionBookmark: false),
       body: BookmarkList()
   );
 }
