@@ -120,6 +120,13 @@ class _PreferenceFormState extends State<PreferenceForm> {
                             location = value.toString();
                             _plzController.text = location;
                           });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text('Es wurde die PLZ: $value ermittelt'),
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
                         }
                       });
                     },
