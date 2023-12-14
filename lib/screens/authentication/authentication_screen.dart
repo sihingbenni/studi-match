@@ -38,8 +38,8 @@ class AuthenticationScreen extends StatelessWidget {
             children: [
               SvgPicture.asset(
                 'assets/images/undraw_mobile_encryption.svg',
-                width: 300,
-                height: 300,
+                width: MediaQuery.of(context).size.width * 0.3,
+                height: MediaQuery.of(context).size.height * 0.3,
               ),
               const Text(
                 'Hallo 👋',
