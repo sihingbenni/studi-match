@@ -22,8 +22,7 @@ class _EAJobsListScreenState extends State<EAJobsListScreen> {
         appBar: const CustomAppbar(
             backButton: false,
             actionAccountIcon: false,
-            userIsAnonymous: false,
-            userIsNotAnonymous: false,
+            logOutIcon: false,
             actionBookmark: true),
         body: Builder(builder: (context) {
           try {

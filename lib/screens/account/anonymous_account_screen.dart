@@ -19,106 +19,105 @@ class _AnonymousAccountScreenState extends State<AnonymousAccountScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: const CustomAppbar(
-        backButton: true,
-        actionAccountIcon: false,
-        userIsAnonymous: true,
-        userIsNotAnonymous: false,
-        actionBookmark: false,
-        title: 'Das könnte dein Profil sein'),
-    body: StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.data?.isAnonymous ?? true) {
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ListView(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.max,
+        appBar: const CustomAppbar(
+            backButton: true,
+            actionAccountIcon: false,
+            logOutIcon: true,
+            actionBookmark: false,
+            title: 'Das könnte dein Profil sein'),
+        body: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.data?.isAnonymous ?? true) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ListView(
                   children: [
-                    const Text('Hallo 👋',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 28)),
-                    const Text(
-                        'Du bist anonym unterwegs. Wenn du die volle Kraft '
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        const Text('Hallo 👋',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 28)),
+                        const Text(
+                            'Du bist anonym unterwegs. Wenn du die volle Kraft '
                             'unserer App austesten möchtest, dann musst du '
                             'dich anmelden!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20)),
-                    const SizedBox(height: 20),
-                    PreferenceForm(uuid: uuid),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20)),
+                        const SizedBox(height: 20),
+                        PreferenceForm(uuid: uuid),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
-          );
-        } else if (snapshot.connectionState == ConnectionState.active) {
-          if (snapshot.hasData) {
-            // User is logged in
-            return AlertDialog(
-              title: const Text('Du hast dich leider verlaufen.'),
-              content: const Text(
-                'Um diese Funktion nutzen zu können, klicke bitte auf "Weiter".',
-                style: TextStyle(fontSize: 16),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      NavRouter(
-                        builder: (context) => const LoggedInAccountScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Weiter',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+              );
+            } else if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                // User is logged in
+                return AlertDialog(
+                  title: const Text('Du hast dich leider verlaufen.'),
+                  content: const Text(
+                    'Um diese Funktion nutzen zu können, klicke bitte auf "Weiter".',
+                    style: TextStyle(fontSize: 16),
                   ),
-                ),
-              ],
-            );
-          } else {
-            // User is not logged in
-            return AlertDialog(
-              backgroundColor: Colors.greenAccent[100],
-              title: const Text('Du bist leider nicht eingeloggt.'),
-              content: const Text(
-                'Um diese Funktion nutzen zu können, musst du dich einloggen.',
-                style: TextStyle(fontSize: 16),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      NavRouter(
-                        builder: (context) => const AuthenticationScreen(),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          NavRouter(
+                            builder: (context) => const LoggedInAccountScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Weiter',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
                       ),
-                    );
-                  },
-                  child: const Text(
-                    'Jetzt einloggen',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                    ),
+                  ],
+                );
+              } else {
+                // User is not logged in
+                return AlertDialog(
+                  backgroundColor: Colors.greenAccent[100],
+                  title: const Text('Du bist leider nicht eingeloggt.'),
+                  content: const Text(
+                    'Um diese Funktion nutzen zu können, musst du dich einloggen.',
+                    style: TextStyle(fontSize: 16),
                   ),
-                ),
-              ],
-            );
-          }
-        } else {
-          // Loading
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    ),
-  );
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          NavRouter(
+                            builder: (context) => const AuthenticationScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Jetzt einloggen',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            } else {
+              // Loading
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      );
 }
