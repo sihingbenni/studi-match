@@ -8,7 +8,7 @@ import 'package:studi_match/exceptions/user_does_not_exists_exception.dart';
 import 'package:studi_match/providers/job_details_provider.dart';
 import 'package:studi_match/providers/pastel_color_provider.dart';
 import 'package:studi_match/screens/account/onboarding_screen.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
+import 'package:studi_match/widgets/router/end-of-list-router.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../../models/job.dart';
@@ -19,7 +19,10 @@ import '../details/back_card.dart';
 import '../details/front_card.dart';
 
 class SwipeList extends StatefulWidget {
-  const SwipeList({super.key, required this.flipcardController, required this.appinioController});
+  const SwipeList(
+      {super.key,
+      required this.flipcardController,
+      required this.appinioController});
 
   final AppinioSwiperController appinioController;
   final FlipCardController flipcardController;
@@ -94,7 +97,8 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
 
   Icon? _getDismissedStateIcon() {
     if (_dismissedAnimationState == AnimationState.add) {
-      return const Icon(Icons.restore_from_trash, color: Colors.green, size: 64);
+      return const Icon(Icons.restore_from_trash,
+          color: Colors.green, size: 64);
     } else if (_dismissedAnimationState == AnimationState.remove) {
       return const Icon(Icons.delete_sweep, color: Colors.red, size: 64);
     }
@@ -104,7 +108,6 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
 
     jobProvider.init().then((Exception? exception) {
       switch (exception.runtimeType) {
@@ -125,7 +128,8 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
         logger.e(exception);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.'),
+            content: Text(
+                'Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.'),
           ),
         );
       }
@@ -160,10 +164,10 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
         }
       });
 
-    _bookmarkAnimation =
-        CurvedAnimation(parent: _bookmarkAnimationController, curve: Curves.easeOut);
-    _dismissedAnimation =
-        CurvedAnimation(parent: _dismissedAnimationController, curve: Curves.easeOut);
+    _bookmarkAnimation = CurvedAnimation(
+        parent: _bookmarkAnimationController, curve: Curves.easeOut);
+    _dismissedAnimation = CurvedAnimation(
+        parent: _dismissedAnimationController, curve: Curves.easeOut);
 
     // ----- end animations ----
 
@@ -192,29 +196,13 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) => Stack(children: [
-    Builder(
-        builder: (context) {
+        Builder(builder: (context) {
           if (endReached) {
-            return Center(
-              child: Column(
-                children: [
-                  const Text('Du hast das Ende Erreicht'),
-                  ElevatedButton(onPressed: () => {
-                    Navigator.of(context).pop(),
-                    Navigator.of(context).push(
-                      NavRouter(
-                        builder: (context) => const EAJobsListScreen(),
-                      ),
-                    ),
-                  }, child: const Text('Von vorne beginnen'))
-                ],
-              ),
-            );
+            return const EndOfListRouter();
           } else {
             return const SizedBox.shrink();
           }
-        }
-    ),
+        }),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Builder(builder: (context) {
@@ -233,7 +221,8 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                 backgroundCardCount: 1,
                 cardCount: jobList.length,
                 backgroundCardOffset: const Offset(0, 0),
-                onSwipeEnd: (int previousIndex, int targetIndex, SwiperActivity activity) {
+                onSwipeEnd: (int previousIndex, int targetIndex,
+                    SwiperActivity activity) {
                   if (activity is Unswipe) {
                     _undoCardSwipe(targetIndex);
                     return;
@@ -281,16 +270,19 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                       controller: widget.flipcardController,
                       direction: FlipDirection.VERTICAL,
                       front: FrontCard(
-                          job: job, accentColor: pastelColorProvider.generatePastelColor(index)),
+                          job: job,
+                          accentColor:
+                              pastelColorProvider.generatePastelColor(index)),
                       back: BackCard(
-                          job: job, accentColor: pastelColorProvider.generatePastelColor(index)),
+                          job: job,
+                          accentColor:
+                              pastelColorProvider.generatePastelColor(index)),
                       onFlip: () {
                         // if the card is first time flipped to the back, fetch the job details
                         if (job.jobDetails == null) {
                           jobDetailsProvider.getDetails(job);
                         }
-                      }
-                  );
+                      });
                 },
               ),
             );
@@ -316,8 +308,7 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
             child: _getDismissedStateIcon(),
           ),
         ),
-      ]
-  );
+      ]);
 }
 
 enum AnimationState {
