@@ -13,13 +13,13 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final bool userIsNotAnonymous;
   final bool userIsAnonymous;
   final bool actionBookmark;
-  final String title;
+  final String? title;
 
   const CustomAppbar(
       {super.key,
       required this.backButton,
       required this.actionAccountIcon,
-      required this.title,
+      this.title,
       required this.userIsNotAnonymous,
       required this.userIsAnonymous,
       required this.actionBookmark});
@@ -30,7 +30,33 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) => AppBar(
         leading: backButton ? const BackButton() : const AccountIcon(),
-        title: Text(title),
+        title: Builder(
+          builder: (context) {
+            if (title != null) {
+              return Text(title!);
+            }
+            return const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.local_fire_department_outlined,
+                  color: Colors.black87,
+                  size: 32,
+                ),
+                Text(
+                  'StudiMatch',
+                  style: TextStyle(
+                      fontSize: 24,
+                      letterSpacing: 2.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87),
+                ),
+              ],
+
+            );
+          }
+        ),
+        centerTitle: true,
         actions: [
           actionAccountIcon ? const AccountIcon()
               : userIsNotAnonymous

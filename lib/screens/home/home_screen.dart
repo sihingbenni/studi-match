@@ -35,12 +35,12 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.add_home_work_outlined,
+                        Icons.local_fire_department_outlined,
                         color: Colors.white,
                         size: 80,
                       ),
                       Text(
-                        'Studi Match',
+                        'StudiMatch',
                         style: TextStyle(
                             fontSize: 36,
                             letterSpacing: 2.0,
