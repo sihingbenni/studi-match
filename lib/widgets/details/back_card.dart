@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/job.dart';
 import 'package:studi_match/models/job_details.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BackCard extends StatelessWidget {
   const BackCard({super.key, required this.job, required this.accentColor});
@@ -34,7 +35,7 @@ class BackCard extends StatelessWidget {
                           textBaseline: TextBaseline.alphabetic,
                           children: [
                             const Text(
-                              'Referenznummer:',
+                              'Ref.-Nr.:',
                               style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: 16,
@@ -124,7 +125,21 @@ class BackCard extends StatelessWidget {
                                     color: Colors.black87, fontSize: 16),
                               ),
                       ],
-                    )
+                    ),
+                    ElevatedButton(onPressed: () async {
+                      String referenceNumber = jobDetails.referenceNr ?? 'no-referenceNr';
+                      Uri uri = Uri(
+                        scheme: 'https',
+                        host: 'www.arbeitsagentur.de',
+                        path: 'jobsuche/jobdetail/$referenceNumber',
+                      );
+                      bool launched = await canLaunchUrl(uri);
+                      if (launched) {
+                        await launchUrl(uri);
+                      } else {
+                        throw 'Could not launch $uri';
+                      }
+                    }, child: const Text('Zur Arbeitsagentur') ),
                   ],
                 ),
               );
