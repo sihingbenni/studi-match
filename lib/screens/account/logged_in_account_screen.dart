@@ -22,8 +22,7 @@ class _LoggedInAccountScreenState extends State<LoggedInAccountScreen> {
         appBar: const CustomAppbar(
             backButton: true,
             actionAccountIcon: false,
-            userIsAnonymous: false,
-            userIsNotAnonymous: true,
+            logOutIcon: true,
             actionBookmark: false,
             title: 'Dein Profil'),
         body: StreamBuilder(
@@ -80,8 +79,10 @@ class _LoggedInAccountScreenState extends State<LoggedInAccountScreen> {
                                           ),
                                         )
                                       : Container(
-                                          width: 50, // Adjust the size as needed
-                                          height: 50, // Adjust the size as needed
+                                          width:
+                                              50, // Adjust the size as needed
+                                          height:
+                                              50, // Adjust the size as needed
                                           decoration: const BoxDecoration(
                                             shape: BoxShape.circle,
                                             color: Colors
@@ -99,14 +100,13 @@ class _LoggedInAccountScreenState extends State<LoggedInAccountScreen> {
                               ),
                               Flexible(
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Flexible(
                                       child: Text(
-                                        'Hallo ${snapshot.data?.displayName ??
-                                            snapshot.data?.email?.split('@').first ??
-                                            ''} 👋',
+                                        'Hallo ${snapshot.data?.displayName ?? snapshot.data?.email?.split('@').first ?? ''} 👋',
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 28),
@@ -130,8 +130,8 @@ class _LoggedInAccountScreenState extends State<LoggedInAccountScreen> {
                                                         ?.split('@')
                                                         .first ??
                                                     'Kein Name',
-                                                style:
-                                                    const TextStyle(fontSize: 16),
+                                                style: const TextStyle(
+                                                    fontSize: 16),
                                               ),
                                             ),
                                           ],
@@ -149,8 +149,8 @@ class _LoggedInAccountScreenState extends State<LoggedInAccountScreen> {
                                               child: Text(
                                                 snapshot.data?.email ??
                                                     'Keine E-Mail-Adresse',
-                                                style:
-                                                    const TextStyle(fontSize: 12),
+                                                style: const TextStyle(
+                                                    fontSize: 12),
                                               ),
                                             ),
                                           ],

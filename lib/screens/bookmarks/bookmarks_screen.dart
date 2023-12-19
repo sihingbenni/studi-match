@@ -10,10 +10,13 @@ class BookmarksScreen extends StatefulWidget {
 }
 
 class _FavoritesListScreenState extends State<BookmarksScreen> {
-
   @override
   Widget build(BuildContext context) => const Scaffold(
-      appBar: CustomAppbar(backButton: true, actionAccountIcon: false, title: 'Deine Lesezeichen', userIsNotAnonymous: false, userIsAnonymous: false, actionBookmark: false),
-      body: BookmarkList()
-  );
+      appBar: CustomAppbar(
+          backButton: true,
+          actionAccountIcon: false,
+          title: 'Deine Lesezeichen',
+          logOutIcon: false,
+          actionBookmark: false),
+      body: BookmarkList());
 }
