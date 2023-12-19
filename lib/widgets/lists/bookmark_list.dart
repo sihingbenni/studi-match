@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/models/bookmark.dart';
-import 'package:studi_match/models/job.dart';
 import 'package:studi_match/providers/bookmark_provider.dart';
 import 'package:studi_match/providers/pastel_color_provider.dart';
 import 'package:studi_match/providers/single_job_provider.dart';
@@ -24,8 +23,6 @@ class _BookmarkListState extends State<BookmarkList> {
   final _bookmarkProvider = BookmarkProvider();
   final _singleJobProvider = SingleJobProvider();
 
-  Job? _job;
-
   List<Bookmark> _bookmarkList = [];
   bool _allFetched = false;
 
@@ -37,12 +34,6 @@ class _BookmarkListState extends State<BookmarkList> {
         logger.d('updating bookmark list');
         _bookmarkList = _bookmarkProvider.bookmarkList;
         _allFetched = _bookmarkProvider.allFetched;
-      });
-    });
-    _singleJobProvider.addListener(() {
-      setState(() {
-        _job = _singleJobProvider.job;
-        logger.f('got job details for ${_job!.hashId}');
       });
     });
 
@@ -89,66 +80,78 @@ class _BookmarkListState extends State<BookmarkList> {
               }
               // set the item
               final bookmark = _bookmarkList[index];
-              return InkWell(
-                onTap: () {
-                  _singleJobProvider.getJob(bookmark.jobHashId).then((value) {
-                    setState(() {
-                      _job = value;
-                    });
-                    int colorIndex = Random().nextInt(10);
-                    showDialog(
+              return Dismissible(
+                key: Key(bookmark.jobHashId),
+                background: Container(
+                    color: Colors.green,
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 16),
+                        child: Icon(Icons.favorite, color: Colors.white),
+                      ),
+                    )),
+                secondaryBackground: Container(
+                    color: Colors.red,
+                    child: const Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 16),
+                        child: Icon(Icons.delete, color: Colors.white),
+                      ),
+                    )),
+                confirmDismiss: (DismissDirection direction) async {
+                  if (direction == DismissDirection.startToEnd) {
+                    _bookmarkProvider.toggleBookmarkLike(bookmark);
+                    return false;
+                  } else if (bookmark.isLiked) {
+                    return await showDialog(
                         context: context,
-                        builder: (BuildContext context) => Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Dialog.fullscreen(
-                                backgroundColor: Colors.transparent,
-                                child: FlipCard(
-                                  direction: FlipDirection.VERTICAL,
-                                  front: Stack(
-                                    children: [
-                                      FrontCard(
-                                          job: _job!,
-                                          accentColor: PastelColorProvider()
-                                              .generatePastelColor(colorIndex)
-                                      ),
-                                      FloatingActionButton(
-                                        onPressed: () => {
-                                          Navigator.pop(context)
-                                        },
-                                        child: const Icon(Icons.close),
-                                      ),
-                                    ],
-                                  ),
-                                  back: BackCard(
-                                      job: _job!,
-                                      accentColor: PastelColorProvider()
-                                          .generatePastelColor(colorIndex)),
-                                ),
-                              ),
-                            ));
-                  });
+                        builder: (BuildContext context) =>
+                            DeleteBookmarkDialog(bookmark: bookmark));
+                  } else {
+                    return true;
+                  }
                 },
-                child: Dismissible(
-                  key: Key(bookmark.jobHashId),
-                  background: Container(
-                      color: Colors.green,
-                      child: const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16),
-                          child: Icon(Icons.favorite, color: Colors.white),
-                        ),
-                      )),
-                  secondaryBackground: Container(
-                      color: Colors.red,
-                      child: const Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 16),
-                          child: Icon(Icons.delete, color: Colors.white),
-                        ),
-                      )),
+                onDismissed: (direction) {
+                  _bookmarkProvider.removeBookmark(bookmark);
+                },
+                child: Material(
+                  type: MaterialType.transparency,
                   child: ListTile(
+                    onTap: () => {
+                      logger.f('tapped on bookmark ${bookmark.jobHashId}'),
+                      _singleJobProvider.getJob(bookmark.jobHashId).then((job) {
+                        int colorIndex = Random().nextInt(10);
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Dialog.fullscreen(
+                                    backgroundColor: Colors.transparent,
+                                    child: FlipCard(
+                                      direction: FlipDirection.VERTICAL,
+                                      front: Stack(
+                                        children: [
+                                          FrontCard(
+                                              job: job,
+                                              accentColor: PastelColorProvider()
+                                                  .generatePastelColor(colorIndex)),
+                                          FloatingActionButton(
+                                            onPressed: () => {Navigator.pop(context)},
+                                            child: const Icon(Icons.close),
+                                          ),
+                                        ],
+                                      ),
+                                      back: BackCard(
+                                          job: job,
+                                          accentColor:
+                                              PastelColorProvider().generatePastelColor(colorIndex)),
+                                    ),
+                                  ),
+                                ));
+                      })
+                    },
                     horizontalTitleGap: 4,
                     minVerticalPadding: 8,
                     tileColor: bookmark.isLiked ? Colors.green[50] : null,
@@ -175,32 +178,29 @@ class _BookmarkListState extends State<BookmarkList> {
                               return IconTheme(
                                 data: const IconThemeData(color: Colors.grey),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(children: [
                                       const Icon(Icons.remove_red_eye_outlined),
                                       const SizedBox(width: 4),
                                       SizedBox(
                                           width: 40,
-                                          child: Text(_formatNumber(
-                                              bookmark.swipedJobInfo!.views)))
+                                          child: Text(_formatNumber(bookmark.swipedJobInfo!.views)))
                                     ]),
                                     Row(children: [
                                       const Icon(Icons.pageview_outlined),
                                       const SizedBox(width: 4),
                                       SizedBox(
                                           width: 40,
-                                          child: Text(_formatNumber(
-                                              bookmark.swipedJobInfo!.details)))
+                                          child: Text(_formatNumber(bookmark.swipedJobInfo!.details)))
                                     ]),
                                     Row(children: [
                                       const Icon(Icons.bookmarks_outlined),
                                       const SizedBox(width: 4),
                                       SizedBox(
                                           width: 40,
-                                          child: Text(_formatNumber(bookmark
-                                              .swipedJobInfo!.bookmarks)))
+                                          child:
+                                              Text(_formatNumber(bookmark.swipedJobInfo!.bookmarks)))
                                     ]),
                                   ],
                                 ),
@@ -211,36 +211,16 @@ class _BookmarkListState extends State<BookmarkList> {
                       ],
                     ),
                     leading: IconButton(
-                      icon: Icon(
-                          bookmark.isLiked
-                              ? Icons.favorite
-                              : Icons.favorite_border,
+                      icon: Icon(bookmark.isLiked ? Icons.favorite : Icons.favorite_border,
                           color: Colors.green),
                       onPressed: () {
                         _bookmarkProvider.toggleBookmarkLike(bookmark);
                       },
                     ),
                     visualDensity: VisualDensity.comfortable,
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     // trailing SwipedJobInfo
                   ),
-                  confirmDismiss: (DismissDirection direction) async {
-                    if (direction == DismissDirection.startToEnd) {
-                      _bookmarkProvider.toggleBookmarkLike(bookmark);
-                      return false;
-                    } else if (bookmark.isLiked) {
-                      return await showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              DeleteBookmarkDialog(bookmark: bookmark));
-                    } else {
-                      return true;
-                    }
-                  },
-                  onDismissed: (direction) {
-                    _bookmarkProvider.removeBookmark(bookmark);
-                  },
                 ),
               );
             });
