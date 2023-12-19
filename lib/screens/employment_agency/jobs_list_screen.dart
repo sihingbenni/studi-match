@@ -23,8 +23,7 @@ class _EAJobsListScreenState extends State<EAJobsListScreen> {
             actionAccountIcon: false,
             userIsAnonymous: false,
             userIsNotAnonymous: false,
-            actionBookmark: true,
-            title: 'Dein nächster Job'),
+            actionBookmark: true),
         body: Builder(
           builder: (context) {
             try {
