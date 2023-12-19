@@ -1,17 +1,22 @@
 
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:studi_match/exceptions/geo_locator_exception.dart';
 import 'package:studi_match/models/coordinates.dart';
 import 'package:studi_match/utilities/logger.dart';
 
-class GeoLocationProvider {
+class GeoLocationProvider extends ChangeNotifier {
 
   static Coordinates lastCoordinatesCalled = Coordinates(0, 0);
   static String lastZipCodeCalled = '';
 
   static String lastZipCodeValidated = '';
   static bool lastZipCodeValidationResult = false;
+
+  bool loading = false;
 
   /// Determine the current position of the device.
   ///
@@ -21,6 +26,7 @@ class GeoLocationProvider {
     bool serviceEnabled;
     LocationPermission permission;
 
+    logger.d('checking if location services are enabled');
     // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -30,8 +36,10 @@ class GeoLocationProvider {
       return Future.error('Die Standortdienste sind deaktiviert. Bitte aktiviere die Standortdienste in den Einstellungen.');
     }
 
+    logger.d('checking if location permissions are granted');
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
+      logger.w('location permissions are denied. requesting permissions');
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         // Permissions are denied, next time you could try
@@ -43,6 +51,7 @@ class GeoLocationProvider {
       }
     }
 
+    logger.d('checking if location permissions are permanently denied');
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
       return Future.error(
@@ -51,13 +60,32 @@ class GeoLocationProvider {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest, timeLimit: const Duration(seconds: 5));
   }
 
   Future<Object> getZipCode() async {
     try {
-      final position = await _determinePosition();
+      logger.d('GeoApi called');
+      loading = true;
+      // delay the loading screen to prevent flickering
+      Future.delayed(const Duration(milliseconds: 100), () => {
+        if (loading) {
+          notifyListeners()
+        }
+      });
+      Position position;
 
+      try {
+        position = await _determinePosition();
+      } on TimeoutException catch (_) {
+        loading = false;
+        notifyListeners();
+        return GeoLocatorException('Es ist ein Fehler aufgetreten, versuche es später erneut!');
+      }
+
+      loading = false;
+      notifyListeners();
+      logger.d('GeoApi finished');
       if (lastCoordinatesCalled.lat == position.latitude && lastCoordinatesCalled.lon == position.longitude) {
         logger.i('GeoApi called again with same coordinates. Returning last: $lastZipCodeCalled');
         return lastZipCodeCalled;

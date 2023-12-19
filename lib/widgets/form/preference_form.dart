@@ -28,13 +28,22 @@ class _PreferenceFormState extends State<PreferenceForm> {
   int distance = 25;
   bool loading = true;
   bool _plzValid = true;
+
+  bool _geoLocatorLoading = false;
   final preferencesProvider = JobPreferencesProvider();
+  final geoLocationProvider = GeoLocationProvider();
 
   final TextEditingController _plzController = TextEditingController(text: '');
 
   @override
   void initState() {
     preferencesProvider.getPreferences(widget.uuid);
+
+    geoLocationProvider.addListener(() {
+      setState(() {
+        _geoLocatorLoading = geoLocationProvider.loading;
+      });
+    });
 
     preferencesProvider.addListener(() {
       // on change update the list of jobs
@@ -104,33 +113,46 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 decoration: InputDecoration(
                   hintText: 'PLZ',
                   labelText: 'Wo suchst du?',
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.my_location),
-                    onPressed: () {
-                      GeoLocationProvider().getZipCode().then((value) {
-                        if (value is GeoLocatorException) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(value.message),
-                              duration: const Duration(seconds: 2),
-                            ),
-                          );
-                        } else {
-                          setState(() {
-                            location = value.toString();
-                            _plzController.text = location;
+                  suffixIcon: Builder(
+                    builder: (context) {
+                      if (_geoLocatorLoading) {
+                        return const SizedBox(
+                          height: 10.0,
+                          width: 10.0,
+                          child: Center(
+                              child: CircularProgressIndicator()
+                          ),
+                        );
+                      }
+                      return IconButton(
+                        icon: const Icon(Icons.my_location),
+                        onPressed: () {
+                          geoLocationProvider.getZipCode().then((value) {
+                            if (value is GeoLocatorException) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(value.message),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            } else {
+                              setState(() {
+                                location = value.toString();
+                                _plzController.text = location;
+                              });
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text('Es wurde die PLZ: $value ermittelt'),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            }
                           });
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: Colors.green,
-                              content: Text('Es wurde die PLZ: $value ermittelt'),
-                              duration: const Duration(seconds: 2),
-                            ),
-                          );
-                        }
-                      });
-                    },
+                        },
+                      );
+                    }
                   ),
                 ),
                 onChanged: (val) {
