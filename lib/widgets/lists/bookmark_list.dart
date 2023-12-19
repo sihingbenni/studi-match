@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:studi_match/models/bookmark.dart';
 import 'package:studi_match/providers/bookmark_provider.dart';
 import 'package:studi_match/utilities/logger.dart';
+import 'package:studi_match/widgets/dialogs/delete_bookmark_dialog.dart';
 
 /// This widget displays the list of bookmarked jobs
 class BookmarkList extends StatefulWidget {
@@ -167,28 +168,7 @@ class _BookmarkListState extends State<BookmarkList> {
                 } else if (bookmark.isLiked) {
                   return await showDialog(
                       context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                            title: const Text('Lösche Lesezeichen'),
-                            content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text('Bist du dir sicher ein favoritisiertes Lesezeichen zu löschen?'),
-                                  const SizedBox(height: 8),
-                                  ListTile(
-                                    title: Text(bookmark.title ?? 'Kein Titel verfügbar'),
-                                    subtitle: Text(bookmark.employer),
-                                  ),
-                                ]),
-                            actions: <Widget>[
-                              ElevatedButton(
-                                  onPressed: () => Navigator.of(context).pop(true),
-                                  child: const Text('Ja')),
-                              ElevatedButton(
-                                  onPressed: () => Navigator.of(context).pop(false),
-                                  child: const Text('Nein')),
-                            ],
-                          ));
+                      builder: (BuildContext context) => DeleteBookmarkDialog(bookmark: bookmark));
                 } else {
                   return true;
                 }

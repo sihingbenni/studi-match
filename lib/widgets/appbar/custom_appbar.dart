@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studi_match/screens/bookmarks/bookmarks_screen.dart';
-import 'package:studi_match/widgets/dialogs/logged-out-alert.dart';
+import 'package:studi_match/widgets/dialogs/logged_out_alert.dart';
 
 import '../router/nav_router.dart';
 import 'account_icon.dart';
