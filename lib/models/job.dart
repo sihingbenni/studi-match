@@ -43,4 +43,26 @@ class Job {
       (value) => map = value,
     );
   }
+
+  Job.fromJobDetails(JobDetails this.jobDetails) {
+    if (jobDetails == null) {
+      throw Exception('JobDetails must not be null');
+    }
+    profession = jobDetails!.profession;
+    title = jobDetails!.title;
+    referenceNr = jobDetails!.referenceNr;
+    address = jobDetails!.workplaces.first;
+    employer = jobDetails!.employer;
+    currentPublicationDate = jobDetails!.currentPublicationDate;
+    modificationTimestamp = jobDetails!.modificationTimestamp;
+    entryDate = jobDetails!.entryDate;
+    logoHashId = jobDetails!.employerLogoHashId;
+    hashId = jobDetails!.hashId;
+    JobLogoProvider.getLogo(logoHashId).then(
+      (value) => logo = value,
+    );
+    JobMapProvider.getMap(address).then(
+      (value) => map = value,
+    );
+  }
 }

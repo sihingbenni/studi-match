@@ -13,7 +13,7 @@ class JobDetails {
   late final String? employerLogoHashId;
   late final String? employerHashId;
   late final String? customerNumberHash;
-  late final String? hashId;
+  late final String hashId;
   late final List<Address> workplaces;
   late final List<WorkingTimeModel> workingTimeModels;
   late final String? informationAboutWorkingTime;
