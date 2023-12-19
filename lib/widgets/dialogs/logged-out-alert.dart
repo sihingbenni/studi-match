@@ -11,14 +11,21 @@ class LoggedOutAlert extends StatelessWidget {
   Widget build(BuildContext context) => AlertDialog(
         title: const Text('Ausloggen?'),
         backgroundColor: Colors.white,
-        content: const Column(
+        content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Bist du dir sicher, dass du dich ausloggen möchtest?'),
-              SizedBox(height: 8),
-              Text(
-                  'Du wirst alle deine Favoriten und Einstellungen verlieren.'),
+              const Text('Bist du dir sicher, dass du dich ausloggen möchtest?'),
+              const SizedBox(height: 8),
+              Builder(
+                  builder: (context) {
+                    if (FirebaseAuth.instance.currentUser!.isAnonymous) {
+                      return const Text('Du wirst alle deine Favoriten und Einstellungen verlieren.');
+                    } else {
+                      return const Text('Du kannst dich jederzeit erneut einloggen. Deine Einstellungen bleiben gespeichert!');
+                    }
+                }
+              ),
             ]),
         actions: <Widget>[
           ElevatedButton(
