@@ -168,25 +168,25 @@ class _BookmarkListState extends State<BookmarkList> {
                   return await showDialog(
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
-                            title: const Text('Remove Liked Bookmark'),
+                            title: const Text('Lösche Lesezeichen'),
                             content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text('Are you sure you want to remove this liked bookmark?'),
+                                  const Text('Bist du dir sicher ein favoritisiertes Lesezeichen zu löschen?'),
                                   const SizedBox(height: 8),
                                   ListTile(
-                                    title: Text(bookmark.title ?? 'no title'),
+                                    title: Text(bookmark.title ?? 'Kein Titel verfügbar'),
                                     subtitle: Text(bookmark.employer),
                                   ),
                                 ]),
                             actions: <Widget>[
                               ElevatedButton(
                                   onPressed: () => Navigator.of(context).pop(true),
-                                  child: const Text('Yes')),
+                                  child: const Text('Ja')),
                               ElevatedButton(
                                   onPressed: () => Navigator.of(context).pop(false),
-                                  child: const Text('No')),
+                                  child: const Text('Nein')),
                             ],
                           ));
                 } else {
