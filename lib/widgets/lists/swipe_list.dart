@@ -205,9 +205,9 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                   up: false,
                   down: false,
                 ),
-                backgroundCardCount: 3,
+                backgroundCardCount: 1,
                 cardCount: jobList.length,
-                backgroundCardOffset: const Offset(10, 0),
+                backgroundCardOffset: const Offset(0, 0),
                 onSwipeEnd: (int previousIndex, int targetIndex, SwiperActivity activity) {
                   if (activity is Unswipe) {
                     _undoCardSwipe(targetIndex);
@@ -250,7 +250,6 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                 cardBuilder: (context, index) {
                   // set the job at the index
                   final Job job = jobList[index];
-
                   return FlipCard(
                       controller: widget.flipcardController,
                       direction: FlipDirection.VERTICAL,
@@ -263,7 +262,8 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                         if (job.jobDetails == null) {
                           jobDetailsProvider.getDetails(job);
                         }
-                      });
+                      }
+                  );
                 },
               ),
             );
