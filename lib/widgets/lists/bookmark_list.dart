@@ -47,7 +47,7 @@ class _BookmarkListState extends State<BookmarkList> {
     builder: (context) {
       if (_allFetched && _bookmarkList.isEmpty) {
         return const Center(
-          child: Text('No Bookmarks Yet'),
+          child: Text('Noch keine Lesezeichen vorhanden'),
         );
       }
       return ListView.builder(
@@ -97,7 +97,7 @@ class _BookmarkListState extends State<BookmarkList> {
                 minVerticalPadding: 8,
                 tileColor: bookmark.isLiked ? Colors.green[50] : null,
                 title: Text(
-                  bookmark.title ?? 'no title',
+                  bookmark.title ?? 'kein Titel verfügbar',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Column(
