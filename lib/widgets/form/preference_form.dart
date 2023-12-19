@@ -120,6 +120,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                             location = value.toString();
                             _plzController.text = location;
                           });
+                          ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               backgroundColor: Colors.green,
@@ -210,6 +211,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                             location,
                             distance,
                           );
+                          ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               backgroundColor: Colors.green,
@@ -225,6 +227,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                           );
                         } else {
                           // show error message in snackbar
+                          ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Bitte passe deine Eingaben an'),
