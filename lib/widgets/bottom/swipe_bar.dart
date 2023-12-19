@@ -55,7 +55,6 @@ class _SwipeBarState extends State<SwipeBar> {
           ),
           ElevatedButton(
             onPressed: () {
-              // TODO: remove from bookmarks
               widget.appinioController.unswipe();
             },
             style: ElevatedButton.styleFrom(

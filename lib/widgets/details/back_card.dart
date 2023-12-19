@@ -10,7 +10,8 @@ class BackCard extends StatelessWidget {
   final Color accentColor;
 
   @override
-  Widget build(BuildContext context) => Stack(children: [
+  Widget build(BuildContext context) =>
+      Stack(children: [
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
@@ -25,127 +26,125 @@ class BackCard extends StatelessWidget {
             } else {
               JobDetails jobDetails = job.jobDetails!;
               return SingleChildScrollView(
-                child: Column(
-                  children: [
+                  child: Column(
+                    children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            const Text(
-                              'Ref.-Nr.:',
-                              style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Flexible(
-                              child: Text(
-                                job.referenceNr ?? 'no-referenceNr',
-                                maxLines: 2,
-                                style: const TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          jobDetails.title ?? 'no title',
-                          maxLines: 2,
-                          style: const TextStyle(
-                              color: Colors.black87,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          jobDetails.profession ?? 'no profession',
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(
-                              color: Colors.black87, fontSize: 16),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Kontakt',
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-
-                        job.logo,
-                        Text(
-                          jobDetails.employer ?? 'no employer',
-                          style: const TextStyle(
-                              color: Colors.black87, fontSize: 16),
-                        ),
-                        Text(
-                          '${job.address?.city ?? 'no-city'}, ${job.address?.country ?? 'no-country'}',
-                          maxLines: 2,
-                          style: const TextStyle(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        jobDetails.title ?? 'no title',
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        style: const TextStyle(
                             color: Colors.black87,
                             fontSize: 16,
-                          ),
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        jobDetails.profession ?? 'no profession',
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                            color: Colors.black87, fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Kontakt',
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+
+                      job.logo,
+                      Text(
+                        jobDetails.employer ?? 'no employer',
+                        style: const TextStyle(
+                            color: Colors.black87, fontSize: 16),
+                      ),
+                      Text(
+                        '${job.address?.city ?? 'no-city'}, ${job.address
+                            ?.country ?? 'no-country'}',
+                        maxLines: 2,
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 16,
                         ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        const Text(
-                          'Beschreibung',
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      const Text(
+                        'Beschreibung',
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      jobDetails.jobDescription != null
+                          ? Text(
+                        jobDetails.jobDescription!,
+                        style: const TextStyle(
+                            color: Colors.black87, fontSize: 16),
+                      )
+                          : const Text(
+                        'no description',
+                        style: TextStyle(
+                            color: Colors.black87, fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        String referenceNumber = jobDetails.referenceNr ??
+                            'no-referenceNr';
+                        Uri uri = Uri(
+                          scheme: 'https',
+                          host: 'www.arbeitsagentur.de',
+                          path: 'jobsuche/jobdetail/$referenceNumber',
+                        );
+                        bool launched = await canLaunchUrl(uri);
+                        if (launched) {
+                          await launchUrl(uri);
+                        } else {
+                          throw 'Could not launch $uri';
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red[800],
+                        minimumSize: const Size(double.infinity, 50),
+                      ),
+                      child: const Text(
+                          'Jetzt über die Arbeitsagentur bewerben!',
                           style: TextStyle(
-                              color: Colors.black87,
+                              color: Colors.white,
                               fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        jobDetails.jobDescription != null
-                            ? Text(
-                                jobDetails.jobDescription!,
-                                style: const TextStyle(
-                                    color: Colors.black87, fontSize: 16),
-                              )
-                            : const Text(
-                                'no description',
-                                style: TextStyle(
-                                    color: Colors.black87, fontSize: 16),
-                              ),
-                      ],
-                    ),
-                    ElevatedButton(onPressed: () async {
-                      String referenceNumber = jobDetails.referenceNr ?? 'no-referenceNr';
-                      Uri uri = Uri(
-                        scheme: 'https',
-                        host: 'www.arbeitsagentur.de',
-                        path: 'jobsuche/jobdetail/$referenceNumber',
-                      );
-                      bool launched = await canLaunchUrl(uri);
-                      if (launched) {
-                        await launchUrl(uri);
-                      } else {
-                        throw 'Could not launch $uri';
-                      }
-                    }, child: const Text('Zur Arbeitsagentur') ),
-                  ],
-                ),
-              );
-            }
+                              fontWeight: FontWeight.bold)
+                      )
+              ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                    ]
+            ,
+            )
+            ,
+            );
+          }
           }),
         ),
       ]
-  );
+      );
 }
