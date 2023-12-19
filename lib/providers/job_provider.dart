@@ -40,7 +40,7 @@ class JobProvider extends ChangeNotifier {
     }
 
 
-    //
+    // check if the user exists
     if(!user.exists) {
       // the user is logging in for the first time
       return UserDoesNotExistsException('user does not exist');
