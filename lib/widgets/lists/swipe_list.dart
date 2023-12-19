@@ -8,6 +8,7 @@ import 'package:studi_match/exceptions/user_does_not_exists_exception.dart';
 import 'package:studi_match/providers/job_details_provider.dart';
 import 'package:studi_match/providers/pastel_color_provider.dart';
 import 'package:studi_match/screens/account/onboarding_screen.dart';
+import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../../models/job.dart';
@@ -50,6 +51,7 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   List<Job> jobList = [];
   int maxNrOfResults = 0;
   int lastFetchedAt = 0;
+  bool endReached = false;
 
   void _restartAnimation(AnimationController animationController) {
     // todo think about resetting both controllers at the same time so that only one animation is running at a time
@@ -190,6 +192,29 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) => Stack(children: [
+    Builder(
+        builder: (context) {
+          if (endReached) {
+            return Center(
+              child: Column(
+                children: [
+                  const Text('Du hast das Ende Erreicht'),
+                  ElevatedButton(onPressed: () => {
+                    Navigator.of(context).pop(),
+                    Navigator.of(context).push(
+                      NavRouter(
+                        builder: (context) => const EAJobsListScreen(),
+                      ),
+                    ),
+                  }, child: const Text('Von vorne beginnen'))
+                ],
+              ),
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        }
+    ),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Builder(builder: (context) {
@@ -245,7 +270,9 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                 },
                 onEnd: () {
                   logger.w('End reached');
-                  //TODO make sure that no more are loading
+                  setState(() {
+                    endReached = true;
+                  });
                 },
                 cardBuilder: (context, index) {
                   // set the job at the index
@@ -289,7 +316,8 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
             child: _getDismissedStateIcon(),
           ),
         ),
-      ]);
+      ]
+  );
 }
 
 enum AnimationState {
