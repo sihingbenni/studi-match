@@ -6,8 +6,8 @@ import 'package:studi_match/exceptions/package_missing_exception.dart';
 import 'package:studi_match/exceptions/preferences_not_set_exception.dart';
 import 'package:studi_match/exceptions/user_does_not_exists_exception.dart';
 import 'package:studi_match/providers/job_details_provider.dart';
+import 'package:studi_match/providers/pastel_color_provider.dart';
 import 'package:studi_match/screens/account/onboarding_screen.dart';
-import 'package:studi_match/utilities/pastel_color_generator.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../../models/job.dart';
@@ -180,7 +180,7 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   }
 
   // Color generator
-  PastelColorGenerator pastelColorGenerator = PastelColorGenerator();
+  PastelColorProvider pastelColorProvider = PastelColorProvider();
 
   @override
   void dispose() {
@@ -205,9 +205,9 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                   up: false,
                   down: false,
                 ),
-                backgroundCardCount: 3,
+                backgroundCardCount: 1,
                 cardCount: jobList.length,
-                backgroundCardOffset: const Offset(10, 0),
+                backgroundCardOffset: const Offset(0, 0),
                 onSwipeEnd: (int previousIndex, int targetIndex, SwiperActivity activity) {
                   if (activity is Unswipe) {
                     _undoCardSwipe(targetIndex);
@@ -250,20 +250,20 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                 cardBuilder: (context, index) {
                   // set the job at the index
                   final Job job = jobList[index];
-
                   return FlipCard(
                       controller: widget.flipcardController,
                       direction: FlipDirection.VERTICAL,
                       front: FrontCard(
-                          job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
+                          job: job, accentColor: pastelColorProvider.generatePastelColor(index)),
                       back: BackCard(
-                          job: job, accentColor: pastelColorGenerator.generatePastelColor(index)),
+                          job: job, accentColor: pastelColorProvider.generatePastelColor(index)),
                       onFlip: () {
                         // if the card is first time flipped to the back, fetch the job details
                         if (job.jobDetails == null) {
                           jobDetailsProvider.getDetails(job);
                         }
-                      });
+                      }
+                  );
                 },
               ),
             );
