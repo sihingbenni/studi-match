@@ -58,9 +58,9 @@ dependencies:
   geolocator: ^10.1.0
   geocoding: ^2.1.1
   url_launcher: ^6.2.2
-  firebase_auth_mocks: ^0.13.0
 
 dev_dependencies:
+  firebase_auth_mocks: ^0.13.0
   flutter_test:
     sdk: flutter
 
