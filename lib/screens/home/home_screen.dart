@@ -43,6 +43,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Text(
                           'StudiMatch',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 36,
                               letterSpacing: 2.0,
@@ -56,6 +57,7 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         const Text(
                           'Match dein nächstes Abenteuer.',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -87,6 +89,7 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(height: 20),
                         const Text(
                           'und finde dein neues Team hier!',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
