@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studi_match/providers/firebase_auth_provider.dart';
-import 'package:studi_match/widgets/dialogs/false_redirect-alert.dart';
+import 'package:studi_match/widgets/dialogs/false_redirect_alert.dart';
 
 import '../form/preference_form.dart';
 

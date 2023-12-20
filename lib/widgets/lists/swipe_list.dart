@@ -8,7 +8,7 @@ import 'package:studi_match/exceptions/user_does_not_exists_exception.dart';
 import 'package:studi_match/providers/job_details_provider.dart';
 import 'package:studi_match/providers/pastel_color_provider.dart';
 import 'package:studi_match/screens/account/onboarding_screen.dart';
-import 'package:studi_match/widgets/router/end-of-list-router.dart';
+import 'package:studi_match/widgets/router/end_of_list_router.dart';
 import 'package:studi_match/widgets/router/nav_router.dart';
 
 import '../../models/job.dart';
