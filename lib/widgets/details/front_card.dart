@@ -27,12 +27,12 @@ class FrontCard extends StatelessWidget {
                 children: [job.logo],
               ),
               const SizedBox(height: 8),
-              Text(job.title ?? 'no title',
+              Text(job.title ?? 'Kein Titel angegeben',
                   style: const TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.bold,
                       fontSize: 18)),
-              Text(job.employer ?? 'no-employer',
+              Text(job.employer ?? 'Kein Arbeitgeber angegeben',
                   style: const TextStyle(color: Colors.black87)),
               const SizedBox(
                 height: 8,
@@ -42,7 +42,7 @@ class FrontCard extends StatelessWidget {
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   const Text(
-                    'Wann?',
+                    'Wann:',
                     style: TextStyle(
                         color: Colors.black87,
                         fontSize: 16,
@@ -68,7 +68,7 @@ class FrontCard extends StatelessWidget {
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   const Text(
-                    'Wo?',
+                    'Wo:',
                     style: TextStyle(
                       color: Colors.black87,
                       fontSize: 16,
@@ -98,7 +98,7 @@ class FrontCard extends StatelessWidget {
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   const Text(
-                    'Was?',
+                    'Was:',
                     style: TextStyle(
                       color: Colors.black87,
                       fontSize: 16,
@@ -110,7 +110,7 @@ class FrontCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      job.profession ?? 'no-profession',
+                      job.profession ?? 'Kein Beruf angegeben',
                       maxLines: 2,
                       style: const TextStyle(
                         color: Colors.black87,

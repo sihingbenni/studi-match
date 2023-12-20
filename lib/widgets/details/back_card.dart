@@ -32,7 +32,7 @@ class BackCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        jobDetails.title ?? 'no title',
+                        jobDetails.title ?? 'Kein Titel angegeben',
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         style: const TextStyle(
@@ -41,7 +41,7 @@ class BackCard extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        jobDetails.profession ?? 'no profession',
+                        jobDetails.profession ?? 'Kein Beruf angegeben',
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                             color: Colors.black87, fontSize: 16),
@@ -64,13 +64,13 @@ class BackCard extends StatelessWidget {
 
                       job.logo,
                       Text(
-                        jobDetails.employer ?? 'no employer',
+                        jobDetails.employer ?? 'Kein Arbeitgeber angegeben',
                         style: const TextStyle(
                             color: Colors.black87, fontSize: 16),
                       ),
                       Text(
-                        '${job.address?.city ?? 'no-city'}, ${job.address
-                            ?.country ?? 'no-country'}',
+                        '${job.address?.city ?? 'Keine Stadt angegeben'}, ${job.address
+                            ?.country ?? 'Kein Land angegeben'}',
                         maxLines: 2,
                         style: const TextStyle(
                           color: Colors.black87,
@@ -97,7 +97,7 @@ class BackCard extends StatelessWidget {
                             color: Colors.black87, fontSize: 16),
                       )
                           : const Text(
-                        'no description',
+                        'Keine Beschreibung angegeben',
                         style: TextStyle(
                             color: Colors.black87, fontSize: 16),
                       ),
