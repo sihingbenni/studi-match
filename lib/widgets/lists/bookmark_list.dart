@@ -6,10 +6,13 @@ import 'package:studi_match/models/bookmark.dart';
 import 'package:studi_match/providers/bookmark_provider.dart';
 import 'package:studi_match/providers/pastel_color_provider.dart';
 import 'package:studi_match/providers/single_job_provider.dart';
+import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 import 'package:studi_match/utilities/logger.dart';
 import 'package:studi_match/widgets/details/back_card.dart';
 import 'package:studi_match/widgets/details/front_card.dart';
 import 'package:studi_match/widgets/dialogs/delete_bookmark_dialog.dart';
+
+import '../router/nav_router.dart';
 
 /// This widget displays the list of bookmarked jobs
 class BookmarkList extends StatefulWidget {
@@ -54,8 +57,30 @@ class _BookmarkListState extends State<BookmarkList> {
   @override
   Widget build(BuildContext context) => Builder(builder: (context) {
         if (_allFetched && _bookmarkList.isEmpty) {
-          return const Center(
-            child: Text('Noch keine Lesezeichen vorhanden'),
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.bookmarks, size: 100, color: Colors.orangeAccent),
+                const SizedBox(height: 16),
+                const Flexible(
+                    child: Text('Du hast noch keine Lesezeichen hinzugefügt',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold))),
+                const SizedBox(height: 16),
+                ElevatedButton(onPressed: () {
+                  Navigator.of(context).push(
+                    NavRouter(
+                      builder: (context) => const EAJobsListScreen(),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.orangeAccent, minimumSize: const Size(double.infinity, 50)),
+                    child: const Text('Jetzt swipen und dein nächstes Abenteuer finden!', textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white))),
+              ],
+            ),
           );
         }
         return ListView.builder(
@@ -136,17 +161,19 @@ class _BookmarkListState extends State<BookmarkList> {
                                           FrontCard(
                                               job: job,
                                               accentColor: PastelColorProvider()
-                                                  .generatePastelColor(colorIndex)),
+                                                  .generatePastelColor(
+                                                      colorIndex)),
                                           FloatingActionButton(
-                                            onPressed: () => {Navigator.pop(context)},
+                                            onPressed: () =>
+                                                {Navigator.pop(context)},
                                             child: const Icon(Icons.close),
                                           ),
                                         ],
                                       ),
                                       back: BackCard(
                                           job: job,
-                                          accentColor:
-                                              PastelColorProvider().generatePastelColor(colorIndex)),
+                                          accentColor: PastelColorProvider()
+                                              .generatePastelColor(colorIndex)),
                                     ),
                                   ),
                                 ));
@@ -178,29 +205,32 @@ class _BookmarkListState extends State<BookmarkList> {
                               return IconTheme(
                                 data: const IconThemeData(color: Colors.grey),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(children: [
                                       const Icon(Icons.remove_red_eye_outlined),
                                       const SizedBox(width: 4),
                                       SizedBox(
                                           width: 40,
-                                          child: Text(_formatNumber(bookmark.swipedJobInfo!.views)))
+                                          child: Text(_formatNumber(
+                                              bookmark.swipedJobInfo!.views)))
                                     ]),
                                     Row(children: [
                                       const Icon(Icons.pageview_outlined),
                                       const SizedBox(width: 4),
                                       SizedBox(
                                           width: 40,
-                                          child: Text(_formatNumber(bookmark.swipedJobInfo!.details)))
+                                          child: Text(_formatNumber(
+                                              bookmark.swipedJobInfo!.details)))
                                     ]),
                                     Row(children: [
                                       const Icon(Icons.bookmarks_outlined),
                                       const SizedBox(width: 4),
                                       SizedBox(
                                           width: 40,
-                                          child:
-                                              Text(_formatNumber(bookmark.swipedJobInfo!.bookmarks)))
+                                          child: Text(_formatNumber(bookmark
+                                              .swipedJobInfo!.bookmarks)))
                                     ]),
                                   ],
                                 ),
@@ -211,14 +241,18 @@ class _BookmarkListState extends State<BookmarkList> {
                       ],
                     ),
                     leading: IconButton(
-                      icon: Icon(bookmark.isLiked ? Icons.favorite : Icons.favorite_border,
+                      icon: Icon(
+                          bookmark.isLiked
+                              ? Icons.favorite
+                              : Icons.favorite_border,
                           color: Colors.green),
                       onPressed: () {
                         _bookmarkProvider.toggleBookmarkLike(bookmark);
                       },
                     ),
                     visualDensity: VisualDensity.comfortable,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     // trailing SwipedJobInfo
                   ),
                 ),
