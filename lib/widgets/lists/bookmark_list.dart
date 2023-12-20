@@ -160,6 +160,7 @@ class _BookmarkListState extends State<BookmarkList> {
                                     child: FlipCard(
                                       direction: FlipDirection.VERTICAL,
                                       front: Stack(
+                                        alignment: Alignment.topRight,
                                         children: [
                                           FrontCard(
                                               job: job,
@@ -169,6 +170,9 @@ class _BookmarkListState extends State<BookmarkList> {
                                           FloatingActionButton(
                                             onPressed: () =>
                                                 {Navigator.pop(context)},
+                                            elevation: 0,
+                                            backgroundColor: Colors.transparent,
+
                                             child: const Icon(Icons.close),
                                           ),
                                         ],
