@@ -106,6 +106,8 @@ class GeoLocationProvider extends ChangeNotifier {
         return GeoLocatorException('Es konnte keine Postleitzahl ermittelt werden. Versuche es manuell.');
       }
     } catch (e) {
+      loading = false;
+      notifyListeners();
       return GeoLocatorException(e.toString());
     }
   }
