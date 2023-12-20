@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 import 'package:studi_match/services/firebase/user_service.dart';
 import 'package:studi_match/widgets/form/preference_form.dart';
 
@@ -11,7 +11,7 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  final String uuid = FirebaseAuth.instance.currentUser!.uid;
+  final String uuid = FirebaseAuthProvider.authInstance.currentUser!.uid;
 
   @override
   void initState() {

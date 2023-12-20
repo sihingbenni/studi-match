@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/exceptions/package_missing_exception.dart';
 import 'package:studi_match/exceptions/preferences_not_set_exception.dart';
@@ -9,6 +8,7 @@ import 'package:studi_match/models/job.dart';
 import 'package:studi_match/models/job_list.dart';
 import 'package:studi_match/providers/async_job_provider.dart';
 import 'package:studi_match/providers/config_provider.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 import 'package:studi_match/providers/query_parameter_provider.dart';
 import 'package:studi_match/services/firebase/job_service.dart';
 import 'package:studi_match/services/firebase/user_service.dart';
@@ -28,7 +28,7 @@ class JobProvider extends ChangeNotifier {
   JobProvider();
 
   Future<Exception?> init() async {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
+    String? uid = FirebaseAuthProvider.authInstance.currentUser?.uid;
 
     if (uid == null) {
       return UserNotLoggedInException('user is not yet logged in');

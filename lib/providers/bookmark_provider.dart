@@ -5,12 +5,13 @@ import 'package:studi_match/models/bookmark.dart';
 import 'package:studi_match/models/job.dart';
 import 'package:studi_match/models/swiped_job_info.dart';
 import 'package:studi_match/providers/config_provider.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 import 'package:studi_match/services/firebase/bookmark_service.dart';
 import 'package:studi_match/services/firebase/job_service.dart';
 import 'package:studi_match/utilities/logger.dart';
 
 class BookmarkProvider extends ChangeNotifier {
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuthProvider.authInstance;
   late final String uuid;
 
   bool _isLoading = false;

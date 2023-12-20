@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 
 import '../../screens/authentication/authentication_screen.dart';
 import '../router/nav_router.dart';
@@ -19,7 +19,7 @@ class LoggedOutAlert extends StatelessWidget {
                   'Bist du dir sicher, dass du dich ausloggen möchtest?'),
               const SizedBox(height: 8),
               Builder(builder: (context) {
-                if (FirebaseAuth.instance.currentUser!.isAnonymous) {
+                if (FirebaseAuthProvider.authInstance.currentUser!.isAnonymous) {
                   return const Text(
                       'Du wirst alle deine Favoriten und Einstellungen verlieren.');
                 } else {
@@ -31,7 +31,7 @@ class LoggedOutAlert extends StatelessWidget {
         actions: <Widget>[
           OutlinedButton(
               onPressed: () {
-                FirebaseAuth.instance.signOut();
+                FirebaseAuthProvider.authInstance.signOut();
                 Navigator.of(context).popUntil((route) => false);
                 Navigator.of(context).push(
                   NavRouter(

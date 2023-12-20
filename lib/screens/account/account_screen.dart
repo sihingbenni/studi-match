@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 import 'package:studi_match/widgets/accounts/anonymous_account.dart';
 import 'package:studi_match/widgets/accounts/logged_in_account.dart';
 import 'package:studi_match/widgets/appbar/custom_appbar.dart';
@@ -15,7 +15,7 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  final String uuid = FirebaseAuth.instance.currentUser!.uid;
+  final String uuid = FirebaseAuthProvider.authInstance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -26,7 +26,7 @@ class _AccountScreenState extends State<AccountScreen> {
             actionBookmark: false,
             title: 'Dein Profil'),
         body: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
+          stream: FirebaseAuthProvider.authInstance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.data?.isAnonymous ?? true) {
               return AnonymousAccount(uuid: uuid);

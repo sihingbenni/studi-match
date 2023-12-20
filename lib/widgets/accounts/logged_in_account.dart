@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 import 'package:studi_match/widgets/dialogs/false_redirect-alert.dart';
 
 import '../form/preference_form.dart';
@@ -11,7 +11,7 @@ class LoggedInAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
+      stream: FirebaseAuthProvider.authInstance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active &&
             snapshot.hasData) {

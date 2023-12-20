@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 import 'package:studi_match/screens/authentication/sign_up_screen.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 import 'package:studi_match/utilities/logger.dart';
@@ -119,7 +120,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Future signIn() async {
     try {
-      await FirebaseAuth.instance
+      await FirebaseAuthProvider.authInstance
           .signInWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text.trim(),

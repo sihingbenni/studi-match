@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 import 'package:studi_match/screens/account/onboarding_screen.dart';
 import 'package:studi_match/screens/authentication/sign_in_screen.dart';
 import 'package:studi_match/utilities/logger.dart';
@@ -125,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     try {
-      await FirebaseAuth.instance
+      await FirebaseAuthProvider.authInstance
           .createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),

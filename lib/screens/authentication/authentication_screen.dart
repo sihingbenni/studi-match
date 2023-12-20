@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_button/sign_button.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 import 'package:studi_match/screens/account/onboarding_screen.dart';
 import 'package:studi_match/screens/authentication/sign_in_screen.dart';
 import 'package:studi_match/screens/authentication/sign_up_screen.dart';
@@ -125,7 +125,7 @@ class AuthenticationScreen extends StatelessWidget {
                             listen: false);
                         provider.googleLogin().then((value) {
                           // check if the login was successful
-                          if (FirebaseAuth.instance.currentUser == null) {
+                          if (FirebaseAuthProvider.authInstance.currentUser == null) {
                             logger.w('Google Login failed');
                             return;
                           }
@@ -141,7 +141,7 @@ class AuthenticationScreen extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       try {
-                        FirebaseAuth.instance.signInAnonymously().then((value) {
+                        FirebaseAuthProvider.authInstance.signInAnonymously().then((value) {
                           logger.i('Du bist nun authentifiziert.');
                           // remove all routes from the stack and push the onboarding screen
                           Navigator.of(context).popUntil((route) => false);

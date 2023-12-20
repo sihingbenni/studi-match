@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 
 import '../../screens/account/account_screen.dart';
 import '../../screens/authentication/authentication_screen.dart';
@@ -10,7 +11,7 @@ class AccountIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
+        stream: FirebaseAuthProvider.authInstance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.data?.isAnonymous ?? true) {
             return IconButton(

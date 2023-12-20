@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 import 'package:studi_match/screens/authentication/authentication_screen.dart';
 import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 
@@ -11,7 +12,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
+      stream: FirebaseAuthProvider.authInstance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return const EAJobsListScreen();
