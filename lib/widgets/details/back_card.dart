@@ -128,6 +128,7 @@ class BackCard extends StatelessWidget {
                       ),
                       child: const Text(
                           'Jetzt über die Arbeitsagentur bewerben!',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
