@@ -148,7 +148,6 @@ class _BookmarkListState extends State<BookmarkList> {
                   type: MaterialType.transparency,
                   child: ListTile(
                     onTap: () => {
-                      logger.f('tapped on bookmark ${bookmark.jobHashId}'),
                       _singleJobProvider.getJob(bookmark.jobHashId).then((job) {
                         int colorIndex = Random().nextInt(10);
                         showDialog(
