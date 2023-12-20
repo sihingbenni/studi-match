@@ -9,6 +9,7 @@ class DeleteBookmarkDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AlertDialog(
         title: const Text('Lösche Lesezeichen'),
+        backgroundColor: Colors.white,
         content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,12 +23,12 @@ class DeleteBookmarkDialog extends StatelessWidget {
               ),
             ]),
         actions: <Widget>[
-          ElevatedButton(
+          OutlinedButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Ja')),
-          ElevatedButton(
+              child: const Text('Ja', style: TextStyle(color: Colors.black87))),
+          OutlinedButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Nein')),
+              child: const Text('Nein', style: TextStyle(color: Colors.black87))),
         ],
       );
 }
