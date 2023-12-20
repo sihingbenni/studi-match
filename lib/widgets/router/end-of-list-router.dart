@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../screens/account/anonymous_account_screen.dart';
-import '../../screens/account/logged_in_account_screen.dart';
+import '../../screens/account/account_screen.dart';
 import '../../screens/employment_agency/jobs_list_screen.dart';
 import 'nav_router.dart';
 
@@ -24,12 +22,7 @@ class EndOfListRouter extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     NavRouter(
-                      builder: (context) {
-                        if (FirebaseAuth.instance.currentUser!.isAnonymous) {
-                          return const AnonymousAccountScreen();
-                        }
-                        return const LoggedInAccountScreen();
-                      },
+                      builder: (context) => const AccountScreen(),
                     ),
                   );
                 },
