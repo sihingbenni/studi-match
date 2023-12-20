@@ -6,13 +6,10 @@ import 'package:studi_match/models/bookmark.dart';
 import 'package:studi_match/providers/bookmark_provider.dart';
 import 'package:studi_match/providers/pastel_color_provider.dart';
 import 'package:studi_match/providers/single_job_provider.dart';
-import 'package:studi_match/screens/employment_agency/jobs_list_screen.dart';
 import 'package:studi_match/utilities/logger.dart';
 import 'package:studi_match/widgets/details/back_card.dart';
 import 'package:studi_match/widgets/details/front_card.dart';
 import 'package:studi_match/widgets/dialogs/delete_bookmark_dialog.dart';
-
-import '../router/nav_router.dart';
 
 /// This widget displays the list of bookmarked jobs
 class BookmarkList extends StatefulWidget {
@@ -62,7 +59,8 @@ class _BookmarkListState extends State<BookmarkList> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.bookmarks, size: 100, color: Colors.orangeAccent),
+                const Icon(Icons.bookmarks,
+                    size: 100, color: Colors.orangeAccent),
                 const SizedBox(height: 16),
                 const Flexible(
                     child: Text('Du hast noch keine Lesezeichen hinzugefügt',
@@ -70,15 +68,20 @@ class _BookmarkListState extends State<BookmarkList> {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold))),
                 const SizedBox(height: 16),
-                ElevatedButton(onPressed: () {
-                  Navigator.of(context).push(
-                    NavRouter(
-                      builder: (context) => const EAJobsListScreen(),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.orangeAccent, minimumSize: const Size(double.infinity, 50)),
-                    child: const Text('Jetzt swipen und dein nächstes Abenteuer finden!', textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white))),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orangeAccent,
+                        minimumSize: const Size(double.infinity, 50)),
+                    child: const Text(
+                        'Jetzt swipen und dein nächstes Abenteuer finden!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white))),
               ],
             ),
           );
