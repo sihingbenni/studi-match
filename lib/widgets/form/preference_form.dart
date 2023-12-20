@@ -30,7 +30,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
   bool _plzValid = true;
 
   bool _geoLocatorLoading = false;
-  final preferencesProvider = JobPreferencesProvider();
+  final preferencesProvider = JobPreferencesProvider.getInstance();
   final geoLocationProvider = GeoLocationProvider();
 
   final TextEditingController _plzController = TextEditingController(text: '');

@@ -1,10 +1,22 @@
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:studi_match/providers/firebase_auth_provider.dart';
 import 'package:studi_match/screens/authentication/authentication_screen.dart';
 import 'package:studi_match/screens/home/home_screen.dart';
 
 void main() {
-  testWidgets('HomeScreen widget renders correctly', (WidgetTester tester) async {
+
+  // Create a mock FirebaseAuth instance
+  final MockFirebaseAuth mockFirebaseAuth = MockFirebaseAuth();
+
+  setUpAll(() {
+    FirebaseAuthProvider.overwriteAuthInstance(mockFirebaseAuth);
+  });
+
+
+  testWidgets('HomeScreen widget renders correctly when no user is logged in', (WidgetTester tester) async {
+
     await tester.pumpWidget(
       const MaterialApp(
         home: HomeScreen(),

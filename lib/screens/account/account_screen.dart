@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/providers/firebase_auth_provider.dart';
 import 'package:studi_match/widgets/accounts/anonymous_account.dart';
@@ -15,7 +16,7 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  final String uuid = FirebaseAuthProvider.authInstance.currentUser!.uid;
+  FirebaseAuth authInstance = FirebaseAuthProvider.authInstance;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -25,51 +26,40 @@ class _AccountScreenState extends State<AccountScreen> {
             logOutIcon: true,
             actionBookmark: false,
             title: 'Dein Profil'),
-        body: StreamBuilder(
-          stream: FirebaseAuthProvider.authInstance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.data?.isAnonymous ?? true) {
-              return AnonymousAccount(uuid: uuid);
-            } else if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.hasData) {
-                // User is logged in
-                return LoggedInAccount(uuid: uuid);
-              } else {
-                // User is not logged in
-                return AlertDialog(
-                  backgroundColor: Colors.greenAccent[100],
-                  title: const Text('Du bist leider nicht eingeloggt.'),
-                  content: const Text(
-                    'Um diese Funktion nutzen zu können, musst du dich einloggen.',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          NavRouter(
-                            builder: (context) => const AuthenticationScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        'Jetzt einloggen',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
+        body: Builder(builder: (context) {
+          if (authInstance.currentUser == null) {
+            return AlertDialog(
+              backgroundColor: Colors.greenAccent[100],
+              title: const Text('Du bist leider nicht eingeloggt.'),
+              content: const Text(
+                'Um diese Funktion nutzen zu können, musst du dich einloggen.',
+                style: TextStyle(fontSize: 16),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      NavRouter(
+                        builder: (context) => const AuthenticationScreen(),
                       ),
-                    ),
-                  ],
-                );
-              }
-            } else {
-              // Loading
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),
+                    );
+                  },
+                  child: const Text(
+                    'Jetzt einloggen',
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                ),
+              ],
+            );
+          } else if (authInstance.currentUser!.isAnonymous) {
+            String uuid = authInstance.currentUser!.uid;
+            return AnonymousAccount(uuid: uuid);
+          } else {
+            String uuid = FirebaseAuthProvider.authInstance.currentUser!.uid;
+            // User is logged in
+            return LoggedInAccount(uuid: uuid);
+          }
+        }),
       );
 }

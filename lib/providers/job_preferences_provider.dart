@@ -5,11 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:studi_match/services/firebase/user_service.dart';
 
 class JobPreferencesProvider extends ChangeNotifier {
+
+  static JobPreferencesProvider instance = JobPreferencesProvider();
+
   List<String> packages = [];
   String location = '';
   int distance = 25;
 
   bool loading = true;
+
+  JobPreferencesProvider();
 
   Future<void> getPreferences(String uuid) async {
 
@@ -36,4 +41,6 @@ class JobPreferencesProvider extends ChangeNotifier {
     loading = false;
     notifyListeners();
   }
+
+  static getInstance() => instance;
 }
