@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studi_match/models/job.dart';
 import 'package:studi_match/utilities/logger.dart';
@@ -9,18 +7,12 @@ class JobService {
 
   Future<void> addViewedJob(Job job) async {
     try {
-      await _db
-          .collection('jobs')
-          .doc(job.hashId)
-          .set({
-            'job_info': {
-              'title': job.title,
-              'employer': job.employer
-            },
-            'swipe_info': {
-              'views': FieldValue.increment(1),
-            }
-          }, SetOptions(merge: true));
+      await _db.collection('jobs').doc(job.hashId).set({
+        'job_info': {'title': job.title, 'employer': job.employer},
+        'swipe_info': {
+          'views': FieldValue.increment(1),
+        }
+      }, SetOptions(merge: true));
     } catch (e) {
       logger.e(e);
     }

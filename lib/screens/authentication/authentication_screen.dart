@@ -132,7 +132,9 @@ class AuthenticationScreen extends StatelessWidget {
                                 listen: false);
                             provider.googleLogin().then((value) {
                               // check if the login was successful
-                              if (FirebaseAuthProvider.authInstance.currentUser == null) {
+                              if (FirebaseAuthProvider
+                                      .authInstance.currentUser ==
+                                  null) {
                                 logger.w('Google Login failed');
                                 return;
                               }
@@ -140,7 +142,8 @@ class AuthenticationScreen extends StatelessWidget {
                               Navigator.of(context).popUntil((route) => false);
                               Navigator.of(context).push(
                                 NavRouter(
-                                  builder: (context) => const EAJobsListScreen(),
+                                  builder: (context) =>
+                                      const EAJobsListScreen(),
                                 ),
                               );
                             });
@@ -148,13 +151,16 @@ class AuthenticationScreen extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           try {
-                            FirebaseAuthProvider.authInstance.signInAnonymously().then((value) {
+                            FirebaseAuthProvider.authInstance
+                                .signInAnonymously()
+                                .then((value) {
                               logger.i('Du bist nun authentifiziert.');
                               // remove all routes from the stack and push the onboarding screen
                               Navigator.of(context).popUntil((route) => false);
                               Navigator.of(context).push(
                                 NavRouter(
-                                  builder: (context) => const OnBoardingScreen(),
+                                  builder: (context) =>
+                                      const OnBoardingScreen(),
                                 ),
                               );
                             });

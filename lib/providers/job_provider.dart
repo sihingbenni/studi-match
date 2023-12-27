@@ -34,14 +34,14 @@ class JobProvider extends ChangeNotifier {
       return UserNotLoggedInException('user is not yet logged in');
     }
 
-    DocumentSnapshot<Map<String, dynamic>>? user = await UserService().getUser(uid);
+    DocumentSnapshot<Map<String, dynamic>>? user =
+        await UserService().getUser(uid);
     if (user == null) {
       return UserDoesNotExistsException('user does not exist');
     }
 
-
     // check if the user exists
-    if(!user.exists) {
+    if (!user.exists) {
       // the user is logging in for the first time
       return UserDoesNotExistsException('user does not exist');
     }
@@ -52,7 +52,8 @@ class JobProvider extends ChangeNotifier {
 
     // get the packages from the user
     try {
-      packageStrings = List<String>.from(user['preferences']['packages'] as List);
+      packageStrings =
+          List<String>.from(user['preferences']['packages'] as List);
       location = user['preferences']['location'];
       distance = user['preferences']['distance'];
     } on Error catch (e) {
@@ -71,16 +72,20 @@ class JobProvider extends ChangeNotifier {
       try {
         final package = ConfigProvider.resultPackages[packageString];
         // get all the keywords for the package
-        final List<String> listOfKeywords = package!['listOfKeywords'] as List<String>;
+        final List<String> listOfKeywords =
+            package!['listOfKeywords'] as List<String>;
 
         // for each keyword create an asyncJobProvider
         for (String keyword in listOfKeywords) {
-          final queryParameters = queryParameterProvider.getWithKeyword(keyword);
-          _asyncJobProviders[keyword] = AsyncJobProvider(keyword, queryParameters, _addJobsToMap);
+          final queryParameters =
+              queryParameterProvider.getWithKeyword(keyword);
+          _asyncJobProviders[keyword] =
+              AsyncJobProvider(keyword, queryParameters, _addJobsToMap);
         }
         // on error throw an exception
       } catch (e) {
-        return PackageMissingException('package: "$packageString" does not exist');
+        return PackageMissingException(
+            'package: "$packageString" does not exist');
       }
     }
     return null;
@@ -101,7 +106,10 @@ class JobProvider extends ChangeNotifier {
     }
   }
 
-  void notify({required int newIndex, required Job removedJob, required List<String> keywords}) {
+  void notify(
+      {required int newIndex,
+      required Job removedJob,
+      required List<String> keywords}) {
     logger.t(
         'Nr of Jobs in List: ${jobList.length} - Index: $newIndex - Remaining: ${jobList.length - newIndex}');
     logger.t('Swiped Job was had the keywords: $keywords');

@@ -22,8 +22,10 @@ class HomeScreen extends StatelessWidget {
               Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: CachedNetworkImageProvider('https://images.unsplash.com/photo-1545315003-c5ad6226c272'),
-                    colorFilter: ColorFilter.mode(Colors.black38, BlendMode.darken),
+                    image: CachedNetworkImageProvider(
+                        'https://images.unsplash.com/photo-1545315003-c5ad6226c272'),
+                    colorFilter:
+                        ColorFilter.mode(Colors.black38, BlendMode.darken),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -68,14 +70,14 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(height: 20),
                         ElevatedButton(
                             onPressed: () => {
-                              Navigator.of(context).pop(),
-                              Navigator.of(context).push(
-                                NavRouter(
-                                  builder: (context) =>
-                                  const AuthenticationScreen(),
-                                ),
-                              )
-                            },
+                                  Navigator.of(context).pop(),
+                                  Navigator.of(context).push(
+                                    NavRouter(
+                                      builder: (context) =>
+                                          const AuthenticationScreen(),
+                                    ),
+                                  )
+                                },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.greenAccent,
                               minimumSize: const Size(double.infinity, 50),
@@ -101,7 +103,6 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               )
-
             ]),
           );
         }

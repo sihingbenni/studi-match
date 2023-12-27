@@ -21,12 +21,14 @@ class QueryParameters {
         'page': page.toString(),
         'size': size.toString(),
         'arbeitgeber': employer ?? '',
-        'veroeffentlichtseit': publishedSince != null ? publishedSince.toString() : '',
+        'veroeffentlichtseit':
+            publishedSince != null ? publishedSince.toString() : '',
         'zeitarbeit': temporaryWork != null ? temporaryWork.toString() : '',
         'angebotsart': typeOfOffer != null ? typeOfOffer.toString() : '',
         'befristung': limitedWork ?? '',
         'arbeitszeit': workingHours ?? '',
-        'behinderung': workWithDisability != null ? workWithDisability.toString() : '',
+        'behinderung':
+            workWithDisability != null ? workWithDisability.toString() : '',
         'corona': corona != null ? corona.toString() : '',
         'umkreis': radius != null ? radius.toString() : '',
       }..removeWhere((key, value) => value.isEmpty);

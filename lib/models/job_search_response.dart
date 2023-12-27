@@ -27,7 +27,9 @@ class JobSearchResponse {
             .cast<Job>()
             .toList()
         : [];
-    whereOutput = json['woOutput'] != null ? WhereOutput.fromEAJson(json['woOutput']) : null;
+    whereOutput = json['woOutput'] != null
+        ? WhereOutput.fromEAJson(json['woOutput'])
+        : null;
     facets = Facets.fromEAJson(json['facetten']);
   }
 }

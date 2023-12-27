@@ -11,7 +11,9 @@ class JobMapProvider {
   /// Returns the Job Logo as a CachedNetworkImage Widget
   static Future<StatelessWidget> getMap(Address? address) async {
     Coordinates? coordinates = address?.coordinates;
-    if (coordinates != null && !coordinates.lat.isNaN && !coordinates.lon.isNaN) {
+    if (coordinates != null &&
+        !coordinates.lat.isNaN &&
+        !coordinates.lon.isNaN) {
       double zoom = 13;
 
       // get the key from the firebase api

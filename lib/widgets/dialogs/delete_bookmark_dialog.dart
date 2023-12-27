@@ -28,7 +28,8 @@ class DeleteBookmarkDialog extends StatelessWidget {
               child: const Text('Ja', style: TextStyle(color: Colors.black87))),
           OutlinedButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Nein', style: TextStyle(color: Colors.black87))),
+              child:
+                  const Text('Nein', style: TextStyle(color: Colors.black87))),
         ],
       );
 }

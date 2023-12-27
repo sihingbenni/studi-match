@@ -50,7 +50,8 @@ abstract class EABaseService {
     } else {
       logger.e(response.reasonPhrase);
       //TODO handle the error
-      throw Exception('Request to ${uri.path} Failed! Response Code: ${response.statusCode}');
+      throw Exception(
+          'Request to ${uri.path} Failed! Response Code: ${response.statusCode}');
     }
   }
 }

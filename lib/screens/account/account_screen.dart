@@ -46,8 +46,10 @@ class _AccountScreenState extends State<AccountScreen> {
                   },
                   child: const Text(
                     'Jetzt einloggen',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
                   ),
                 ),
               ],

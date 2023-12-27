@@ -51,7 +51,8 @@ class JobDetails {
         ? DateTime.parse(json['aktuelleVeroeffentlichungsdatum'])
         : null;
     alternativeProfessions = json['alternativBerufe']?.cast<String>();
-    offerType = json['angebotsart'] != null ? int.parse(json['angebotsart']) : null;
+    offerType =
+        json['angebotsart'] != null ? int.parse(json['angebotsart']) : null;
     employer = json['arbeitgeber'];
     branch = json['branche'];
     branchGroup = json['branchengruppe'];
@@ -63,13 +64,20 @@ class JobDetails {
         ? json['arbeitsorte'].map<Address>(Address.fromEAJson).toList()
         : List.empty();
     workingTimeModels = json['arbeitszeitmodelle'] != null
-        ? json['arbeitszeitmodelle'].map<WorkingTimeModel>(WorkingTimeModel.fromEAJson).toList()
+        ? json['arbeitszeitmodelle']
+            .map<WorkingTimeModel>(WorkingTimeModel.fromEAJson)
+            .toList()
         : List.empty();
     informationAboutWorkingTime = json['informationenZurArbeitszeit'];
-    fixedTerm = json['befristung'] != null ? int.parse(json['befristung']) : null;
+    fixedTerm =
+        json['befristung'] != null ? int.parse(json['befristung']) : null;
     hasPossibilityOfPermanentEmployment = json['uebernahme'];
-    companySize = (json['betriebsgroesse'] != null) ? int.parse(json['betriebsgroesse']) : null;
-    entryDate = json['eintrittsdatum'] != null ? DateTime.parse(json['eintrittsdatum']) : null;
+    companySize = (json['betriebsgroesse'] != null)
+        ? int.parse(json['betriebsgroesse'])
+        : null;
+    entryDate = json['eintrittsdatum'] != null
+        ? DateTime.parse(json['eintrittsdatum'])
+        : null;
     firstPublicationDate = json['ersteVeroeffentlichungsdatum'] != null
         ? DateTime.parse(json['ersteVeroeffentlichungsdatum'])
         : null;
@@ -85,10 +93,12 @@ class JobDetails {
     collectiveAgreement = json['tarifvertrag'];
     suitableForRefugees = json['fuerFluechtlingeGeeignet'];
     onlyForSeverelyDisabled = json['nurFuerSchwerbehinderte'];
-    numberOfOpenPositions = json['anzahlOffeneStellen']; // this is already an int
+    numberOfOpenPositions =
+        json['anzahlOffeneStellen']; // this is already an int
     employerAddress = Address.fromEAJson(json['arbeitgeberAdresse']);
     mobility = Mobility.fromEAJson(json['mobilitaet']);
-    leadershipSkills = LeadershipSkills.fromEAJson(json['fuehrungskompetenzen']);
+    leadershipSkills =
+        LeadershipSkills.fromEAJson(json['fuehrungskompetenzen']);
     employerPresentationUrl = json['arbeitgeberdarstellungUrl'];
     employerPresentation = json['arbeitgeberdarstellung'];
     mainDkz = json['hauptDkz'] != null ? int.parse(json['hauptDkz']) : null;

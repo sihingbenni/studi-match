@@ -19,17 +19,18 @@ class StudiMatchApp extends StatelessWidget {
   const StudiMatchApp({super.key});
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(create: (context) => GoogleSignInProvider(),
-      child: MaterialApp(
-        scaffoldMessengerKey: SnackBarUtil.messengerKey,
-        debugShowCheckedModeBanner: false,
-        title: 'StudiMatch',
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-          useMaterial3: true,
-        ),
-
-        home: const HomeScreen() // which widget will be displayed on the home screen
-      ),
-  );
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => GoogleSignInProvider(),
+        child: MaterialApp(
+            scaffoldMessengerKey: SnackBarUtil.messengerKey,
+            debugShowCheckedModeBanner: false,
+            title: 'StudiMatch',
+            theme: ThemeData(
+              primarySwatch: Colors.green,
+              useMaterial3: true,
+            ),
+            home:
+                const HomeScreen() // which widget will be displayed on the home screen
+            ),
+      );
 }

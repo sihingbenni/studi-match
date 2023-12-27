@@ -3,7 +3,9 @@ class SwipedJobInfo {
   late int details;
   late int views;
 
-  SwipedJobInfo({required this.bookmarks, required this.details, required this.views});
+  SwipedJobInfo(
+      {required this.bookmarks, required this.details, required this.views});
+
   SwipedJobInfo.empty() : this(bookmarks: 0, details: 0, views: 0);
 
   SwipedJobInfo.fromJson(Map json) {

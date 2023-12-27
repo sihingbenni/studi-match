@@ -1,9 +1,6 @@
-
-
 import 'package:studi_match/models/query_parameters.dart';
 
 class QueryParameterProvider {
-
   QueryParameters queryParameters = QueryParameters();
 
   getWithKeyword(String keyword) {
@@ -18,5 +15,4 @@ class QueryParameterProvider {
   void setLocation(String location) {
     queryParameters.where = location;
   }
-
 }

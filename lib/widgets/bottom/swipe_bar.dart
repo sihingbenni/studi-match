@@ -37,6 +37,7 @@ class _SwipeBarState extends State<SwipeBar> {
               size: 32,
             ),
           ),
+
           /// Shows details
           ElevatedButton(
             onPressed: () {

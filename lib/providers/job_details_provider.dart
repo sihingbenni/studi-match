@@ -5,7 +5,6 @@ import 'package:studi_match/services/employment_agency/job_details_service.dart'
 import 'package:studi_match/services/firebase/job_service.dart';
 
 class JobDetailsProvider extends ChangeNotifier {
-
   late JobDetails? jobDetails;
   late Job? job;
 

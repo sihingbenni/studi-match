@@ -1,6 +1,3 @@
-
-
-
 class GeoLocatorException implements Exception {
   final String message;
 

@@ -12,29 +12,31 @@ class AnonymousAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (FirebaseAuthProvider.authInstance.currentUser!.isAnonymous) {
-     return Padding(
-       padding: const EdgeInsets.all(16.0),
-       child: ListView(
-         children: [
-           Column(
-             mainAxisAlignment: MainAxisAlignment.spaceAround,
-             mainAxisSize: MainAxisSize.max,
-             children: [
-               const Text('Hallo 👋',
-                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
-               const Text(
-                   'Du bist anonym unterwegs. Wenn du die volle Kraft '
-                       'unserer App austesten möchtest, dann musst du '
-                       'dich anmelden!',
-                   textAlign: TextAlign.center,
-                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-               const SizedBox(height: 20),
-               PreferenceForm(uuid: uuid),
-             ],
-           ),
-         ],
-       ),
-     );
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const Text('Hallo 👋',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
+                const Text(
+                    'Du bist anonym unterwegs. Wenn du die volle Kraft '
+                    'unserer App austesten möchtest, dann musst du '
+                    'dich anmelden!',
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                const SizedBox(height: 20),
+                PreferenceForm(uuid: uuid),
+              ],
+            ),
+          ],
+        ),
+      );
     } else {
       return const FalseDirectAlert();
     }

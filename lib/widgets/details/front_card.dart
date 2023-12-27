@@ -169,10 +169,12 @@ class FrontCard extends StatelessWidget {
                       maxWidth: double.infinity,
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0), // Adjust the radius as needed
+                      borderRadius: BorderRadius.circular(16.0),
+                      // Adjust the radius as needed
                       child: FittedBox(
                         fit: BoxFit.cover,
-                        child: job.map, // Replace job.map with your actual widget
+                        child:
+                            job.map, // Replace job.map with your actual widget
                       ),
                     ),
                   ),

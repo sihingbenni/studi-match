@@ -4,7 +4,6 @@ class LeadershipSkills {
   late final bool? leadershipResponsibility;
 
   LeadershipSkills.fromEAJson(dynamic json) {
-
     if (json == null) {
       return;
     }

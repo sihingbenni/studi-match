@@ -171,7 +171,6 @@ class _BookmarkListState extends State<BookmarkList> {
                                                 {Navigator.pop(context)},
                                             elevation: 0,
                                             backgroundColor: Colors.transparent,
-
                                             child: const Icon(Icons.close),
                                           ),
                                         ],

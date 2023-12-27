@@ -11,7 +11,11 @@ class BookmarkService {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getBookmarkStream(String uuid) {
     try {
-      return _db.collection('users').doc(uuid).collection('bookmarks').snapshots();
+      return _db
+          .collection('users')
+          .doc(uuid)
+          .collection('bookmarks')
+          .snapshots();
     } catch (e) {
       logger.e(e);
       throw Exception(e);
@@ -62,7 +66,8 @@ class BookmarkService {
       for (var doc in documents) {
         DocumentReference jobReferenceString = doc['job_reference'];
         final jobReference = await jobReferenceString.get();
-        Stream<DocumentSnapshot<Object?>> jobReferenceStream = jobReferenceString.snapshots();
+        Stream<DocumentSnapshot<Object?>> jobReferenceStream =
+            jobReferenceString.snapshots();
         Bookmark bookmark = Bookmark(
             jobHashId: doc.id,
             title: jobReference['job_info']['title'],
@@ -83,7 +88,12 @@ class BookmarkService {
       DocumentReference jobReference =
           FirebaseFirestore.instance.collection('jobs').doc(job.hashId);
 
-      await _db.collection('users').doc(uuid).collection('bookmarks').doc(job.hashId).set({
+      await _db
+          .collection('users')
+          .doc(uuid)
+          .collection('bookmarks')
+          .doc(job.hashId)
+          .set({
         'job_reference': jobReference,
         'isLiked': false,
       });
@@ -95,14 +105,20 @@ class BookmarkService {
 
   Future<void> removeBookmark(String uuid, String jobId) async {
     try {
-      await _db.collection('users').doc(uuid).collection('bookmarks').doc(jobId).delete();
+      await _db
+          .collection('users')
+          .doc(uuid)
+          .collection('bookmarks')
+          .doc(jobId)
+          .delete();
     } catch (e) {
       logger.e(e);
     }
     logger.i('Bookmark removed');
   }
 
-  Future<void> toggleBookmarkLike(String uuid, Bookmark bookmark, bool toggle) async {
+  Future<void> toggleBookmarkLike(
+      String uuid, Bookmark bookmark, bool toggle) async {
     try {
       await _db
           .collection('users')

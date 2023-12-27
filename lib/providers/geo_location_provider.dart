@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:studi_match/models/coordinates.dart';
 import 'package:studi_match/utilities/logger.dart';
 
 class GeoLocationProvider extends ChangeNotifier {
-
   static Coordinates lastCoordinatesCalled = Coordinates(0, 0);
   static String lastZipCodeCalled = '';
 
@@ -33,7 +31,8 @@ class GeoLocationProvider extends ChangeNotifier {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
-      return Future.error('Die Standortdienste sind deaktiviert. Bitte aktiviere die Standortdienste in den Einstellungen.');
+      return Future.error(
+          'Die Standortdienste sind deaktiviert. Bitte aktiviere die Standortdienste in den Einstellungen.');
     }
 
     logger.d('checking if location permissions are granted');
@@ -60,7 +59,9 @@ class GeoLocationProvider extends ChangeNotifier {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest, timeLimit: const Duration(seconds: 5));
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.lowest,
+        timeLimit: const Duration(seconds: 5));
   }
 
   Future<Object> getZipCode() async {
@@ -68,11 +69,11 @@ class GeoLocationProvider extends ChangeNotifier {
       logger.d('GeoApi called');
       loading = true;
       // delay the loading screen to prevent flickering
-      Future.delayed(const Duration(milliseconds: 100), () => {
-        if (loading) {
-          notifyListeners()
-        }
-      });
+      Future.delayed(
+          const Duration(milliseconds: 100),
+          () => {
+                if (loading) {notifyListeners()}
+              });
       Position position;
 
       try {
@@ -80,30 +81,35 @@ class GeoLocationProvider extends ChangeNotifier {
       } on TimeoutException catch (_) {
         loading = false;
         notifyListeners();
-        return GeoLocatorException('Es ist ein Fehler aufgetreten, versuche es später erneut!');
+        return GeoLocatorException(
+            'Es ist ein Fehler aufgetreten, versuche es später erneut!');
       }
 
       loading = false;
       notifyListeners();
       logger.d('GeoApi finished');
-      if (lastCoordinatesCalled.lat == position.latitude && lastCoordinatesCalled.lon == position.longitude) {
-        logger.i('GeoApi called again with same coordinates. Returning last: $lastZipCodeCalled');
+      if (lastCoordinatesCalled.lat == position.latitude &&
+          lastCoordinatesCalled.lon == position.longitude) {
+        logger.i(
+            'GeoApi called again with same coordinates. Returning last: $lastZipCodeCalled');
         return lastZipCodeCalled;
       }
 
-
       // get the placemarks from the coordinates
-      List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
       if (placemarks.first.postalCode != null) {
         logger.i('GeoApi found PLZ: ${placemarks.first.postalCode}');
 
         // save the call to reduce spam
-        lastCoordinatesCalled = Coordinates(position.latitude, position.longitude);
+        lastCoordinatesCalled =
+            Coordinates(position.latitude, position.longitude);
         lastZipCodeCalled = placemarks.first.postalCode!;
 
         return placemarks.first.postalCode!;
       } else {
-        return GeoLocatorException('Es konnte keine Postleitzahl ermittelt werden. Versuche es manuell.');
+        return GeoLocatorException(
+            'Es konnte keine Postleitzahl ermittelt werden. Versuche es manuell.');
       }
     } catch (e) {
       loading = false;
@@ -114,18 +120,20 @@ class GeoLocationProvider extends ChangeNotifier {
 
   Future<bool> validatePostalCode(String postalCode) async {
     try {
-
       if (postalCode == lastZipCodeValidated) {
-        logger.i('GeoApi called again with same postal code. Returning last result: $lastZipCodeValidationResult');
+        logger.i(
+            'GeoApi called again with same postal code. Returning last result: $lastZipCodeValidationResult');
         return lastZipCodeValidationResult;
       }
 
-      List<Location> locations = await locationFromAddress('$postalCode, Germany');
+      List<Location> locations =
+          await locationFromAddress('$postalCode, Germany');
 
       lastZipCodeValidated = postalCode;
 
       // this is the center of Germany. If the location is the same, the postal code is invalid
-      if (locations.first.latitude == 51.165690999999995 && locations.first.longitude == 10.451526) {
+      if (locations.first.latitude == 51.165690999999995 &&
+          locations.first.longitude == 10.451526) {
         logger.w('GeoApi found invalid PLZ: $postalCode');
         lastZipCodeValidationResult = false;
         return false;

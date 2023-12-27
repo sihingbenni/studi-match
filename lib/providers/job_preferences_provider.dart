@@ -1,11 +1,8 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:studi_match/services/firebase/user_service.dart';
 
 class JobPreferencesProvider extends ChangeNotifier {
-
   static JobPreferencesProvider instance = JobPreferencesProvider();
 
   List<String> packages = [];
@@ -17,8 +14,8 @@ class JobPreferencesProvider extends ChangeNotifier {
   JobPreferencesProvider();
 
   Future<void> getPreferences(String uuid) async {
-
-    DocumentSnapshot<Map<String, dynamic>>? user = await UserService().getUser(uuid);
+    DocumentSnapshot<Map<String, dynamic>>? user =
+        await UserService().getUser(uuid);
 
     if (user == null) {
       return;
@@ -32,7 +29,8 @@ class JobPreferencesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void savePreferences(String uuid, List<String> packages, String location, int distance) {
+  void savePreferences(
+      String uuid, List<String> packages, String location, int distance) {
     loading = true;
     this.packages = packages;
     this.location = location;

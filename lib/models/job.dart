@@ -31,7 +31,8 @@ class Job {
     referenceNr = json['refnr'];
     address = Address.fromEAJson(json['arbeitsort']);
     employer = json['arbeitgeber'];
-    currentPublicationDate = DateTime.parse(json['aktuelleVeroeffentlichungsdatum']);
+    currentPublicationDate =
+        DateTime.parse(json['aktuelleVeroeffentlichungsdatum']);
     modificationTimestamp = DateTime.parse(json['modifikationsTimestamp']);
     entryDate = DateTime.parse(json['eintrittsdatum']);
     logoHashId = json['logoHashId'];

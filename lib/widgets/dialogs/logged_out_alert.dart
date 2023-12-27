@@ -19,7 +19,8 @@ class LoggedOutAlert extends StatelessWidget {
                   'Bist du dir sicher, dass du dich ausloggen möchtest?'),
               const SizedBox(height: 8),
               Builder(builder: (context) {
-                if (FirebaseAuthProvider.authInstance.currentUser!.isAnonymous) {
+                if (FirebaseAuthProvider
+                    .authInstance.currentUser!.isAnonymous) {
                   return const Text(
                       'Du wirst alle deine Favoriten und Einstellungen verlieren.');
                 } else {

@@ -1,5 +1,3 @@
-
-
 class OauthResponse {
   late final String accessToken;
   late final String tokenType;

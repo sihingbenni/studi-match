@@ -21,7 +21,6 @@ class PreferenceForm extends StatefulWidget {
 class _PreferenceFormState extends State<PreferenceForm> {
   final _formKey = GlobalKey<FormBuilderState>();
 
-
   List<String> packages = [];
   List<FilterChip> packageChips = [];
   String location = '';
@@ -54,7 +53,8 @@ class _PreferenceFormState extends State<PreferenceForm> {
         distance = preferencesProvider.distance;
         _formKey.currentState?.fields['plz']?.setValue(location);
         _formKey.currentState?.fields['package_filter']?.setValue(packages);
-        _formKey.currentState?.fields['distance_slider']?.setValue(distance.toDouble());
+        _formKey.currentState?.fields['distance_slider']
+            ?.setValue(distance.toDouble());
         _plzController.text = location;
       });
     });
@@ -74,7 +74,8 @@ class _PreferenceFormState extends State<PreferenceForm> {
               FormBuilderFilterChip<String>(
                 initialValue: packages,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: const InputDecoration(labelText: 'Wonach suchst du?'),
+                decoration:
+                    const InputDecoration(labelText: 'Wonach suchst du?'),
                 direction: Axis.horizontal,
                 spacing: 10,
                 name: 'package_filter',
@@ -113,51 +114,50 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 decoration: InputDecoration(
                   hintText: 'PLZ',
                   labelText: 'Wo suchst du?',
-                  suffixIcon: Builder(
-                    builder: (context) {
-                      if (_geoLocatorLoading) {
-                        return const SizedBox(
-                          height: 10.0,
-                          width: 10.0,
-                          child: Center(
-                              child: CircularProgressIndicator()
-                          ),
-                        );
-                      }
-                      return IconButton(
-                        icon: const Icon(Icons.my_location),
-                        onPressed: () {
-                          geoLocationProvider.getZipCode().then((value) {
-                            if (value is GeoLocatorException) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(value.message),
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              );
-                            } else {
-                              setState(() {
-                                location = value.toString();
-                                _plzController.text = location;
-                              });
-                              ScaffoldMessenger.of(context).clearSnackBars();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Colors.green,
-                                  content: Text('Es wurde die PLZ: $value ermittelt'),
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              );
-                            }
-                          });
-                        },
+                  suffixIcon: Builder(builder: (context) {
+                    if (_geoLocatorLoading) {
+                      return const SizedBox(
+                        height: 10.0,
+                        width: 10.0,
+                        child: Center(child: CircularProgressIndicator()),
                       );
                     }
-                  ),
+                    return IconButton(
+                      icon: const Icon(Icons.my_location),
+                      onPressed: () {
+                        geoLocationProvider.getZipCode().then((value) {
+                          if (value is GeoLocatorException) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(value.message),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          } else {
+                            setState(() {
+                              location = value.toString();
+                              _plzController.text = location;
+                            });
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.green,
+                                content:
+                                    Text('Es wurde die PLZ: $value ermittelt'),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          }
+                        });
+                      },
+                    );
+                  }),
                 ),
                 onChanged: (val) {
                   if (val != null && val.length == 5) {
-                   GeoLocationProvider().validatePostalCode(val).then((isValid) {
+                    GeoLocationProvider()
+                        .validatePostalCode(val)
+                        .then((isValid) {
                       setState(() {
                         _plzValid = isValid;
                       });
@@ -245,7 +245,8 @@ class _PreferenceFormState extends State<PreferenceForm> {
                           // navigate to jobs list
                           Navigator.of(context).popUntil((route) => false);
                           Navigator.of(context).push(
-                            NavRouter(builder: (context) => const EAJobsListScreen()),
+                            NavRouter(
+                                builder: (context) => const EAJobsListScreen()),
                           );
                         } else {
                           // show error message in snackbar

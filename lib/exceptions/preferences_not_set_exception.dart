@@ -1,4 +1,3 @@
-
 class PreferencesNotSetException implements Exception {
   final String message;
 

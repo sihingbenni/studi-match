@@ -1,6 +1,5 @@
-
 /// A generic class to hold a pair of values
-class Pair<T,U> {
+class Pair<T, U> {
   final T first;
   final U last;
 

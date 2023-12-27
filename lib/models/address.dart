@@ -1,4 +1,3 @@
-
 import 'package:studi_match/models/coordinates.dart';
 
 class Address {
@@ -11,7 +10,6 @@ class Address {
   late final double? distance;
 
   Address.fromEAJson(dynamic json) {
-
     if (json == null) {
       return;
     }
@@ -22,7 +20,8 @@ class Address {
     region = json['region'];
     country = json['land'];
     coordinates = Coordinates.fromEAJson(json['koordinaten']);
-    distance = json['entfernung'] != null ? double.parse(json['entfernung']) : null;
+    distance =
+        json['entfernung'] != null ? double.parse(json['entfernung']) : null;
   }
 
   @override

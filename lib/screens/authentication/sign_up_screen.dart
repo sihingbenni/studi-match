@@ -59,13 +59,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: emailController,
                         decoration: const InputDecoration(labelText: 'Email'),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (email) => email != null && !EmailValidator.validate(email)
-                            ? 'Füge eine gültige Email-Adresse hinzu'
-                            : null,
+                        validator: (email) =>
+                            email != null && !EmailValidator.validate(email)
+                                ? 'Füge eine gültige Email-Adresse hinzu'
+                                : null,
                       ),
                       TextFormField(
                         controller: passwordController,
-                        decoration: const InputDecoration(labelText: 'Password'),
+                        decoration:
+                            const InputDecoration(labelText: 'Password'),
                         obscureText: true,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) => value != null && value.length < 6
@@ -81,7 +83,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           backgroundColor: Colors.greenAccent,
                           minimumSize: const Size(double.infinity, 50),
                         ),
-                        icon: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
+                        icon: const Icon(Icons.arrow_forward_rounded,
+                            color: Colors.white),
                         label: const Text(
                           'Sign Up',
                           style: TextStyle(
@@ -106,7 +109,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               child: const Text(
                                 'Login',
                                 style: TextStyle(
-                                    color: Colors.green, decoration: TextDecoration.underline),
+                                    color: Colors.green,
+                                    decoration: TextDecoration.underline),
                               )),
                         ],
                       )
@@ -130,10 +134,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-      ).then((value) {
-          // remove all routes from the stack and push the onboarding screen
-          Navigator.of(context).popUntil((route) => false);
-          Navigator.of(context).push(
+      )
+          .then((value) {
+        // remove all routes from the stack and push the onboarding screen
+        Navigator.of(context).popUntil((route) => false);
+        Navigator.of(context).push(
           NavRouter(
             builder: (context) => const OnBoardingScreen(),
           ),

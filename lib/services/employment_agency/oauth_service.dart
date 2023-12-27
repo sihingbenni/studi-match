@@ -31,7 +31,8 @@ class EAOAuthService extends EABaseService {
 
       // check if there is already a request to fetch a token
       if (_isFetchingToken) {
-        logger.d('a request to fetch a new Employment Agency Oauth Token is already running');
+        logger.d(
+            'a request to fetch a new Employment Agency Oauth Token is already running');
         // wait until the token is fetched
         while (_isFetchingToken) {
           await Future.delayed(const Duration(milliseconds: 100));
@@ -44,7 +45,8 @@ class EAOAuthService extends EABaseService {
     } else {
       // token in the shared preferences
       // check if it is still valid
-      DateTime tokenValidUntilDateTime = DateTime.parse(tokenValidUntil).toLocal();
+      DateTime tokenValidUntilDateTime =
+          DateTime.parse(tokenValidUntil).toLocal();
       if (tokenValidUntilDateTime.isBefore(DateTime.now())) {
         // token is expired
         // fetch a new one

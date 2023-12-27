@@ -21,7 +21,8 @@ class JobProfessionsProvider extends ChangeNotifier {
 
   /// Sends a simplified request to the job search api endpoint to get a list of all professions.
   /// This list contains only the fieldOfWorks facet.
-  void getProfessions() => _service.callJobsApi(_queryParameters).then((response) {
+  void getProfessions() =>
+      _service.callJobsApi(_queryParameters).then((response) {
         if (response.facets.fieldOfWork != null) {
           _fieldOfWorks = response.facets.fieldOfWork!.counts.keys.toList();
           notifyListeners();

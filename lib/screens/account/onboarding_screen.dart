@@ -27,7 +27,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         body: ListView(
           padding: const EdgeInsets.all(16.0),
           children: [
-            const Text('Bevor du loslegen kannst, musst du noch ein paar Einstellungen vornehmen.'),
+            const Text(
+                'Bevor du loslegen kannst, musst du noch ein paar Einstellungen vornehmen.'),
             PreferenceForm(uuid: uuid),
           ],
         ),

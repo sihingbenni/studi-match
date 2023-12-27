@@ -58,7 +58,8 @@ class BookmarkProvider extends ChangeNotifier {
           // check if the bookmark is already in the list
           var index = bookmarkList.indexOf(bookmark);
           if (index != -1) {
-            bookmarkList[index].swipedJobInfo = SwipedJobInfo.fromJson(jobInfo['swipe_info']);
+            bookmarkList[index].swipedJobInfo =
+                SwipedJobInfo.fromJson(jobInfo['swipe_info']);
             notifyListeners();
           }
         });

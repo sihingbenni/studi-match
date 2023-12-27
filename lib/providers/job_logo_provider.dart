@@ -6,26 +6,24 @@ import 'package:studi_match/utilities/logger.dart';
 
 /// This class provides the Job Logo from the Employment Agency Api
 class JobLogoProvider {
-
   /// Returns the Job Logo as a CachedNetworkImage Widget
   static Future<StatelessWidget> getLogo(String? logoHashId) async {
     if (logoHashId != null && logoHashId.isNotEmpty) {
       return CachedNetworkImage(
-        imageUrl: 'https://'
-            '${ConfigProvider.baseUrl}/'
-            '${ConfigProvider.jobLogoEndpoint}/'
-            '$logoHashId',
-        httpHeaders: {
-          'Authorization': 'Bearer ${await EAOAuthService().getApiToken()}',
-          'Content-Type': 'image/png'
-        },
-        placeholder: (context, url) => const CircularProgressIndicator(),
-        width: 90,
-        errorWidget: (context, url, error) {
-          logger.w(error);
-          return const Icon(Icons.apartment);
-        }
-      );
+          imageUrl: 'https://'
+              '${ConfigProvider.baseUrl}/'
+              '${ConfigProvider.jobLogoEndpoint}/'
+              '$logoHashId',
+          httpHeaders: {
+            'Authorization': 'Bearer ${await EAOAuthService().getApiToken()}',
+            'Content-Type': 'image/png'
+          },
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          width: 90,
+          errorWidget: (context, url, error) {
+            logger.w(error);
+            return const Icon(Icons.apartment);
+          });
     } else {
       return const Icon(Icons.apartment);
     }

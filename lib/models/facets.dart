@@ -32,7 +32,8 @@ class Facets {
     entryDate = EntryDate.fromEAJson(json['eintrittsdatum']);
     temporaryWork = TemporaryWork.fromEAJson(json['zeitarbeit']);
     corona = Corona.fromEAJson(json['corona']);
-    leadershipResponsibility = LeadershipResponsibility.fromEAJson(json['fuehrungsverantwortung']);
+    leadershipResponsibility =
+        LeadershipResponsibility.fromEAJson(json['fuehrungsverantwortung']);
   }
 }
 

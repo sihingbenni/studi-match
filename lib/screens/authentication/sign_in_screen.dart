@@ -131,7 +131,6 @@ class _SignInScreenState extends State<SignInScreen> {
     } on FirebaseAuthException catch (e) {
       logger.e(e.message!);
       SnackBarUtil.showSnackBar(e.message!);
-
     }
   }
 }

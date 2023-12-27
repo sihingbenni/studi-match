@@ -7,16 +7,13 @@ class UserService {
 
   Future<void> addUser(String uuid) async {
     try {
-      await _db
-          .collection('users')
-          .doc(uuid)
-          .set({
-            'preferences': {
-              'location': '',
-              'packages': ConfigProvider.resultPackages.keys.toList(),
-              'distance': 25,
-            },
-          });
+      await _db.collection('users').doc(uuid).set({
+        'preferences': {
+          'location': '',
+          'packages': ConfigProvider.resultPackages.keys.toList(),
+          'distance': 25,
+        },
+      });
     } catch (e) {
       logger.e(e);
     }
@@ -31,18 +28,16 @@ class UserService {
     return null;
   }
 
-  Future<void> updatePreferences(String uuid, List<String> packages, String location, int distance) async {
+  Future<void> updatePreferences(
+      String uuid, List<String> packages, String location, int distance) async {
     try {
-      await _db
-          .collection('users')
-          .doc(uuid)
-          .update({
-            'preferences': {
-              'packages': packages,
-              'location': location,
-              'distance': distance,
-            },
-          });
+      await _db.collection('users').doc(uuid).update({
+        'preferences': {
+          'packages': packages,
+          'location': location,
+          'distance': distance,
+        },
+      });
     } catch (e) {
       logger.e(e);
     }
