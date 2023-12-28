@@ -40,7 +40,6 @@ abstract class EABaseService {
       response = await request.send();
     } catch (e) {
       logger.e('Request to ${uri.pathSegments.last} Failed');
-      //TODO handle the error
       throw Exception();
     }
 
@@ -49,7 +48,6 @@ abstract class EABaseService {
       return await response.stream.bytesToString();
     } else {
       logger.e(response.reasonPhrase);
-      //TODO handle the error
       throw Exception(
           'Request to ${uri.path} Failed! Response Code: ${response.statusCode}');
     }

@@ -19,7 +19,6 @@ class EAJobDetailsService extends EABaseService {
       logger.e(e.toString());
       logger.e(
           'Failed to fetch the Employment Agency Job Details!\nused JobHashID: $jobHashID');
-      //TODO handle the error
       throw Exception();
     }
   }

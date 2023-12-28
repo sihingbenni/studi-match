@@ -57,7 +57,6 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
   bool endReached = false;
 
   void _restartAnimation(AnimationController animationController) {
-    // todo think about resetting both controllers at the same time so that only one animation is running at a time
     animationController.reset();
     animationController.forward();
   }

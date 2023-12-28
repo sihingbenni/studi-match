@@ -164,7 +164,6 @@ class AuthenticationScreen extends StatelessWidget {
                                 ),
                               );
                             });
-                            // TODO: Loading indicator and pop up upon successful login
                           } on Exception catch (_) {
                             throw Exception(
                                 'Anonymer Login hat nicht funktioniert.');

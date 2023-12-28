@@ -29,7 +29,6 @@ class EAJobSearchService extends EABaseService {
           'Failed to fetch the Employment Agency Jobs List!\nused QueryParameters: $queryParametersMap');
       // show error in Snackbar
 
-      //TODO handle the error
       throw Exception();
     }
   }

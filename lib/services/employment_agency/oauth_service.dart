@@ -105,9 +105,7 @@ class EAOAuthService extends EABaseService {
       // execute request
       response = await request.send();
     } catch (e) {
-      //TODO handle the error
       logger.e('Failed to fetch the Employment Agency Api Token');
-      //TODO handle the error
       throw Exception();
     }
 
@@ -121,7 +119,7 @@ class EAOAuthService extends EABaseService {
     } else {
       // Failure
       logger.e(response.reasonPhrase);
-      //TODO handle the error
+
       throw Exception('Failed to fetch the Employment Agency Api Token');
     }
   }
