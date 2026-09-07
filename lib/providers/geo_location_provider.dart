@@ -59,9 +59,19 @@ class GeoLocationProvider extends ChangeNotifier {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.lowest,
-        timeLimit: const Duration(seconds: 5));
+    // Try to get the fresh current position first so location changes in the emulator are picked up.
+    try {
+      return await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.lowest,
+          timeLimit: const Duration(seconds: 10));
+    } catch (e) {
+      logger.w('getCurrentPosition failed ($e), falling back to lastKnownPosition');
+      Position? lastKnown = await Geolocator.getLastKnownPosition();
+      if (lastKnown != null) {
+        return lastKnown;
+      }
+      rethrow;
+    }
   }
 
   Future<Object> getZipCode() async {
@@ -87,7 +97,8 @@ class GeoLocationProvider extends ChangeNotifier {
 
       loading = false;
       notifyListeners();
-      logger.d('GeoApi finished');
+      logger.d(
+          'GeoApi finished with coordinates: lat=${position.latitude}, lon=${position.longitude}');
       if (lastCoordinatesCalled.lat == position.latitude &&
           lastCoordinatesCalled.lon == position.longitude) {
         logger.i(
@@ -112,6 +123,7 @@ class GeoLocationProvider extends ChangeNotifier {
             'Es konnte keine Postleitzahl ermittelt werden. Versuche es manuell.');
       }
     } catch (e) {
+      logger.e('GeoApi error: $e');
       loading = false;
       notifyListeners();
       return GeoLocatorException(e.toString());

@@ -34,31 +34,47 @@ class _PreferenceFormState extends State<PreferenceForm> {
 
   final TextEditingController _plzController = TextEditingController(text: '');
 
+  late final VoidCallback _geoListener;
+  late final VoidCallback _prefListener;
+
   @override
   void initState() {
+    super.initState();
     preferencesProvider.getPreferences(widget.uuid);
 
-    geoLocationProvider.addListener(() {
-      setState(() {
-        _geoLocatorLoading = geoLocationProvider.loading;
-      });
-    });
+    _geoListener = () {
+      if (mounted) {
+        setState(() {
+          _geoLocatorLoading = geoLocationProvider.loading;
+        });
+      }
+    };
+    geoLocationProvider.addListener(_geoListener);
 
-    preferencesProvider.addListener(() {
-      // on change update the list of jobs
-      setState(() {
-        packages = preferencesProvider.packages;
-        location = preferencesProvider.location;
-        loading = preferencesProvider.loading;
-        distance = preferencesProvider.distance;
-        _formKey.currentState?.fields['plz']?.setValue(location);
-        _formKey.currentState?.fields['package_filter']?.setValue(packages);
-        _formKey.currentState?.fields['distance_slider']
-            ?.setValue(distance.toDouble());
-        _plzController.text = location;
-      });
-    });
-    super.initState();
+    _prefListener = () {
+      if (mounted) {
+        setState(() {
+          packages = preferencesProvider.packages;
+          location = preferencesProvider.location;
+          loading = preferencesProvider.loading;
+          distance = preferencesProvider.distance;
+          _formKey.currentState?.fields['plz']?.setValue(location);
+          _formKey.currentState?.fields['package_filter']?.setValue(packages);
+          _formKey.currentState?.fields['distance_slider']
+              ?.setValue(distance.toDouble());
+          _plzController.text = location;
+        });
+      }
+    };
+    preferencesProvider.addListener(_prefListener);
+  }
+
+  @override
+  void dispose() {
+    geoLocationProvider.removeListener(_geoListener);
+    preferencesProvider.removeListener(_prefListener);
+    _plzController.dispose();
+    super.dispose();
   }
 
   @override
@@ -126,6 +142,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                       icon: const Icon(Icons.my_location),
                       onPressed: () {
                         geoLocationProvider.getZipCode().then((value) {
+                          if (!mounted) return;
                           if (value is GeoLocatorException) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -158,9 +175,11 @@ class _PreferenceFormState extends State<PreferenceForm> {
                     GeoLocationProvider()
                         .validatePostalCode(val)
                         .then((isValid) {
-                      setState(() {
-                        _plzValid = isValid;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          _plzValid = isValid;
+                        });
+                      }
                     });
                   }
                   setState(() {
