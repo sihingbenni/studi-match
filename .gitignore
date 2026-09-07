@@ -133,7 +133,6 @@ GoogleService-Info.plist
 google_maps_api.xml
 
 # Web related
-lib/generated_plugin_registrant.dart
 
 # Obfuscation related
 app.*.map.json
