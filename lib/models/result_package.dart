@@ -9,8 +9,6 @@ class ResultPackageHelper {
         return 'Werksstudent';
       case ResultPackage.trainee:
         return 'Trainee';
-      default:
-        return '';
     }
   }
 }

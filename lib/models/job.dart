@@ -19,24 +19,55 @@ class Job {
   late final DateTime? entryDate;
   late final String? logoHashId;
   late final String hashId;
-  late final StatelessWidget logo;
-  late final StatelessWidget map;
+  Widget logo = const Icon(Icons.apartment, size: 60);
+  Widget map = const Icon(Icons.map, size: 60);
 
   late JobDetails? jobDetails;
 
   Job.fromEAJson(Map<String, dynamic> json) {
     jobDetails = null;
-    profession = json['beruf'];
-    title = json['titel'];
-    referenceNr = json['refnr'];
-    address = Address.fromEAJson(json['arbeitsort']);
-    employer = json['arbeitgeber'];
+    profession = (json['hauptberuf'] ?? json['beruf'])?.toString();
+    title = (json['stellenangebotsTitel'] ?? json['titel'])?.toString();
+    referenceNr = (json['referenznummer'] ?? json['refnr'])?.toString();
+
+    dynamic locationData;
+    if (json['stellenlokationen'] != null &&
+        (json['stellenlokationen'] is List) &&
+        (json['stellenlokationen'] as List).isNotEmpty) {
+      locationData = json['stellenlokationen'][0];
+    } else {
+      locationData = json['arbeitsort'];
+    }
+    address = Address.fromEAJson(locationData, json['entfernung']);
+
+    employer = (json['firma'] ?? json['arbeitgeber'])?.toString();
+
+    final pubDateStr = json['aktuelleVeroeffentlichungsdatum'] ??
+        json['datumErsteVeroeffentlichung'] ??
+        json['veroeffentlichungszeitraum']?['von'];
     currentPublicationDate =
-        DateTime.parse(json['aktuelleVeroeffentlichungsdatum']);
-    modificationTimestamp = DateTime.parse(json['modifikationsTimestamp']);
-    entryDate = DateTime.parse(json['eintrittsdatum']);
-    logoHashId = json['logoHashId'];
-    hashId = json['hashId'];
+        pubDateStr != null ? DateTime.tryParse(pubDateStr.toString()) : null;
+
+    final modDateStr =
+        json['modifikationsTimestamp'] ?? json['aenderungsdatum'];
+    modificationTimestamp =
+        modDateStr != null ? DateTime.tryParse(modDateStr.toString()) : null;
+
+    final entryDateStr = json['eintrittsdatum'] ??
+        json['eintrittszeitraum']?['von'];
+    entryDate =
+        entryDateStr != null ? DateTime.tryParse(entryDateStr.toString()) : null;
+
+    logoHashId = (json['arbeitgeberKundennummerHash'] ??
+            json['kundennummerHash'] ??
+            json['logoHashId'])
+        ?.toString();
+    hashId = (json['referenznummer'] ??
+            json['refnr'] ??
+            json['hashId'] ??
+            '')
+        .toString();
+
     JobLogoProvider.getLogo(logoHashId).then(
       (value) => logo = value,
     );
@@ -52,7 +83,9 @@ class Job {
     profession = jobDetails!.profession;
     title = jobDetails!.title;
     referenceNr = jobDetails!.referenceNr;
-    address = jobDetails!.workplaces.first;
+    address = jobDetails!.workplaces.isNotEmpty
+        ? jobDetails!.workplaces.first
+        : null;
     employer = jobDetails!.employer;
     currentPublicationDate = jobDetails!.currentPublicationDate;
     modificationTimestamp = jobDetails!.modificationTimestamp;

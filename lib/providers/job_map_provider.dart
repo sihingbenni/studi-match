@@ -34,7 +34,35 @@ class JobMapProvider {
 
       return CachedNetworkImage(
         imageUrl: url,
-        placeholder: (context, url) => const CircularProgressIndicator(),
+        placeholder: (context, url) => Container(
+          color: Colors.grey.shade200,
+          child: const Center(child: CircularProgressIndicator()),
+        ),
+        errorWidget: (context, url, error) => Container(
+          color: const Color(0xFFE8ECEF),
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.map_outlined, size: 36, color: Colors.blueGrey),
+              const SizedBox(height: 4),
+              Text(
+                address?.city ?? 'Standort',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 2),
+              const Text(
+                'Tippen für Maps',
+                style: TextStyle(fontSize: 11, color: Colors.black54),
+              ),
+            ],
+          ),
+        ),
         fit: BoxFit.cover,
       );
     } else {

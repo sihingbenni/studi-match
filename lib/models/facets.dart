@@ -17,23 +17,53 @@ class Facets {
   late final Corona? corona;
   late final LeadershipResponsibility? leadershipResponsibility;
 
-  Facets.fromEAJson(Map<String, dynamic> json) {
-    fixedTerm = FixedTerm.fromEAJson(json['befristung']);
-    disability = Disability.fromEAJson(json['behinderung']);
-    privateEmploymentAgency = PrivateEmploymentAgency.fromEAJson(json['pav']);
-    fieldOfWork = FieldOfWork.fromEAJson(json['berufsfeld']);
-    workplace = Workplace.fromEAJson(json['arbeitsort']);
-    publishedSince = PublishedSince.fromEAJson(json['veroeffentlichtseit']);
-    workplaceZipCode = WorkplaceZipCode.fromEAJson(json['arbeitsort_plz']);
-    employer = Employer.fromEAJson(json['arbeitgeber']);
-    profession = Profession.fromEAJson(json['beruf']);
-    industry = Industry.fromEAJson(json['branche']);
-    workingHours = WorkingHours.fromEAJson(json['arbeitszeit']);
-    entryDate = EntryDate.fromEAJson(json['eintrittsdatum']);
-    temporaryWork = TemporaryWork.fromEAJson(json['zeitarbeit']);
-    corona = Corona.fromEAJson(json['corona']);
-    leadershipResponsibility =
-        LeadershipResponsibility.fromEAJson(json['fuehrungsverantwortung']);
+  Facets.fromEAJson(dynamic json) {
+    final map = (json is Map) ? json : {};
+    fixedTerm = map['befristung'] != null
+        ? FixedTerm.fromEAJson((map['befristung'] as Map).cast<String, dynamic>())
+        : null;
+    disability = map['behinderung'] != null
+        ? Disability.fromEAJson((map['behinderung'] as Map).cast<String, dynamic>())
+        : null;
+    privateEmploymentAgency = map['pav'] != null
+        ? PrivateEmploymentAgency.fromEAJson((map['pav'] as Map).cast<String, dynamic>())
+        : null;
+    fieldOfWork = map['berufsfeld'] != null
+        ? FieldOfWork.fromEAJson((map['berufsfeld'] as Map).cast<String, dynamic>())
+        : null;
+    workplace = map['arbeitsort'] != null
+        ? Workplace.fromEAJson((map['arbeitsort'] as Map).cast<String, dynamic>())
+        : null;
+    publishedSince = map['veroeffentlichtseit'] != null
+        ? PublishedSince.fromEAJson((map['veroeffentlichtseit'] as Map).cast<String, dynamic>())
+        : null;
+    workplaceZipCode = map['arbeitsort_plz'] != null
+        ? WorkplaceZipCode.fromEAJson((map['arbeitsort_plz'] as Map).cast<String, dynamic>())
+        : null;
+    employer = map['arbeitgeber'] != null
+        ? Employer.fromEAJson((map['arbeitgeber'] as Map).cast<String, dynamic>())
+        : null;
+    profession = map['beruf'] != null
+        ? Profession.fromEAJson((map['beruf'] as Map).cast<String, dynamic>())
+        : null;
+    industry = map['branche'] != null
+        ? Industry.fromEAJson((map['branche'] as Map).cast<String, dynamic>())
+        : null;
+    workingHours = map['arbeitszeit'] != null
+        ? WorkingHours.fromEAJson((map['arbeitszeit'] as Map).cast<String, dynamic>())
+        : null;
+    entryDate = map['eintrittsdatum'] != null
+        ? EntryDate.fromEAJson((map['eintrittsdatum'] as Map).cast<String, dynamic>())
+        : null;
+    temporaryWork = map['zeitarbeit'] != null
+        ? TemporaryWork.fromEAJson((map['zeitarbeit'] as Map).cast<String, dynamic>())
+        : null;
+    corona = map['corona'] != null
+        ? Corona.fromEAJson((map['corona'] as Map).cast<String, dynamic>())
+        : null;
+    leadershipResponsibility = map['fuehrungsverantwortung'] != null
+        ? LeadershipResponsibility.fromEAJson((map['fuehrungsverantwortung'] as Map).cast<String, dynamic>())
+        : null;
   }
 }
 
@@ -47,8 +77,12 @@ abstract class Facet {
       maxCount = 0;
       return;
     }
-    counts = json['counts'].cast<String, int>();
-    maxCount = json['maxCount']!;
+    counts = json['counts'] != null
+        ? (json['counts'] as Map).map((k, v) => MapEntry(k.toString(), (v is num) ? v.toInt() : 0))
+        : {};
+    maxCount = (json['maxCount'] is num)
+        ? (json['maxCount'] as num).toInt()
+        : (int.tryParse(json['maxCount']?.toString() ?? '0') ?? 0);
   }
 }
 

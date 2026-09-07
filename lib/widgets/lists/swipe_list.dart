@@ -253,7 +253,6 @@ class _SwipeListState extends State<SwipeList> with TickerProviderStateMixin {
                     case AxisDirection.down:
                       logger.d('Swiped down');
                       break;
-                    default: // do nothing
                   }
                 },
                 onEnd: () {

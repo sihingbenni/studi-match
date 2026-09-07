@@ -53,7 +53,9 @@ class FrontCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                        '${job.entryDate?.day}.${job.entryDate!.month}.${job.entryDate!.year}',
+                        job.entryDate != null
+                            ? '${job.entryDate!.day}.${job.entryDate!.month}.${job.entryDate!.year}'
+                            : 'Keine Angabe',
                         maxLines: 2,
                         style: const TextStyle(
                             color: Colors.black87, fontSize: 16)),
@@ -80,7 +82,7 @@ class FrontCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      '${job.address?.zipCode ?? ''} ${job.address?.city}, ${job.address?.country}',
+                      '${job.address?.zipCode ?? ''} ${job.address?.city ?? ''}${job.address?.country != null ? ', ${job.address!.country}' : ''}',
                       maxLines: 2,
                       style: const TextStyle(
                         color: Colors.black87,
@@ -139,7 +141,9 @@ class FrontCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                        '${job.currentPublicationDate?.day}.${job.currentPublicationDate!.month}.${job.currentPublicationDate!.year}',
+                        job.currentPublicationDate != null
+                            ? '${job.currentPublicationDate!.day}.${job.currentPublicationDate!.month}.${job.currentPublicationDate!.year}'
+                            : 'Keine Angabe',
                         maxLines: 2,
                         style: const TextStyle(
                             color: Colors.black87, fontSize: 16)),
@@ -151,15 +155,16 @@ class FrontCard extends StatelessWidget {
                 fit: FlexFit.loose,
                 child: InkWell(
                   onTap: () async {
-                    if (job.address?.street != null) {
+                    if (job.address?.coordinates != null &&
+                        job.address!.coordinates!.lat != 0.0) {
                       MapsLauncher.launchCoordinates(
                         job.address!.coordinates!.lat,
                         job.address!.coordinates!.lon,
                         job.employer,
                       );
-                    } else {
+                    } else if (job.address?.city != null) {
                       MapsLauncher.launchQuery(
-                        '${job.address?.zipCode} ${job.address?.city}, ${job.address?.country}',
+                        '${job.address?.zipCode ?? ''} ${job.address?.city ?? ''}, ${job.address?.country ?? ''}',
                       );
                     }
                   },

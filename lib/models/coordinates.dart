@@ -6,10 +6,14 @@ class Coordinates {
 
   Coordinates.fromEAJson(dynamic json) {
     if (json == null) {
+      lat = 0.0;
+      lon = 0.0;
       return;
     }
 
-    lat = json['lat'];
-    lon = json['lon'];
+    final rawLat = json['lat'] ?? json['breite'] ?? 0.0;
+    final rawLon = json['lon'] ?? json['laenge'] ?? 0.0;
+    lat = (rawLat is num) ? rawLat.toDouble() : (double.tryParse(rawLat.toString()) ?? 0.0);
+    lon = (rawLon is num) ? rawLon.toDouble() : (double.tryParse(rawLon.toString()) ?? 0.0);
   }
 }

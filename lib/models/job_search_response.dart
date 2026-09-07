@@ -16,19 +16,25 @@ class JobSearchResponse {
 
   JobSearchResponse.fromEAJson(Map json) {
     // check if there are Results
-    maxNrOfResults = json['maxErgebnisse'];
-    page = json['page'];
-    size = json['size'];
+    maxNrOfResults = (json['maxErgebnisse'] is num)
+        ? (json['maxErgebnisse'] as num).toInt()
+        : (int.tryParse(json['maxErgebnisse']?.toString() ?? '0') ?? 0);
+    page = (json['page'] is num)
+        ? (json['page'] as num).toInt()
+        : (int.tryParse(json['page']?.toString() ?? '1') ?? 1);
+    size = (json['size'] is num)
+        ? (json['size'] as num).toInt()
+        : (int.tryParse(json['size']?.toString() ?? '20') ?? 20);
 
-    // check if there are any results, if not return empty List
-    jobListings = json['stellenangebote'] != null
-        ? json['stellenangebote']
-            .map((e) => Job.fromEAJson(e.cast<String, dynamic>()))
-            .cast<Job>()
+    // check if there are any results in v6 'ergebnisliste' or legacy 'stellenangebote'
+    final jobsJson = json['ergebnisliste'] ?? json['stellenangebote'];
+    jobListings = jobsJson != null
+        ? (jobsJson as List)
+            .map((e) => Job.fromEAJson((e as Map).cast<String, dynamic>()))
             .toList()
         : [];
     whereOutput = json['woOutput'] != null
-        ? WhereOutput.fromEAJson(json['woOutput'])
+        ? WhereOutput.fromEAJson((json['woOutput'] as Map).cast<String, dynamic>())
         : null;
     facets = Facets.fromEAJson(json['facetten']);
   }

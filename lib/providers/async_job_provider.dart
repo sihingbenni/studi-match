@@ -47,6 +47,9 @@ class AsyncJobProvider {
       _nrOfFetchedJobs += jobSearchResponse.jobListings.length;
       logger.d('keyword: $_keyword - fetched $_nrOfFetchedJobs Jobs');
       isLoading = false;
+    }).catchError((error) {
+      logger.e('Error fetching jobs for keyword $_keyword: $error');
+      isLoading = false;
     });
   }
 
